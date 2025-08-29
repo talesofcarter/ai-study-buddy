@@ -55,10 +55,21 @@
         <h2 class="panel-title">
           Paste your notes to generate flashcards
         </h2>
-        <textarea
-          id="notesInput"
-          placeholder="Paste your study notes here... (minimum 200 characters)"
-        ></textarea>
+        <div class="textarea-container">
+          <textarea
+            id="notesInput"
+            placeholder="Paste your study notes here... (minimum 200 characters)"
+          ></textarea>
+          <button
+            class="clear-textarea-btn"
+            id="clearTextareaBtn"
+            aria-label="Clear notes"
+            title="Clear notes"
+          >
+            ✕
+          </button>
+        </div>
+
         <div class="chips-container" id="subjectChips">
           <div class="chip" data-value="math">Math</div>
           <div class="chip" data-value="science">
@@ -358,25 +369,54 @@
           </button>
         </div>
         <div class="modal-body">
-          <h4>Keyboard Shortcuts</h4>
-          <ul>
-            <li>Space or Enter - Flip flashcard</li>
-            <li>
-              1, 2, 3 - Set difficulty (Easy, Medium, Hard)
-            </li>
-            <li>E - Edit card</li>
-            <li>B - Bookmark card</li>
-            <li>F - Toggle focus mode</li>
-            <li>ESC - Close modals/exit focus mode</li>
-          </ul>
-          <h4>How to Use</h4>
-          <p>
-            Paste your study notes, select relevant
-            subjects, and generate flashcards. Use the quiz
-            mode to test your knowledge, and mark difficulty
-            to help the spaced repetition system prioritize
-            cards you struggle with.
-          </p>
+          <section class="modal-section">
+            <h4 class="modal-section-title">
+              Keyboard Shortcuts
+            </h4>
+            <dl class="shortcuts-list">
+              <div class="shortcut-item">
+                <dt>
+                  <kbd>Space</kbd> or <kbd>Enter</kbd>
+                </dt>
+                <dd>Flip flashcard</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt>
+                  <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd>
+                </dt>
+                <dd>Set difficulty (Easy, Medium, Hard)</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>E</kbd></dt>
+                <dd>Edit card</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>B</kbd></dt>
+                <dd>Bookmark card</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>F</kbd></dt>
+                <dd>Toggle focus mode</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>Esc</kbd></dt>
+                <dd>Close modals or exit focus mode</dd>
+              </div>
+            </dl>
+          </section>
+          <section class="modal-section">
+            <h4 class="modal-section-title">How to Use</h4>
+            <p>
+              Paste your study notes into the input panel
+              and select relevant subjects to generate
+              flashcards. Use Quiz Mode to test your
+              knowledge and mark difficulty levels to
+              prioritize challenging cards via spaced
+              repetition. Explore Focus Mode for
+              distraction-free review, and track your
+              progress in the sidebar.
+            </p>
+          </section>
         </div>
         <div class="modal-footer">
           <button

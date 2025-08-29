@@ -81,6 +81,9 @@ let state = {
 const elements = {
   themeToggle: document.getElementById("themeToggle"),
   notesInput: document.getElementById("notesInput"),
+  clearTextareaBtn: document.getElementById(
+    "clearTextareaBtn"
+  ),
   generateBtn: document.getElementById("generateBtn"),
   generateSpinner: document.getElementById(
     "generateSpinner"
@@ -175,6 +178,7 @@ function init() {
   renderFlashcards();
   updateProgressSidebar();
   applyTheme();
+  validateInput();
   checkEmptyState();
 }
 
@@ -190,6 +194,12 @@ function setupEventListeners() {
   elements.notesInput.addEventListener(
     "input",
     validateInput
+  );
+
+  // Clear textarea
+  elements.clearTextareaBtn.addEventListener(
+    "click",
+    clearTextarea
   );
 
   // Subject chips
@@ -394,11 +404,23 @@ function toggleTheme() {
 function validateInput() {
   const text = elements.notesInput.value.trim();
   const isValid = text.length >= 200;
+  const hasContent = text.length > 0;
 
   elements.generateBtn.disabled = !isValid;
+  elements.clearTextareaBtn.disabled = !hasContent; // Enable clear button only if textarea has content
   elements.validationMessage.style.display = isValid
     ? "none"
     : "block";
+}
+
+// Clear textarea
+function clearTextarea() {
+  if (!elements.clearTextareaBtn.disabled) {
+    // Only clear if button is enabled
+    elements.notesInput.value = "";
+    validateInput(); // Update validation and button states
+    showToast("Notes cleared", "success");
+  }
 }
 
 // Generate flashcards from notes

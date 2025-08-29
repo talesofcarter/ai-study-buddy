@@ -180,6 +180,37 @@ button {
   font-weight: 600;
 }
 
+.textarea-container {
+  position: relative;
+}
+
+.clear-textarea-btn {
+  position: absolute;
+  top: calc(var(--spacing) * 2);
+  right: calc(var(--spacing) * 2);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: var(--shadow);
+  opacity: 0.7;
+}
+
+.clear-textarea-btn:hover {
+  opacity: 1;
+  background-color: color-mix(
+    in srgb,
+    var(--error) 10%,
+    transparent
+  );
+  color: var(--error);
+}
+
 textarea {
   width: 100%;
   min-height: 200px;
@@ -613,6 +644,61 @@ textarea:focus {
   display: flex;
   justify-content: flex-end;
   gap: calc(var(--spacing) * 2);
+}
+
+.modal-section {
+  margin-bottom: calc(var(--spacing) * 3);
+  padding-bottom: calc(var(--spacing) * 2);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--on-surface) 10%, transparent);
+}
+
+.modal-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.modal-section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--on-surface);
+  margin-bottom: calc(var(--spacing) * 2);
+}
+
+.shortcuts-list {
+  display: grid;
+  gap: calc(var(--spacing) * 1.5);
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 2);
+}
+
+.shortcut-item dt {
+  flex: 0 0 150px; /* Fixed width for alignment */
+  font-weight: 500;
+}
+
+.shortcut-item dd {
+  flex: 1;
+  margin: 0;
+}
+
+kbd {
+  background-color: var(--surface);
+  border: 1px solid
+    color-mix(in srgb, var(--on-surface) 20%, transparent);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.875rem;
+  font-family: "Inter", sans-serif;
+  color: var(--on-surface);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(
+          --on-surface
+        )
+        10%, transparent);
 }
 
 .close-btn {
