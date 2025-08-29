@@ -399,6 +399,41 @@ textarea:focus {
   box-shadow: var(--shadow);
 }
 
+.card-content {
+  max-height: 100px; /* Limit height to prevent overflow */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to ~3 lines */
+  -webkit-box-orient: vertical;
+  transition: max-height 0.3s ease; /* Smooth transition for expansion */
+}
+
+.card-content.expanded {
+  max-height: none; /* Show full content when expanded */
+  -webkit-line-clamp: unset; /* Remove line clamp */
+}
+
+.read-more-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: calc(var(--spacing) * 1) 0;
+  text-align: center;
+  display: block;
+  margin-top: calc(var(--spacing) * 1);
+}
+
+.read-more-btn:hover,
+.read-more-btn:focus {
+  color: var(--primary-dark);
+  text-decoration: underline;
+  outline: none;
+}
+
 .difficulty-buttons {
   display: flex;
   gap: var(--spacing);

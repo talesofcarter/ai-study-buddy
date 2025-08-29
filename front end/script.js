@@ -557,43 +557,48 @@ function createFlashcardElement(card) {
   const difficultyClass = `difficulty-${card.difficulty}`;
 
   cardEl.innerHTML = `
-                <div class="card-inner">
-                    <div class="card-front">
-                        <h3>${escapeHtml(
-                          card.question
-                        )}</h3>
-                        <div class="card-actions">
-                            <button class="card-action-btn edit-btn" title="Edit">✏️</button>
-                            <button class="card-action-btn bookmark-btn" title="Bookmark">${
-                              card.bookmarked ? "🔖" : "📑"
-                            }</button>
-                        </div>
-                    </div>
-                    <div class="card-back">
-                        <h3>${escapeHtml(card.answer)}</h3>
-                        <p>${escapeHtml(
-                          card.explanation || ""
-                        )}</p>
-                        <div class="difficulty-buttons">
-                            <button class="difficulty-btn difficulty-easy" data-difficulty="easy">Easy</button>
-                            <button class="difficulty-btn difficulty-medium" data-difficulty="medium">Medium</button>
-                            <button class="difficulty-btn difficulty-hard" data-difficulty="hard">Hard</button>
-                        </div>
-                        <div class="tags">
-                            ${card.tags
-                              .map(
-                                (tag) =>
-                                  `<span class="tag">${tag}</span>`
-                              )
-                              .join("")}
-                        </div>
-                    </div>
-                </div>
-            `;
+    <div class="card-inner">
+      <div class="card-front">
+        <div class="card-content">${escapeHtml(
+          card.question
+        )}</div>
+        <button class="read-more-btn" data-target="question">Read More</button>
+        <div class="card-actions">
+          <button class="card-action-btn edit-btn" title="Edit">✏️</button>
+          <button class="card-action-btn bookmark-btn" title="Bookmark">${
+            card.bookmarked ? "🔖" : "📑"
+          }</button>
+        </div>
+      </div>
+      <div class="card-back">
+        <div class="card-content">${escapeHtml(
+          card.answer
+        )}</div>
+        <button class="read-more-btn" data-target="answer">Read More</button>
+        <div class="card-content explanation">${escapeHtml(
+          card.explanation || ""
+        )}</div>
+        <button class="read-more-btn" data-target="explanation">Read More</button>
+        <div class="difficulty-buttons">
+          <button class="difficulty-btn difficulty-easy" data-difficulty="easy">Easy</button>
+          <button class="difficulty-btn difficulty-medium" data-difficulty="medium">Medium</button>
+          <button class="difficulty-btn difficulty-hard" data-difficulty="hard">Hard</button>
+        </div>
+        <div class="tags">
+          ${card.tags
+            .map((tag) => `<span class="tag">${tag}</span>`)
+            .join("")}
+        </div>
+      </div>
+    </div>
+  `;
 
   // Add event listeners
   cardEl.addEventListener("click", (e) => {
-    if (!e.target.closest(".card-action-btn")) {
+    if (
+      !e.target.closest(".card-action-btn") &&
+      !e.target.classList.contains("read-more-btn")
+    ) {
       cardEl.classList.toggle("flipped");
     }
   });
@@ -621,10 +626,33 @@ function createFlashcardElement(card) {
       });
     });
 
-  // Add selection handler
-  cardEl.addEventListener("dblclick", () => {
-    toggleFlashcardSelection(card.id);
-  });
+  // Add event listeners for "Read More" buttons
+  cardEl
+    .querySelectorAll(".read-more-btn")
+    .forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const contentEl = btn.previousElementSibling;
+        contentEl.classList.toggle("expanded");
+        btn.textContent = contentEl.classList.contains(
+          "expanded"
+        )
+          ? "Read Less"
+          : "Read More";
+      });
+    });
+
+  // Initially hide "Read More" buttons if content fits
+  cardEl
+    .querySelectorAll(".card-content")
+    .forEach((contentEl) => {
+      const btn = contentEl.nextElementSibling;
+      if (
+        contentEl.scrollHeight <= contentEl.clientHeight
+      ) {
+        btn.style.display = "none";
+      }
+    });
 
   return cardEl;
 }
