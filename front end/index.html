@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>AI Study Buddy</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <div class="logo-icon">ASB</div>
+            <div class="logo-text">AI Study Buddy</div>
+          </div>
+          <div class="header-actions">
+            <button
+              class="theme-toggle"
+              id="themeToggle"
+              aria-label="Toggle dark mode"
+            >
+              <span class="light-icon">🌙</span>
+              <span class="dark-icon" style="display: none"
+                >☀️</span
+              >
+            </button>
+            <button class="btn btn-secondary" id="helpBtn">
+              Help
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Input Panel -->
+      <section class="input-panel" id="inputPanel">
+        <h2 class="panel-title">
+          Paste your notes to generate flashcards
+        </h2>
+        <div class="textarea-container">
+          <textarea
+            id="notesInput"
+            placeholder="Paste your study notes here... (minimum 200 characters)"
+          ></textarea>
+          <button
+            class="clear-textarea-btn"
+            id="clearTextareaBtn"
+            aria-label="Clear notes"
+            title="Clear notes"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div class="chips-container" id="subjectChips">
+          <div class="chip" data-value="math">Math</div>
+          <div class="chip" data-value="science">
+            Science
+          </div>
+          <div class="chip" data-value="history">
+            History
+          </div>
+          <div class="chip" data-value="language">
+            Language
+          </div>
+          <div class="chip" data-value="cs">
+            Computer Science
+          </div>
+          <div class="chip" data-value="biology">
+            Biology
+          </div>
+          <div class="chip" data-value="physics">
+            Physics
+          </div>
+          <div class="chip" data-value="chemistry">
+            Chemistry
+          </div>
+        </div>
+        <div
+          class="validation-message"
+          id="validationMessage"
+        >
+          Please enter at least 200 characters
+        </div>
+        <button
+          class="btn btn-primary btn-icon"
+          id="generateBtn"
+          disabled
+        >
+          Generate Flashcards
+          <div class="spinner" id="generateSpinner"></div>
+        </button>
+      </section>
+
+      <!-- Flashcards Workspace -->
+      <section class="workspace" id="workspace">
+        <div class="workspace-toolbar">
+          <input
+            type="text"
+            class="search-input"
+            id="searchInput"
+            placeholder="Search flashcards..."
+          />
+          <select class="select-input" id="tagFilter">
+            <option value="">All Tags</option>
+            <option value="math">Math</option>
+            <option value="science">Science</option>
+            <option value="history">History</option>
+            <option value="language">Language</option>
+            <option value="cs">Computer Science</option>
+            <option value="biology">Biology</option>
+            <option value="physics">Physics</option>
+            <option value="chemistry">Chemistry</option>
+          </select>
+          <select class="select-input" id="sortSelect">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="hardest">Hardest First</option>
+            <option value="easiest">Easiest First</option>
+          </select>
+          <button
+            class="btn btn-secondary"
+            id="selectAllBtn"
+          >
+            Select All
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="deleteSelectedBtn"
+          >
+            Delete
+          </button>
+          <button class="btn btn-secondary" id="exportBtn">
+            Export
+          </button>
+          <button class="btn btn-primary" id="startQuizBtn">
+            Start Quiz
+          </button>
+          <button
+            class="btn btn-secondary"
+            id="focusModeBtn"
+          >
+            Focus Mode
+          </button>
+        </div>
+        <div class="cards-grid" id="cardsGrid"></div>
+        <div class="empty-state" id="emptyState">
+          <img
+            src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xNCAySDZjLTEuMSAwLTEuOTkuOS0xLjk5IDJMMyAyMGMwIDEuMS44OSAyIDIgMmgxMmMxLjEgMCAyLS45IDItMlY4bC02LTZ6TTYgMjBWNmg3djVoNXY5SDZ6IiBmaWxsPSIjODg4Ii8+PC9zdmc+"
+            alt="No flashcards"
+          />
+          <h3>No flashcards yet</h3>
+          <p>
+            Generate your first set of flashcards by pasting
+            your notes above
+          </p>
+        </div>
+      </section>
+
+      <!-- Quiz Mode -->
+      <section class="quiz-container" id="quizContainer">
+        <div class="quiz-header">
+          <h2 id="quizProgress">Question 1 of 10</h2>
+          <button
+            class="btn btn-secondary"
+            id="exitQuizBtn"
+          >
+            Exit Quiz
+          </button>
+        </div>
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            id="quizProgressBar"
+          ></div>
+        </div>
+        <div class="quiz-card card" id="quizCard">
+          <div class="card-inner">
+            <div class="card-front">
+              <h3 id="quizQuestion">
+                What is the capital of France?
+              </h3>
+            </div>
+            <div class="card-back">
+              <h3 id="quizAnswer">Paris</h3>
+              <div id="quizExplanation" class="mt-2">
+                Paris is the capital and most populous city
+                of France.
+              </div>
+              <div class="difficulty-buttons">
+                <button
+                  class="difficulty-btn difficulty-easy"
+                  data-difficulty="easy"
+                >
+                  Easy
+                </button>
+                <button
+                  class="difficulty-btn difficulty-medium"
+                  data-difficulty="medium"
+                >
+                  Medium
+                </button>
+                <button
+                  class="difficulty-btn difficulty-hard"
+                  data-difficulty="hard"
+                >
+                  Hard
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="quiz-actions">
+          <button
+            class="btn btn-secondary"
+            id="revealAnswerBtn"
+          >
+            Reveal Answer
+          </button>
+          <button
+            class="btn btn-primary"
+            id="nextQuestionBtn"
+            style="display: none"
+          >
+            Next Question
+          </button>
+        </div>
+        <div class="quiz-results" id="quizResults">
+          <h2>Quiz Completed!</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="accuracyRate">
+                85%
+              </div>
+              <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="timeSpent">
+                5:30
+              </div>
+              <div class="stat-label">Time Spent</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="cardsReviewed">
+                20
+              </div>
+              <div class="stat-label">Cards Reviewed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="masteryGain">
+                +12%
+              </div>
+              <div class="stat-label">Mastery Gain</div>
+            </div>
+          </div>
+          <h3>Cards to review again:</h3>
+          <ul id="reviewList"></ul>
+          <button
+            class="btn btn-primary"
+            id="restartQuizBtn"
+          >
+            Restart Quiz
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Progress Sidebar -->
+    <div class="progress-sidebar" id="progressSidebar">
+      <h3>Study Progress</h3>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="totalCards">0</div>
+          <div class="stat-label">Total Cards</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="studiedToday">0</div>
+          <div class="stat-label">Studied Today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="masteryLevel">0%</div>
+          <div class="stat-label">Mastery Level</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="currentStreak">0</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+      </div>
+
+      <h4>Mastery by Subject</h4>
+      <div id="subjectMastery">
+        <!-- Subject mastery bars will be inserted here -->
+      </div>
+
+      <h4>Recent Study Sets</h4>
+      <div id="recentSets">
+        <!-- Recent sets will be inserted here -->
+      </div>
+
+      <button
+        class="btn btn-secondary"
+        id="resetTodayBtn"
+        style="margin-top: 16px; width: 100%"
+      >
+        Reset Today's Progress
+      </button>
+    </div>
+    <div class="sidebar-toggle" id="sidebarToggle">📊</div>
+
+    <!-- Focus Mode -->
+    <div class="focus-mode" id="focusMode">
+      <button
+        class="btn btn-secondary exit-focus"
+        id="exitFocusBtn"
+      >
+        Exit
+      </button>
+      <div class="focus-card card">
+        <div class="card-inner">
+          <div class="card-front">
+            <h3 id="focusQuestion">
+              What is the capital of France?
+            </h3>
+          </div>
+          <div class="card-back">
+            <h3 id="focusAnswer">Paris</h3>
+            <div id="focusExplanation" class="mt-2">
+              Paris is the capital and most populous city of
+              France.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="focus-actions">
+        <button class="btn btn-secondary" id="focusFlipBtn">
+          Flip Card
+        </button>
+        <button class="btn btn-primary" id="focusNextBtn">
+          Next Card
+        </button>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="helpModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Help & Shortcuts</h3>
+          <button class="close-btn" data-modal="helpModal">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <section class="modal-section">
+            <h4 class="modal-section-title">
+              Keyboard Shortcuts
+            </h4>
+            <dl class="shortcuts-list">
+              <div class="shortcut-item">
+                <dt>
+                  <kbd>Space</kbd> or <kbd>Enter</kbd>
+                </dt>
+                <dd>Flip flashcard</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt>
+                  <kbd>1</kbd>, <kbd>2</kbd>, <kbd>3</kbd>
+                </dt>
+                <dd>Set difficulty (Easy, Medium, Hard)</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>E</kbd></dt>
+                <dd>Edit card</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>B</kbd></dt>
+                <dd>Bookmark card</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>F</kbd></dt>
+                <dd>Toggle focus mode</dd>
+              </div>
+              <div class="shortcut-item">
+                <dt><kbd>Esc</kbd></dt>
+                <dd>Close modals or exit focus mode</dd>
+              </div>
+            </dl>
+          </section>
+          <section class="modal-section">
+            <h4 class="modal-section-title">How to Use</h4>
+            <p>
+              Paste your study notes into the input panel
+              and select relevant subjects to generate
+              flashcards. Use Quiz Mode to test your
+              knowledge and mark difficulty levels to
+              prioritize challenging cards via spaced
+              repetition. Explore Focus Mode for
+              distraction-free review, and track your
+              progress in the sidebar.
+            </p>
+          </section>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-primary"
+            data-modal="helpModal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="editCardModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Edit Flashcard</h3>
+          <button
+            class="close-btn"
+            data-modal="editCardModal"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <label for="editQuestion">Question</label>
+            <textarea id="editQuestion" rows="3"></textarea>
+          </div>
+          <div class="input-group" style="margin-top: 16px">
+            <label for="editAnswer">Answer</label>
+            <textarea id="editAnswer" rows="3"></textarea>
+          </div>
+          <div class="input-group" style="margin-top: 16px">
+            <label for="editTags"
+              >Tags (comma separated)</label
+            >
+            <input type="text" id="editTags" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-secondary"
+            data-modal="editCardModal"
+          >
+            Cancel
+          </button>
+          <button class="btn btn-primary" id="saveEditBtn">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="exportModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Export Flashcards</h3>
+          <button
+            class="close-btn"
+            data-modal="exportModal"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Choose export format:</p>
+          <div
+            style="
+              display: flex;
+              gap: 12px;
+              margin-top: 16px;
+            "
+          >
+            <button
+              class="btn btn-secondary"
+              id="exportJsonBtn"
+            >
+              JSON
+            </button>
+            <button
+              class="btn btn-secondary"
+              id="exportCsvBtn"
+            >
+              CSV
+            </button>
+            <button
+              class="btn btn-secondary"
+              id="exportPrintBtn"
+            >
+              Print View
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-primary"
+            data-modal="exportModal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteConfirmModal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Confirm Delete</h3>
+          <button
+            class="close-btn"
+            data-modal="deleteConfirmModal"
+          >
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            Are you sure you want to delete the selected
+            flashcards? This action cannot be undone.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button
+            class="btn btn-secondary"
+            data-modal="deleteConfirmModal"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary"
+            id="confirmDeleteBtn"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
