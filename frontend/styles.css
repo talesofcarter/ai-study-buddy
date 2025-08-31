@@ -341,9 +341,15 @@ textarea:focus {
   background-color: var(--surface);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
-  height: 220px;
+  height: 240px; /* Slightly increased height for better content fit */
   perspective: 1000px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Added hover transition */
+}
+
+.card:hover {
+  transform: scale(1.02); /* Subtle scale on hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); /* Enhanced shadow on hover */
 }
 
 .card-inner {
@@ -366,51 +372,98 @@ textarea:focus {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  padding: calc(var(--spacing) * 3);
+  padding: calc(
+    var(--spacing) * 2
+  ); /* Reduced padding for compact layout */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between; /* Better content distribution */
   border-radius: var(--border-radius);
+  border: 1px solid
+    color-mix(in srgb, var(--on-surface) 10%, transparent); /* Subtle border */
 }
 
 .card-back {
   transform: rotateY(180deg);
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: calc(
+    var(--spacing) * 1
+  ); /* Space between sections */
 }
 
 .card-actions {
   position: absolute;
-  bottom: calc(var(--spacing) * 2);
-  right: calc(var(--spacing) * 2);
+  bottom: calc(var(--spacing) * 1);
+  right: calc(var(--spacing) * 1);
   display: flex;
-  gap: var(--spacing);
+  gap: calc(var(--spacing) * 1);
 }
 
 .card-action-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px; /* Larger buttons */
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--surface);
-  color: var(--on-surface);
-  font-size: 0.875rem;
+  background-color: var(
+    --primary
+  ); /* Use primary color for prominence */
+  color: var(--on-secondary);
+  font-size: 1rem;
   box-shadow: var(--shadow);
+  transition: background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.card-action-btn:hover,
+.card-action-btn:focus {
+  background-color: var(--primary-dark);
+  transform: scale(1.1); /* Subtle scale on hover */
+  outline: none;
 }
 
 .card-content {
-  max-height: 100px; /* Limit height to prevent overflow */
+  max-height: auto; /* Ensure truncation */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limit to ~3 lines */
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  transition: max-height 0.3s ease; /* Smooth transition for expansion */
+  transition: max-height 0.3s ease;
+  display: block;
+  font-size: 1rem; /* Slightly larger for readability */
+}
+
+.question-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: calc(var(--spacing) * 0.5);
+  display: block;
+}
+
+.card-content h3 {
+  font-size: 1.25rem; /* Larger question/answer text */
+  font-weight: 600;
+  margin-bottom: calc(var(--spacing) * 1);
+}
+
+.card-content p {
+  font-size: 0.875rem;
+  color: color-mix(
+    in srgb,
+    var(--on-surface) 80%,
+    transparent
+  );
 }
 
 .card-content.expanded {
   max-height: none; /* Show full content when expanded */
+  line-clamp: unset;
   -webkit-line-clamp: unset; /* Remove line clamp */
 }
 
@@ -432,6 +485,11 @@ textarea:focus {
   color: var(--primary-dark);
   text-decoration: underline;
   outline: none;
+}
+
+/* Add accessibility styles for focus states */
+.card[aria-expanded="true"] {
+  outline: 2px solid var(--primary); /* Highlight flipped card for accessibility */
 }
 
 .difficulty-buttons {

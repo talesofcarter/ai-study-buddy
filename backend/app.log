@@ -1,0 +1,1446 @@
+
+
+Invalid credentials in Authorization header
+2025-08-31 16:46:08,072 - __main__ - INFO - FALLBACK: Trying distilbert for question generation...
+2025-08-31 16:46:08,667 - __main__ - ERROR - CRITICAL: Error initializing Hugging Face models: There was a specific connection error when trying to load distilbert-base-cased-distilled-squad:
+401 Client Error: Unauthorized for url: https://huggingface.co/distilbert-base-cased-distilled-squad/resolve/main/config.json (Request ID: Root=1-68b45220-4046fde90c016d63369cfb24;445d131e-e292-4298-ad63-7148d3869c99)
+
+Invalid credentials in Authorization header
+2025-08-31 16:49:01,322 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 16:49:01,323 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 16:49:01,323 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 16:49:01,324 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 16:49:04,104 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-31 16:57:10,817 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 16:57:10,818 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 16:57:13,153 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 16:57:13,155 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 16:57:13,157 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 16:57:15,899 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 16:57:15,906 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 16:57:15,954 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 16:57:16,681 - __main__ - INFO - DB: Database connection established
+2025-08-31 16:57:17,879 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 16:57:17,880 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 16:57:17,887 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 16:57:18,275 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.119:5000
+2025-08-31 16:57:18,276 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-31 16:57:18,314 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 16:59:33,429 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 16:59:33,439 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 16:59:33,441 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 16:59:33,442 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 16:59:38,088 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 16:59:38,089 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 16:59:40,300 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 16:59:40,301 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 16:59:40,303 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 16:59:41,974 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 16:59:41,974 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 16:59:41,979 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 16:59:42,079 - __main__ - INFO - DB: Database connection established
+2025-08-31 16:59:42,628 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 16:59:42,629 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 16:59:42,646 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 16:59:42,672 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 16:59:42,863 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 17:02:17,194 - __main__ - WARNING - WARNING: 404 error: http://127.0.0.1:5000/
+2025-08-31 17:02:17,196 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 17:02:17,204 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:17] "[33mGET / HTTP/1.1[0m" 404 -
+2025-08-31 17:02:17,206 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:17] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 17:02:17,563 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 17:02:17,563 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 17:02:19,004 - __main__ - INFO - SUCCESS: Successfully retrieved 5 flashcards
+2025-08-31 17:02:19,005 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:19] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:02:49,302 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 17:02:49,303 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:49] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 17:02:49,565 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 17:02:49,566 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 17:02:49,593 - __main__ - INFO - SUCCESS: Successfully retrieved 5 flashcards
+2025-08-31 17:02:49,596 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:49] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:02:55,873 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:55] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:02:56,144 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 17:02:56,173 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 17:02:59,095 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 17:02:59,096 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:59] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:02:59,105 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 17:02:59,114 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 17:02:59,395 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 17:02:59,397 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:02:59] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:03:24,749 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:03:24] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 17:03:25,015 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 17:03:25,016 - __main__ - INFO - DATA: Request details - Text length: 884, Subjects: ['science']
+2025-08-31 17:03:25,017 - __main__ - INFO - MODEL: Starting Hugging Face model processing...
+2025-08-31 17:03:25,021 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 17:03:25,022 - __main__ - INFO - INPUT: Input text length: 884 characters
+2025-08-31 17:03:25,023 - __main__ - INFO - SUBJECTS: ['science']
+2025-08-31 17:03:25,025 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 17:03:25,025 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 17:03:25,026 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 17:03:25,026 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 17:03:25,028 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 17:03:25,028 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:03:25,029 - __main__ - INFO - 📤 Sending question generation prompt to Hugging Face model...
+2025-08-31 17:03:33,176 - __main__ - ERROR - ❌ Error in question generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:33,187 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:03:33,189 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:03:33,189 - __main__ - INFO - PROMPT: Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:03:33,641 - __main__ - ERROR - ERROR: Error in answer generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:33,642 - __main__ - INFO - ANSWER: Generated: 'Please refer to the study material for more inform...'
+2025-08-31 17:03:33,643 - __main__ - INFO - PROMPT: Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:03:33,860 - __main__ - ERROR - ERROR: Error in explanation generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:33,860 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:03:33,861 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 17:03:33,862 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 17:03:33,863 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:03:33,864 - __main__ - INFO - 📤 Sending question generation prompt to Hugging Face model...
+2025-08-31 17:03:34,200 - __main__ - ERROR - ❌ Error in question generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:34,203 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:03:34,203 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:03:34,204 - __main__ - INFO - PROMPT: Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:03:34,373 - __main__ - ERROR - ERROR: Error in answer generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:34,374 - __main__ - INFO - ANSWER: Generated: 'Please refer to the study material for more inform...'
+2025-08-31 17:03:34,374 - __main__ - INFO - PROMPT: Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:03:34,546 - __main__ - ERROR - ERROR: Error in explanation generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:34,547 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:03:34,548 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 17:03:34,551 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 17:03:34,552 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:03:34,553 - __main__ - INFO - 📤 Sending question generation prompt to Hugging Face model...
+2025-08-31 17:03:34,886 - __main__ - ERROR - ❌ Error in question generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:34,887 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:03:34,888 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:03:34,888 - __main__ - INFO - PROMPT: Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:03:35,044 - __main__ - ERROR - ERROR: Error in answer generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:35,045 - __main__ - INFO - ANSWER: Generated: 'Please refer to the study material for more inform...'
+2025-08-31 17:03:35,045 - __main__ - INFO - PROMPT: Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:03:35,175 - __main__ - ERROR - ERROR: Error in explanation generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:35,175 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:03:35,176 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 17:03:35,176 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 17:03:35,177 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:03:35,178 - __main__ - INFO - 📤 Sending question generation prompt to Hugging Face model...
+2025-08-31 17:03:35,505 - __main__ - ERROR - ❌ Error in question generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:35,506 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:03:35,507 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:03:35,507 - __main__ - INFO - PROMPT: Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:03:35,714 - __main__ - ERROR - ERROR: Error in answer generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:35,717 - __main__ - INFO - ANSWER: Generated: 'Please refer to the study material for more inform...'
+2025-08-31 17:03:35,719 - __main__ - INFO - PROMPT: Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:03:35,896 - __main__ - ERROR - ERROR: Error in explanation generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:35,897 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:03:35,902 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 17:03:35,902 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 17:03:35,903 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:03:35,904 - __main__ - INFO - 📤 Sending question generation prompt to Hugging Face model...
+2025-08-31 17:03:36,302 - __main__ - ERROR - ❌ Error in question generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:36,303 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:03:36,303 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:03:36,304 - __main__ - INFO - PROMPT: Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:03:36,477 - __main__ - ERROR - ERROR: Error in answer generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:36,478 - __main__ - INFO - ANSWER: Generated: 'Please refer to the study material for more inform...'
+2025-08-31 17:03:36,478 - __main__ - INFO - PROMPT: Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:03:36,636 - __main__ - ERROR - ERROR: Error in explanation generation: T5ForConditionalGeneration.forward() got an unexpected keyword argument 'use_auth_token'
+2025-08-31 17:03:36,637 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:03:36,637 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 17:03:36,638 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 17:03:36,639 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 17:03:36,640 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 17:03:37,109 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 17:03:37,109 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 17:03:37,111 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:03:37] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 17:20:39,100 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 17:20:39,101 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:20:39] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 17:20:39,366 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 17:20:39,366 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 17:20:39,373 - __main__ - INFO - SUCCESS: Successfully retrieved 5 flashcards
+2025-08-31 17:20:39,374 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:20:39] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:20:59,031 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 17:20:59,038 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:20:59] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 17:20:59,391 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 17:20:59,392 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 17:20:59,413 - __main__ - INFO - SUCCESS: Successfully retrieved 5 flashcards
+2025-08-31 17:20:59,414 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:20:59] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:21:00,074 - werkzeug - INFO -  * Detected change in 'C:\\Users\\CARTER\\Desktop\\PLP\\Hackathons\\ai-study-buddy\\backend\\app.py', reloading
+2025-08-31 17:21:12,916 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 17:23:47,051 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 17:23:47,052 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 17:23:47,052 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 17:23:47,053 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 17:23:52,747 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 17:23:52,747 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 17:23:54,599 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 17:23:54,599 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 17:23:54,600 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 17:23:54,795 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 17:23:54,796 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 17:23:54,812 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 17:23:54,861 - __main__ - INFO - DB: Database connection established
+2025-08-31 17:23:55,012 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 17:23:55,013 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 17:23:55,027 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 17:23:55,220 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.119:5000
+2025-08-31 17:23:55,221 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-31 17:23:55,232 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 17:24:15,340 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 17:24:15,341 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 17:24:15,341 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 17:24:15,342 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 17:24:18,818 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 17:24:18,819 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 17:24:20,551 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 17:24:20,551 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 17:24:20,552 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 17:24:20,778 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 17:24:20,780 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 17:24:20,787 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 17:24:20,858 - __main__ - INFO - DB: Database connection established
+2025-08-31 17:24:20,970 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 17:24:20,970 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 17:24:20,978 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 17:24:21,003 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 17:24:21,008 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 17:24:24,991 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:24:24] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 17:24:25,252 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 17:24:25,254 - __main__ - INFO - DATA: Request details - Text length: 1275, Subjects: ['science']
+2025-08-31 17:24:25,254 - __main__ - INFO - MODEL: Starting Hugging Face model processing...
+2025-08-31 17:24:25,255 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 17:24:25,255 - __main__ - INFO - INPUT: Input text length: 1275 characters
+2025-08-31 17:24:25,256 - __main__ - INFO - SUBJECTS: ['science']
+2025-08-31 17:24:25,256 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 17:24:25,257 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 17:24:25,258 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 17:24:25,258 - __main__ - INFO - CHUNKS: Text split into 2 chunks
+2025-08-31 17:24:25,259 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 17:24:25,259 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:24:25,260 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:24:43,276 - __main__ - INFO - Received response from question model in 18.02 seconds
+2025-08-31 17:24:43,279 - __main__ - INFO - Question generation successful
+2025-08-31 17:24:43,280 - __main__ - INFO - QUESTION: Generated: 'based on this content. Generate an educational que...'
+2025-08-31 17:24:43,281 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:24:43,282 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:24:55,844 - __main__ - INFO - Received response from answer model in 12.56 seconds
+2025-08-31 17:24:55,845 - __main__ - INFO - Answer generation successful
+2025-08-31 17:24:55,845 - __main__ - INFO - ANSWER: Generated: 'They spend much of their time in trees even when s...'
+2025-08-31 17:24:55,846 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:25:02,047 - __main__ - INFO - Received explanation from model in 6.20 seconds
+2025-08-31 17:25:02,048 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:25:02,048 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:25:02,049 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 17:25:02,051 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 17:25:02,051 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:25:02,052 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:25:14,265 - __main__ - INFO - Received response from question model in 12.21 seconds
+2025-08-31 17:25:14,266 - __main__ - INFO - Question generation successful
+2025-08-31 17:25:14,266 - __main__ - INFO - QUESTION: Generated: 'the cubs get their first taste of meat in six or s...'
+2025-08-31 17:25:14,267 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:25:14,267 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:25:16,818 - __main__ - INFO - Received response from answer model in 2.55 seconds
+2025-08-31 17:25:16,821 - __main__ - INFO - Answer generation successful
+2025-08-31 17:25:16,823 - __main__ - INFO - ANSWER: Generated: 'they get their first taste of meat in six or seven...'
+2025-08-31 17:25:16,824 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:25:19,328 - __main__ - INFO - Received explanation from model in 2.50 seconds
+2025-08-31 17:25:19,328 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:25:19,329 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:25:19,329 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 17:25:19,330 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 17:25:19,331 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:25:19,331 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:25:31,952 - __main__ - INFO - Received response from question model in 12.62 seconds
+2025-08-31 17:25:31,953 - __main__ - INFO - Question generation successful
+2025-08-31 17:25:31,954 - __main__ - INFO - QUESTION: Generated: '. Generate an educational question about science b...'
+2025-08-31 17:25:31,954 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:25:31,955 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:25:43,250 - __main__ - INFO - Received response from answer model in 11.29 seconds
+2025-08-31 17:25:43,250 - __main__ - INFO - Answer generation successful
+2025-08-31 17:25:43,251 - __main__ - INFO - ANSWER: Generated: 'To prevent this, they will often store their kill ...'
+2025-08-31 17:25:43,251 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:25:48,772 - __main__ - INFO - Received explanation from model in 5.52 seconds
+2025-08-31 17:25:48,772 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:25:48,773 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:25:48,773 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 17:25:48,774 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 17:25:48,775 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:25:48,776 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:25:58,776 - __main__ - INFO - Received response from question model in 10.00 seconds
+2025-08-31 17:25:58,777 - __main__ - INFO - Question generation successful
+2025-08-31 17:25:58,780 - __main__ - INFO - QUESTION: Generated: 'the cubs get their first taste of meat in six or s...'
+2025-08-31 17:25:58,781 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:25:58,781 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:26:01,459 - __main__ - INFO - Received response from answer model in 2.68 seconds
+2025-08-31 17:26:01,460 - __main__ - INFO - Answer generation successful
+2025-08-31 17:26:01,463 - __main__ - INFO - ANSWER: Generated: 'they get their first taste of meat in six or seven...'
+2025-08-31 17:26:01,464 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:26:04,362 - __main__ - INFO - Received explanation from model in 2.90 seconds
+2025-08-31 17:26:04,364 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:26:04,364 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:26:04,365 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 17:26:04,366 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 17:26:04,366 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:26:04,367 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:26:17,047 - __main__ - INFO - Received response from question model in 12.68 seconds
+2025-08-31 17:26:17,048 - __main__ - INFO - Question generation successful
+2025-08-31 17:26:17,049 - __main__ - INFO - QUESTION: Generated: 'based on this content. Generate an educational que...'
+2025-08-31 17:26:17,049 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:26:17,050 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:26:28,594 - __main__ - INFO - Received response from answer model in 11.54 seconds
+2025-08-31 17:26:28,595 - __main__ - INFO - Answer generation successful
+2025-08-31 17:26:28,595 - __main__ - INFO - ANSWER: Generated: 'They spend much of their time in trees even when s...'
+2025-08-31 17:26:28,596 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:26:33,976 - __main__ - INFO - Received explanation from model in 5.38 seconds
+2025-08-31 17:26:33,977 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:26:33,977 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:26:33,978 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 17:26:33,978 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 17:26:33,979 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 17:26:33,980 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 17:26:34,283 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 17:26:34,284 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 17:26:34,285 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:26:34] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 17:27:51,455 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:27:51] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:27:51,715 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 17:27:51,716 - __main__ - INFO - DELETE: Deleting 11 flashcards...
+2025-08-31 17:27:51,872 - __main__ - INFO - SUCCESS: Successfully deleted 11 flashcards
+2025-08-31 17:27:51,873 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:27:51] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:28:47,619 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:28:47] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 17:28:47,884 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 17:28:47,884 - __main__ - INFO - DATA: Request details - Text length: 1336, Subjects: ['science']
+2025-08-31 17:28:47,885 - __main__ - INFO - MODEL: Starting Hugging Face model processing...
+2025-08-31 17:28:47,886 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 17:28:47,886 - __main__ - INFO - INPUT: Input text length: 1336 characters
+2025-08-31 17:28:47,887 - __main__ - INFO - SUBJECTS: ['science']
+2025-08-31 17:28:47,888 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 17:28:47,889 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 17:28:47,889 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 17:28:47,890 - __main__ - INFO - CHUNKS: Text split into 2 chunks
+2025-08-31 17:28:47,890 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 17:28:47,891 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:28:47,891 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:29:01,717 - __main__ - INFO - Received response from question model in 13.83 seconds
+2025-08-31 17:29:01,718 - __main__ - INFO - Question generation successful
+2025-08-31 17:29:01,718 - __main__ - INFO - QUESTION: Generated: 'based on this content. Generate an educational que...'
+2025-08-31 17:29:01,719 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:29:01,720 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:29:03,061 - __main__ - INFO - Received response from answer model in 1.34 seconds
+2025-08-31 17:29:03,062 - __main__ - INFO - Answer generation successful
+2025-08-31 17:29:03,062 - __main__ - INFO - ANSWER: Generated: 'stronger climbing muscles...'
+2025-08-31 17:29:03,063 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:29:05,237 - __main__ - INFO - Received explanation from model in 2.17 seconds
+2025-08-31 17:29:05,238 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:29:05,239 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:29:05,239 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 17:29:05,240 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 17:29:05,241 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:29:05,241 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:29:11,447 - __main__ - INFO - Received response from question model in 6.21 seconds
+2025-08-31 17:29:11,448 - __main__ - INFO - Question generation successful
+2025-08-31 17:29:11,448 - __main__ - INFO - QUESTION: Generated: 'about three months. They get their first taste of ...'
+2025-08-31 17:29:11,449 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:29:11,450 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:29:13,644 - __main__ - INFO - Received response from answer model in 2.19 seconds
+2025-08-31 17:29:13,645 - __main__ - INFO - Answer generation successful
+2025-08-31 17:29:13,645 - __main__ - INFO - ANSWER: Generated: 'they get their first taste of meat in six or seven...'
+2025-08-31 17:29:13,645 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:29:17,448 - __main__ - INFO - Received explanation from model in 3.80 seconds
+2025-08-31 17:29:17,449 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:29:17,450 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:29:17,451 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 17:29:17,451 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 17:29:17,452 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:29:17,452 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:29:30,102 - __main__ - INFO - Received response from question model in 12.65 seconds
+2025-08-31 17:29:30,104 - __main__ - INFO - Question generation successful
+2025-08-31 17:29:30,104 - __main__ - INFO - QUESTION: Generated: 'based on this content. Generate an educational que...'
+2025-08-31 17:29:30,105 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:29:30,105 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:29:31,129 - __main__ - INFO - Received response from answer model in 1.02 seconds
+2025-08-31 17:29:31,130 - __main__ - INFO - Answer generation successful
+2025-08-31 17:29:31,131 - __main__ - INFO - ANSWER: Generated: 'stronger climbing muscles...'
+2025-08-31 17:29:31,132 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:29:32,847 - __main__ - INFO - Received explanation from model in 1.71 seconds
+2025-08-31 17:29:32,848 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:29:32,848 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:29:32,849 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 17:29:32,850 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 17:29:32,851 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:29:32,854 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:29:39,366 - __main__ - INFO - Received response from question model in 6.51 seconds
+2025-08-31 17:29:39,368 - __main__ - INFO - Question generation successful
+2025-08-31 17:29:39,369 - __main__ - INFO - QUESTION: Generated: 'about three months. They get their first taste of ...'
+2025-08-31 17:29:39,370 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:29:39,370 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:29:42,435 - __main__ - INFO - Received response from answer model in 3.06 seconds
+2025-08-31 17:29:42,436 - __main__ - INFO - Answer generation successful
+2025-08-31 17:29:42,436 - __main__ - INFO - ANSWER: Generated: 'they get their first taste of meat in six or seven...'
+2025-08-31 17:29:42,437 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:29:45,128 - __main__ - INFO - Received explanation from model in 2.69 seconds
+2025-08-31 17:29:45,129 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:29:45,129 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:29:45,130 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 17:29:45,131 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 17:29:45,134 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:29:45,135 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:29:58,166 - __main__ - INFO - Received response from question model in 13.03 seconds
+2025-08-31 17:29:58,167 - __main__ - INFO - Question generation successful
+2025-08-31 17:29:58,167 - __main__ - INFO - QUESTION: Generated: 'based on this content. Generate an educational que...'
+2025-08-31 17:29:58,168 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:29:58,169 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:29:59,192 - __main__ - INFO - Received response from answer model in 1.02 seconds
+2025-08-31 17:29:59,192 - __main__ - INFO - Answer generation successful
+2025-08-31 17:29:59,193 - __main__ - INFO - ANSWER: Generated: 'stronger climbing muscles...'
+2025-08-31 17:29:59,194 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:30:01,222 - __main__ - INFO - Received explanation from model in 2.03 seconds
+2025-08-31 17:30:01,223 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:30:01,223 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:30:01,224 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 17:30:01,225 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 17:30:01,226 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 17:30:01,227 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 17:30:01,688 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 17:30:01,689 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 17:30:01,691 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:30:01] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 17:35:56,236 - werkzeug - INFO -  * Detected change in 'C:\\Users\\CARTER\\Desktop\\PLP\\Hackathons\\ai-study-buddy\\backend\\app.py', reloading
+2025-08-31 17:36:26,651 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 17:38:20,376 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 17:38:20,376 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 17:38:20,377 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 17:38:20,377 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 17:38:30,292 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 17:38:30,293 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 17:38:32,089 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 17:38:32,089 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 17:38:32,090 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 17:38:33,508 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 17:38:33,510 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 17:38:33,546 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 17:38:33,801 - __main__ - INFO - DB: Database connection established
+2025-08-31 17:38:34,123 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 17:38:34,124 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 17:38:34,138 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 17:38:34,250 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 17:38:34,289 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 17:38:36,770 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 17:38:36,772 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:38:36] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 17:38:36,780 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 17:38:36,782 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:38:36] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 17:38:37,108 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 17:38:37,109 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 17:38:37,269 - __main__ - INFO - SUCCESS: Successfully retrieved 10 flashcards
+2025-08-31 17:38:37,270 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:38:37] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:39:07,175 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:39:07] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:39:07,424 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 17:39:07,425 - __main__ - INFO - DELETE: Deleting 10 flashcards...
+2025-08-31 17:39:07,619 - __main__ - INFO - SUCCESS: Successfully deleted 10 flashcards
+2025-08-31 17:39:07,620 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:39:07] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 17:39:12,124 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:39:12] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 17:39:12,379 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 17:39:12,380 - __main__ - INFO - DATA: Request details - Text length: 795, Subjects: ['science']
+2025-08-31 17:39:12,380 - __main__ - INFO - MODEL: Starting Hugging Face model processing...
+2025-08-31 17:39:12,381 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 17:39:12,382 - __main__ - INFO - INPUT: Input text length: 795 characters
+2025-08-31 17:39:12,383 - __main__ - INFO - SUBJECTS: ['science']
+2025-08-31 17:39:12,383 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 17:39:12,390 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 17:39:12,391 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 17:39:12,392 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 17:39:12,393 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 17:39:12,394 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:39:12,394 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:39:12,396 - __main__ - ERROR - Error in question generation: G argument needs to be of type (SquadExample, dict)
+2025-08-31 17:39:12,397 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:39:12,398 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:39:12,398 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:39:20,160 - __main__ - INFO - Received response from answer model in 7.76 seconds
+2025-08-31 17:39:20,161 - __main__ - INFO - Answer generation successful
+2025-08-31 17:39:20,162 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 17:39:20,163 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:39:25,493 - __main__ - INFO - Received explanation from model in 5.33 seconds
+2025-08-31 17:39:25,494 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:39:25,494 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:39:25,495 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 17:39:25,495 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 17:39:25,496 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:39:25,497 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:39:25,497 - __main__ - ERROR - Error in question generation: G argument needs to be of type (SquadExample, dict)
+2025-08-31 17:39:25,498 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:39:25,501 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:39:25,502 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:39:30,994 - __main__ - INFO - Received response from answer model in 5.49 seconds
+2025-08-31 17:39:30,995 - __main__ - INFO - Answer generation successful
+2025-08-31 17:39:30,995 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 17:39:30,996 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:39:36,289 - __main__ - INFO - Received explanation from model in 5.29 seconds
+2025-08-31 17:39:36,290 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:39:36,290 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:39:36,291 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 17:39:36,292 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 17:39:36,292 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:39:36,292 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:39:36,293 - __main__ - ERROR - Error in question generation: G argument needs to be of type (SquadExample, dict)
+2025-08-31 17:39:36,294 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:39:36,294 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:39:36,294 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:39:44,272 - __main__ - INFO - Received response from answer model in 7.98 seconds
+2025-08-31 17:39:44,273 - __main__ - INFO - Answer generation successful
+2025-08-31 17:39:44,274 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 17:39:44,274 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:39:51,379 - __main__ - INFO - Received explanation from model in 7.10 seconds
+2025-08-31 17:39:51,380 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:39:51,380 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:39:51,381 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 17:39:51,381 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 17:39:51,382 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:39:51,382 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:39:51,383 - __main__ - ERROR - Error in question generation: G argument needs to be of type (SquadExample, dict)
+2025-08-31 17:39:51,384 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:39:51,384 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:39:51,385 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:39:57,428 - __main__ - INFO - Received response from answer model in 6.04 seconds
+2025-08-31 17:39:57,429 - __main__ - INFO - Answer generation successful
+2025-08-31 17:39:57,430 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 17:39:57,431 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:40:02,223 - __main__ - INFO - Received explanation from model in 4.79 seconds
+2025-08-31 17:40:02,223 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:40:02,224 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:40:02,225 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 17:40:02,226 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 17:40:02,227 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 17:40:02,227 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 17:40:02,228 - __main__ - ERROR - Error in question generation: G argument needs to be of type (SquadExample, dict)
+2025-08-31 17:40:02,228 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 17:40:02,229 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 17:40:02,229 - __main__ - INFO - Sending answer generation prompt to Hugging Face model...
+2025-08-31 17:40:08,180 - __main__ - INFO - Received response from answer model in 5.95 seconds
+2025-08-31 17:40:08,180 - __main__ - INFO - Answer generation successful
+2025-08-31 17:40:08,181 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 17:40:08,181 - __main__ - INFO - Sending explanation generation prompt to Hugging Face model...
+2025-08-31 17:40:14,726 - __main__ - INFO - Received explanation from model in 6.54 seconds
+2025-08-31 17:40:14,727 - __main__ - INFO - Explanation generation successful
+2025-08-31 17:40:14,728 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 17:40:14,728 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 17:40:14,729 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 17:40:14,729 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 17:40:14,730 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 17:40:14,989 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 17:40:14,990 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 17:40:14,992 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:40:14] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 17:43:05,149 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:43:05] "OPTIONS /api/flashcards/1756651176292 HTTP/1.1" 200 -
+2025-08-31 17:43:05,392 - __main__ - INFO - UPDATE: Update request for flashcard 1756651176292
+2025-08-31 17:43:05,393 - __main__ - INFO - UPDATE: Updating flashcard 1756651176292...
+2025-08-31 17:43:05,468 - __main__ - ERROR - ERROR: Error updating flashcard: 1054 (42S22): Unknown column 'lastReviewed' in 'field list'
+2025-08-31 17:43:05,469 - __main__ - ERROR - ERROR: Error in update_flashcard: 1054 (42S22): Unknown column 'lastReviewed' in 'field list'
+2025-08-31 17:43:05,470 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 17:43:05] "[35m[1mPUT /api/flashcards/1756651176292 HTTP/1.1[0m" 500 -
+2025-08-31 17:49:56,865 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 17:49:56,866 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 17:49:56,867 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 17:49:56,868 - __main__ - INFO - MODEL: Loading question generation model: deepset/roberta-base-squad2
+2025-08-31 17:50:02,153 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-31 18:03:18,805 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 18:03:18,831 - __main__ - INFO - MODEL: Loading answer generation model: deepset/roberta-base-squad2
+2025-08-31 18:03:23,771 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 18:03:23,771 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 18:03:23,772 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:03:27,097 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:03:27,102 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:03:27,144 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:03:27,639 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:03:28,360 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:03:28,361 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:03:28,389 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:03:29,093 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.119:5000
+2025-08-31 18:03:29,125 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-31 18:03:29,153 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 18:05:43,366 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:05:43,367 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:05:43,367 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:05:43,368 - __main__ - INFO - MODEL: Loading question generation model: deepset/roberta-base-squad2
+2025-08-31 18:05:49,890 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 18:05:49,891 - __main__ - INFO - MODEL: Loading answer generation model: deepset/roberta-base-squad2
+2025-08-31 18:05:54,608 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 18:05:54,610 - __main__ - INFO - COMPLETE: All Hugging Face models initialized successfully!
+2025-08-31 18:05:54,610 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:05:55,512 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:05:55,513 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:05:55,522 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:05:55,605 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:05:55,754 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:05:55,756 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:05:55,766 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:05:55,790 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 18:05:55,811 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 18:06:24,627 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:06:24,630 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:06:24] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 18:06:24,637 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:06:24,639 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:06:24] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 18:06:24,670 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 18:06:24,671 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 18:06:25,414 - __main__ - INFO - SUCCESS: Successfully retrieved 5 flashcards
+2025-08-31 18:06:25,416 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:06:25] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:06:35,423 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:06:35] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:06:35,677 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 18:06:35,705 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 18:06:36,954 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 18:06:36,955 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:06:36] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:06:42,046 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:06:42] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 18:06:42,374 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 18:06:42,375 - __main__ - INFO - DATA: Request details - Text length: 1591, Subjects: ['science']
+2025-08-31 18:06:42,376 - __main__ - INFO - MODEL: Starting Hugging Face model processing...
+2025-08-31 18:06:42,376 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 18:06:42,377 - __main__ - INFO - INPUT: Input text length: 1591 characters
+2025-08-31 18:06:42,377 - __main__ - INFO - SUBJECTS: ['science']
+2025-08-31 18:06:42,378 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 18:06:42,379 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 18:06:42,379 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 18:06:42,380 - __main__ - INFO - CHUNKS: Text split into 2 chunks
+2025-08-31 18:06:42,380 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 18:06:42,381 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 18:06:42,381 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 18:06:42,530 - __main__ - ERROR - Error in question generation: Y argument needs to be of type (SquadExample, dict)
+2025-08-31 18:06:42,531 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 18:06:42,532 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 18:07:06,416 - __main__ - INFO - ANSWER: Generated: 'leopard...'
+2025-08-31 18:07:06,416 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:07:06,417 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 18:07:06,418 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 18:07:06,420 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 18:07:06,421 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 18:07:06,422 - __main__ - ERROR - Error in question generation: Y argument needs to be of type (SquadExample, dict)
+2025-08-31 18:07:06,422 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 18:07:06,423 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 18:07:07,111 - __main__ - INFO - ANSWER: Generated: 'nocturnal...'
+2025-08-31 18:07:07,112 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:07:07,112 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 18:07:07,116 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 18:07:07,117 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 18:07:07,117 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 18:07:07,118 - __main__ - ERROR - Error in question generation: Y argument needs to be of type (SquadExample, dict)
+2025-08-31 18:07:07,118 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 18:07:07,119 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 18:07:08,117 - __main__ - INFO - ANSWER: Generated: 'leopard...'
+2025-08-31 18:07:08,118 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:07:08,118 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 18:07:08,119 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 18:07:08,120 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 18:07:08,121 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 18:07:08,121 - __main__ - ERROR - Error in question generation: Y argument needs to be of type (SquadExample, dict)
+2025-08-31 18:07:08,122 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 18:07:08,123 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 18:07:08,726 - __main__ - INFO - ANSWER: Generated: 'nocturnal...'
+2025-08-31 18:07:08,727 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:07:08,728 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 18:07:08,728 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 18:07:08,729 - __main__ - INFO - PROMPT: Sending prompt to question generation model...
+2025-08-31 18:07:08,733 - __main__ - INFO - Sending question generation prompt to Hugging Face model...
+2025-08-31 18:07:08,734 - __main__ - ERROR - Error in question generation: Y argument needs to be of type (SquadExample, dict)
+2025-08-31 18:07:08,734 - __main__ - INFO - QUESTION: Generated: 'What is the main concept discussed in this content...'
+2025-08-31 18:07:08,735 - __main__ - INFO - PROMPT: Sending prompt to answer generation model...
+2025-08-31 18:07:09,501 - __main__ - INFO - ANSWER: Generated: 'leopard...'
+2025-08-31 18:07:09,502 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:07:09,502 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 18:07:09,503 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 18:07:09,503 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 18:07:09,505 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 18:07:09,868 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 18:07:09,869 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 18:07:09,871 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:07:09] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 18:14:29,500 - werkzeug - INFO -  * Detected change in 'C:\\Users\\CARTER\\Desktop\\PLP\\Hackathons\\ai-study-buddy\\backend\\app.py', reloading
+2025-08-31 18:19:05,714 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:19:05,715 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:19:05,715 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:19:05,716 - __main__ - INFO - MODEL: Loading question generation model: deepset/roberta-base-squad2
+2025-08-31 18:19:11,055 - __main__ - ERROR - ERROR: Failed to load question model: 'Text2TextGenerationPipeline' object has no attribute 'assistant_model'
+2025-08-31 18:19:11,056 - __main__ - INFO - FALLBACK: Using basic question generation approach...
+2025-08-31 18:19:11,073 - __main__ - INFO - MODEL: Loading answer generation model: deepset/roberta-base-squad2
+2025-08-31 18:19:14,136 - __main__ - ERROR - ERROR: Failed to load answer model: 'Text2TextGenerationPipeline' object has no attribute 'assistant_model'
+2025-08-31 18:19:14,137 - __main__ - INFO - FALLBACK: Using basic answer generation approach...
+2025-08-31 18:19:14,171 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 18:19:14,172 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:19:16,744 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:19:16,745 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:19:16,767 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:19:17,144 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:19:17,535 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:19:17,536 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:19:17,552 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:19:17,841 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.119:5000
+2025-08-31 18:19:17,842 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-31 18:19:17,895 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 18:19:34,626 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:19:34,627 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:19:34,627 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:19:34,628 - __main__ - INFO - MODEL: Loading question generation model: deepset/roberta-base-squad2
+2025-08-31 18:19:38,328 - __main__ - ERROR - ERROR: Failed to load question model: 'Text2TextGenerationPipeline' object has no attribute 'assistant_model'
+2025-08-31 18:19:38,329 - __main__ - INFO - FALLBACK: Using basic question generation approach...
+2025-08-31 18:19:38,345 - __main__ - INFO - MODEL: Loading answer generation model: deepset/roberta-base-squad2
+2025-08-31 18:19:40,016 - __main__ - ERROR - ERROR: Failed to load answer model: 'Text2TextGenerationPipeline' object has no attribute 'assistant_model'
+2025-08-31 18:19:40,016 - __main__ - INFO - FALLBACK: Using basic answer generation approach...
+2025-08-31 18:19:40,031 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 18:19:40,031 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:19:46,392 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:19:46,393 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:19:46,398 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:19:48,393 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:19:48,997 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:19:48,998 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:19:49,011 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:19:49,051 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 18:19:49,093 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 18:20:39,550 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:20:39,552 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:20:39] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 18:20:39,802 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 18:20:39,802 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 18:20:39,921 - __main__ - INFO - SUCCESS: Successfully retrieved 5 flashcards
+2025-08-31 18:20:39,922 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:20:39] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:20:46,008 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:20:46] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:20:46,326 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 18:20:46,354 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 18:20:46,983 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 18:20:46,984 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:20:46] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:21:36,829 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:21:36] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 18:21:37,146 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 18:21:37,146 - __main__ - INFO - DATA: Request details - Text length: 795, Subjects: ['science']
+2025-08-31 18:21:37,147 - __main__ - INFO - MODEL: Starting flashcard generation...
+2025-08-31 18:21:37,149 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 18:21:37,151 - __main__ - INFO - INPUT: Input text length: 795 characters
+2025-08-31 18:21:37,152 - __main__ - INFO - SUBJECTS: ['science']
+2025-08-31 18:21:37,152 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 18:21:37,153 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 18:21:37,160 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 18:21:37,161 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 18:21:37,162 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 18:21:37,163 - __main__ - INFO - QUESTION: Generated: 'When does spend occur?...'
+2025-08-31 18:21:37,165 - __main__ - INFO - ANSWER: Generated: 'They spend much of their time in trees even when s...'
+2025-08-31 18:21:37,165 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:21:37,166 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 18:21:37,167 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 18:21:37,167 - __main__ - INFO - QUESTION: Generated: 'What is their?...'
+2025-08-31 18:21:37,168 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:21:37,168 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:21:37,169 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 18:21:37,169 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 18:21:37,170 - __main__ - INFO - QUESTION: Generated: 'What science principle is demonstrated?...'
+2025-08-31 18:21:37,176 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:21:37,181 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:21:37,182 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 18:21:37,183 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 18:21:37,183 - __main__ - INFO - QUESTION: Generated: 'What science concept is described here?...'
+2025-08-31 18:21:37,184 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:21:37,184 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:21:37,185 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 18:21:37,185 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 18:21:37,186 - __main__ - INFO - QUESTION: Generated: 'How does this relate to science?...'
+2025-08-31 18:21:37,187 - __main__ - INFO - ANSWER: Generated: 'In Kenya, you can spot these sublime creatures whi...'
+2025-08-31 18:21:37,193 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:21:37,194 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 18:21:37,194 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 18:21:37,195 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 18:21:37,196 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 18:21:37,707 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 18:21:37,711 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 18:21:37,713 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:21:37] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 18:23:27,452 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:23:27] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:23:27,703 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 18:23:27,704 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 18:23:27,785 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 18:23:27,786 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:23:27] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:24:16,452 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:24:16] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 18:24:16,781 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 18:24:16,782 - __main__ - INFO - DATA: Request details - Text length: 795, Subjects: ['biology']
+2025-08-31 18:24:16,782 - __main__ - INFO - MODEL: Starting flashcard generation...
+2025-08-31 18:24:16,783 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 18:24:16,783 - __main__ - INFO - INPUT: Input text length: 795 characters
+2025-08-31 18:24:16,784 - __main__ - INFO - SUBJECTS: ['biology']
+2025-08-31 18:24:16,784 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 18:24:16,785 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 18:24:16,785 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 18:24:16,786 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 18:24:16,787 - __main__ - INFO - GENERATE: Generating flashcard 1/5...
+2025-08-31 18:24:16,788 - __main__ - INFO - QUESTION: Generated: 'Why is spend important?...'
+2025-08-31 18:24:16,788 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:24:16,792 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:24:16,795 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully!
+2025-08-31 18:24:16,796 - __main__ - INFO - GENERATE: Generating flashcard 2/5...
+2025-08-31 18:24:16,797 - __main__ - INFO - QUESTION: Generated: 'Why is their important?...'
+2025-08-31 18:24:16,797 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:24:16,798 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:24:16,798 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully!
+2025-08-31 18:24:16,799 - __main__ - INFO - GENERATE: Generating flashcard 3/5...
+2025-08-31 18:24:16,799 - __main__ - INFO - QUESTION: Generated: 'What biology principle is demonstrated?...'
+2025-08-31 18:24:16,800 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:24:16,800 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:24:16,801 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully!
+2025-08-31 18:24:16,801 - __main__ - INFO - GENERATE: Generating flashcard 4/5...
+2025-08-31 18:24:16,803 - __main__ - INFO - QUESTION: Generated: 'What are the characteristics of their?...'
+2025-08-31 18:24:16,803 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:24:16,804 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:24:16,804 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully!
+2025-08-31 18:24:16,805 - __main__ - INFO - GENERATE: Generating flashcard 5/5...
+2025-08-31 18:24:16,807 - __main__ - INFO - QUESTION: Generated: 'What are the characteristics of their?...'
+2025-08-31 18:24:16,813 - __main__ - INFO - ANSWER: Generated: 'The leopard (Panthera pardus) is the shiniest, sma...'
+2025-08-31 18:24:16,814 - __main__ - INFO - EXPLANATION: Generated successfully
+2025-08-31 18:24:16,815 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully!
+2025-08-31 18:24:16,815 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards
+2025-08-31 18:24:16,816 - __main__ - INFO - SAVE: Saving generated flashcards to database...
+2025-08-31 18:24:16,818 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 18:24:16,923 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 18:24:16,924 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards!
+2025-08-31 18:24:16,926 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:24:16] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 18:24:28,525 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:24:28] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:24:28,845 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 18:24:28,845 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 18:24:28,957 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 18:24:28,960 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:24:28] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:30:24,004 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:30:24,006 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:30:24] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 18:30:24,275 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 18:30:24,276 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 18:30:24,284 - __main__ - INFO - SUCCESS: Successfully retrieved 0 flashcards
+2025-08-31 18:30:24,286 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:30:24] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:30:24,443 - werkzeug - INFO -  * Detected change in 'C:\\Users\\CARTER\\Desktop\\PLP\\Hackathons\\ai-study-buddy\\backend\\app.py', reloading
+2025-08-31 18:30:32,829 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 18:30:56,817 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:30:56,818 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:30:56,818 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:30:56,819 - __main__ - INFO - MODEL: Loading question generation model: deepset/roberta-base-squad2
+2025-08-31 18:31:01,924 - __main__ - ERROR - CRITICAL: Error initializing Hugging Face models: 'Text2TextGenerationPipeline' object has no attribute 'assistant_model'
+2025-08-31 18:31:01,924 - __main__ - ERROR - ERROR: Failed to initialize application: Failed to initialize Hugging Face models: 'Text2TextGenerationPipeline' object has no attribute 'assistant_model'
+2025-08-31 18:31:01,950 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:31:01,986 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 18:31:02,004 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 18:31:04,348 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:31:04,373 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 18:31:04,377 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 18:31:04,382 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:31:04,608 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:31:04] "[35m[1mGET /api/health HTTP/1.1[0m" 500 -
+2025-08-31 18:31:04,609 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:31:04,613 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:31:04] "[35m[1mGET /api/health HTTP/1.1[0m" 500 -
+2025-08-31 18:31:04,614 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:31:04,623 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:31:04,648 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 18:31:04,649 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 18:31:04,665 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:31:04,737 - __main__ - INFO - SUCCESS: Successfully retrieved 0 flashcards
+2025-08-31 18:31:04,739 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:31:04] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:31:05,761 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:31:05,794 - __main__ - INFO - SUCCESS: Successfully retrieved 0 flashcards
+2025-08-31 18:31:05,798 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:31:05] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:33:26,752 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:33:26,753 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:33:26,753 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:33:26,754 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 18:33:33,902 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 18:33:33,903 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 18:33:36,607 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 18:33:36,608 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 18:33:36,608 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:33:36,768 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:33:36,769 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:33:36,773 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:33:36,776 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:33:36,824 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:33:36,825 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:33:36,831 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:33:36,897 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.119:5000
+2025-08-31 18:33:36,897 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-31 18:33:36,902 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 18:33:56,500 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:33:56,501 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:33:56,502 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:33:56,502 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 18:34:00,399 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 18:34:00,400 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 18:34:02,897 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 18:34:02,898 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 18:34:02,898 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:34:03,064 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:34:03,064 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:34:03,069 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:34:03,119 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:34:03,214 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:34:03,214 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:34:03,221 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:34:03,242 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 18:34:03,248 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 18:34:05,303 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:34:05] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:34:05,624 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 18:34:05,625 - __main__ - INFO - DELETE: Deleting 6 flashcards...
+2025-08-31 18:34:05,722 - __main__ - INFO - SUCCESS: Successfully deleted 6 flashcards
+2025-08-31 18:34:05,723 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:34:05] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 18:34:12,662 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:34:12] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 18:34:12,911 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 18:34:12,911 - __main__ - INFO - DATA: Request details - Text length: 795, Subjects: ['biology']
+2025-08-31 18:34:12,912 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 18:34:12,913 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 18:34:12,914 - __main__ - INFO - INPUT: Input text length: 795 characters
+2025-08-31 18:34:12,915 - __main__ - INFO - SUBJECTS: ['biology']
+2025-08-31 18:34:12,915 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 18:34:12,916 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 18:34:12,917 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 18:34:12,917 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 18:34:12,918 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 18:34:12,918 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:34:35,208 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:34:35,209 - __main__ - INFO - QUESTION: Generated by LLM: 'the tiger, lion, and jaguar. The leopard (Panthera...'
+2025-08-31 18:34:35,209 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:34:37,378 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:34:37,378 - __main__ - INFO - ANSWER: Generated by LLM: 'Their shoulder blades even have special attachment...'
+2025-08-31 18:34:37,379 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:34:38,713 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:34:38,714 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:34:39,419 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully using LLM!
+2025-08-31 18:34:39,419 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 18:34:39,420 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:34:49,865 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:34:49,866 - __main__ - INFO - QUESTION: Generated by LLM: ', leopard (Panthera pardus) is the shiniest, small...'
+2025-08-31 18:34:49,867 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:34:51,003 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:34:51,003 - __main__ - INFO - ANSWER: Generated by LLM: 'climbing muscles...'
+2025-08-31 18:34:51,004 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:34:52,735 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:34:52,735 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:34:53,274 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully using LLM!
+2025-08-31 18:34:53,274 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 18:34:53,275 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:34:57,645 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:34:57,645 - __main__ - INFO - QUESTION: Generated by LLM: 'leopard (Panthera pardus) is the shiniest, smalles...'
+2025-08-31 18:34:57,646 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:34:58,178 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:34:58,178 - __main__ - INFO - ANSWER: Generated by LLM: 'stronger climbing muscles...'
+2025-08-31 18:34:58,179 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:34:59,749 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:34:59,749 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:35:00,257 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully using LLM!
+2025-08-31 18:35:00,258 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 18:35:00,259 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:35:04,666 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:35:04,666 - __main__ - INFO - QUESTION: Generated by LLM: 'tiger, lion, and jaguar. The leopard (Panthera par...'
+2025-08-31 18:35:04,667 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:35:06,001 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:35:06,002 - __main__ - INFO - ANSWER: Generated by LLM: 'Their shoulder blades even have special attachment...'
+2025-08-31 18:35:06,002 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:35:07,744 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:35:07,744 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:35:08,639 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully using LLM!
+2025-08-31 18:35:08,640 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 18:35:08,640 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:35:13,010 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:35:13,010 - __main__ - INFO - QUESTION: Generated by LLM: 's focusing on biology: Leopard (Panthera pardus) i...'
+2025-08-31 18:35:13,011 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:35:14,432 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:35:14,432 - __main__ - INFO - ANSWER: Generated by LLM: 'Their shoulder blades even have special attachment...'
+2025-08-31 18:35:14,433 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:35:15,825 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:35:15,825 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:35:16,527 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully using LLM!
+2025-08-31 18:35:16,528 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards using LLM
+2025-08-31 18:35:16,528 - __main__ - INFO - SAVE: Saving LLM-generated flashcards to database...
+2025-08-31 18:35:16,529 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 18:35:16,684 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 18:35:16,684 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards using LLM!
+2025-08-31 18:35:16,686 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:35:16] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 18:43:14,733 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 18:43:14,734 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:43:14] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 18:45:21,580 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 18:45:21,581 - __main__ - INFO - DATA: Request details - Text length: 547, Subjects: ['biology', 'science']
+2025-08-31 18:45:21,581 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 18:45:21,582 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 18:45:21,583 - __main__ - INFO - INPUT: Input text length: 547 characters
+2025-08-31 18:45:21,585 - __main__ - INFO - SUBJECTS: ['biology', 'science']
+2025-08-31 18:45:21,587 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 18:45:21,588 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 18:45:21,589 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 18:45:21,589 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 18:45:21,590 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 18:45:21,590 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:45:27,410 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:45:27,410 - __main__ - INFO - QUESTION: Generated by LLM: 'produce glucose and oxygen. Photosynthesis is the ...'
+2025-08-31 18:45:27,411 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:45:31,340 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:45:31,341 - __main__ - INFO - ANSWER: Generated by LLM: 'During photosynthesis, plants use sunlight, carbon...'
+2025-08-31 18:45:31,344 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:45:35,587 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:45:35,588 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:45:36,246 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully using LLM!
+2025-08-31 18:45:36,247 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 18:45:36,249 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:45:41,308 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:45:41,309 - __main__ - INFO - QUESTION: Generated by LLM: 'into chemical energy. Photosynthesis is the proces...'
+2025-08-31 18:45:41,309 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:45:43,190 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:45:43,191 - __main__ - INFO - ANSWER: Generated by LLM: 'Photosynthesis...'
+2025-08-31 18:45:43,191 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:45:45,019 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:45:45,020 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:45:45,373 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully using LLM!
+2025-08-31 18:45:45,374 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 18:45:45,374 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:45:50,373 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:45:50,374 - __main__ - INFO - QUESTION: Generated by LLM: 'produce glucose and oxygen. Photosynthesis is the ...'
+2025-08-31 18:45:50,374 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:45:53,526 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:45:53,527 - __main__ - INFO - ANSWER: Generated by LLM: 'During photosynthesis, plants use sunlight, carbon...'
+2025-08-31 18:45:53,530 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:45:56,754 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:45:56,754 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:45:57,591 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully using LLM!
+2025-08-31 18:45:57,591 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 18:45:57,592 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:46:03,318 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:46:03,318 - __main__ - INFO - QUESTION: Generated by LLM: 'produce glucose and oxygen. Photosynthesis is the ...'
+2025-08-31 18:46:03,319 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:46:06,010 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:46:06,011 - __main__ - INFO - ANSWER: Generated by LLM: 'During photosynthesis, plants use sunlight, carbon...'
+2025-08-31 18:46:06,012 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:46:09,138 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:46:09,138 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:46:09,716 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully using LLM!
+2025-08-31 18:46:09,716 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 18:46:09,717 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 18:46:14,596 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 18:46:14,597 - __main__ - INFO - QUESTION: Generated by LLM: 'produce glucose and oxygen. Photosynthesis is the ...'
+2025-08-31 18:46:14,597 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 18:46:17,717 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 18:46:17,718 - __main__ - INFO - ANSWER: Generated by LLM: 'During photosynthesis, plants use sunlight, carbon...'
+2025-08-31 18:46:17,719 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 18:46:20,432 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 18:46:20,432 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 18:46:21,371 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully using LLM!
+2025-08-31 18:46:21,374 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 5/5 flashcards using LLM
+2025-08-31 18:46:21,375 - __main__ - INFO - SAVE: Saving LLM-generated flashcards to database...
+2025-08-31 18:46:21,375 - __main__ - INFO - SAVE: Saving 5 flashcards to database...
+2025-08-31 18:46:21,648 - __main__ - INFO - SUCCESS: Successfully saved 5 flashcards to database
+2025-08-31 18:46:21,648 - __main__ - INFO - COMPLETE: Successfully generated and saved 5 flashcards using LLM!
+2025-08-31 18:46:21,650 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 18:46:21] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 18:51:54,263 - werkzeug - INFO -  * Detected change in 'C:\\Users\\CARTER\\Desktop\\PLP\\Hackathons\\ai-study-buddy\\backend\\app.py', reloading
+2025-08-31 18:52:01,002 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 18:52:59,820 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:52:59,821 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:52:59,821 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:52:59,821 - __main__ - INFO - MODEL: Loading question generation model: t5-small
+2025-08-31 18:53:03,920 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 18:53:03,921 - __main__ - INFO - MODEL: Loading answer generation model: t5-small
+2025-08-31 18:53:06,333 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 18:53:06,333 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 18:53:06,334 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 18:53:06,484 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 18:53:06,485 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 18:53:06,489 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 18:53:06,590 - __main__ - INFO - DB: Database connection established
+2025-08-31 18:53:06,696 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 18:53:06,698 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 18:53:06,718 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 18:53:06,753 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 18:53:06,759 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 18:53:38,572 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 18:53:38,573 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 18:53:38,574 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 18:53:38,574 - __main__ - INFO - MODEL: Loading question generation model: google/flan-t5-base
+2025-08-31 18:53:42,840 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-31 19:11:53,571 - huggingface_hub.file_download - WARNING - Xet Storage is enabled for this repo, but the 'hf_xet' package is not installed. Falling back to regular HTTP download. For better performance, install the package with: `pip install huggingface_hub[hf_xet]` or `pip install hf_xet`
+2025-08-31 19:12:02,980 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 19:12:02,981 - __main__ - INFO - MODEL: Loading answer generation model: google/flan-t5-base
+2025-08-31 19:12:06,803 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 19:12:06,806 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 19:12:06,807 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 19:12:09,949 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 19:12:09,953 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 19:12:09,997 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 19:12:10,647 - __main__ - INFO - DB: Database connection established
+2025-08-31 19:12:11,504 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 19:12:11,505 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 19:12:11,564 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 19:12:12,620 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.119:5000
+2025-08-31 19:12:12,654 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-08-31 19:12:12,904 - werkzeug - INFO -  * Restarting with stat
+2025-08-31 19:14:34,211 - __main__ - INFO - INIT: Initializing application components...
+2025-08-31 19:14:34,213 - __main__ - INFO - INIT: Starting Hugging Face model initialization...
+2025-08-31 19:14:34,214 - __main__ - INFO - DEVICE: Using device: CPU
+2025-08-31 19:14:34,215 - __main__ - INFO - MODEL: Loading question generation model: google/flan-t5-base
+2025-08-31 19:14:38,731 - __main__ - INFO - SUCCESS: Question generation model loaded successfully
+2025-08-31 19:14:38,732 - __main__ - INFO - MODEL: Loading answer generation model: google/flan-t5-base
+2025-08-31 19:14:41,049 - __main__ - INFO - SUCCESS: Answer generation model loaded successfully
+2025-08-31 19:14:41,050 - __main__ - INFO - COMPLETE: Model initialization completed!
+2025-08-31 19:14:41,054 - __main__ - INFO - DB: Creating database tables...
+2025-08-31 19:14:41,782 - mysql.connector - INFO - package: mysql.connector.plugins
+2025-08-31 19:14:41,782 - mysql.connector - INFO - plugin_name: caching_sha2_password
+2025-08-31 19:14:41,789 - mysql.connector - INFO - AUTHENTICATION_PLUGIN_CLASS: MySQLCachingSHA2PasswordAuthPlugin
+2025-08-31 19:14:41,909 - __main__ - INFO - DB: Database connection established
+2025-08-31 19:14:42,231 - __main__ - INFO - SUCCESS: Database tables created successfully
+2025-08-31 19:14:42,232 - __main__ - INFO - SUCCESS: Application initialized successfully
+2025-08-31 19:14:42,246 - __main__ - INFO - START: Starting Flask application...
+2025-08-31 19:14:42,270 - werkzeug - WARNING -  * Debugger is active!
+2025-08-31 19:14:42,342 - werkzeug - INFO -  * Debugger PIN: 545-430-609
+2025-08-31 19:16:20,722 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 19:16:20,728 - __main__ - INFO - DATA: Request details - Text length: 547, Subjects: ['biology', 'science']
+2025-08-31 19:16:20,730 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 19:16:20,731 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 19:16:20,732 - __main__ - INFO - INPUT: Input text length: 547 characters
+2025-08-31 19:16:20,733 - __main__ - INFO - SUBJECTS: ['biology', 'science']
+2025-08-31 19:16:20,734 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 19:16:20,737 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 19:16:20,738 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 19:16:20,739 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 19:16:20,740 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 19:16:20,740 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:16:53,828 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:16:53,829 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:16:53,829 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:16:59,250 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:16:59,250 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 1 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:16:59,252 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 19:16:59,256 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:17:03,196 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 19:17:03,197 - __main__ - INFO - DATA: Request details - Text length: 547, Subjects: ['biology', 'science']
+2025-08-31 19:17:03,198 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 19:17:03,204 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 19:17:03,205 - __main__ - INFO - INPUT: Input text length: 547 characters
+2025-08-31 19:17:03,207 - __main__ - INFO - SUBJECTS: ['biology', 'science']
+2025-08-31 19:17:03,209 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 19:17:03,210 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 19:17:03,210 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 19:17:03,212 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 19:17:03,214 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 19:17:03,214 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:17:08,313 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:17:08,313 - __main__ - INFO - QUESTION: Generated by LLM: 'How do plants convert light energy into chemical e...'
+2025-08-31 19:17:08,314 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:17:10,528 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:17:10,529 - __main__ - INFO - QUESTION: Generated by LLM: 'How do plants convert light energy into chemical e...'
+2025-08-31 19:17:10,529 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:17:25,510 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:17:25,511 - __main__ - INFO - ANSWER: Generated by LLM: 'Photosynthesis...'
+2025-08-31 19:17:25,511 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:17:27,505 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:17:27,505 - __main__ - INFO - ANSWER: Generated by LLM: 'Photosynthesis...'
+2025-08-31 19:17:27,506 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:17:40,382 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 19:17:40,383 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:17:41,663 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully using LLM!
+2025-08-31 19:17:41,663 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 19:17:41,664 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:17:42,818 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 19:17:42,819 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:17:44,369 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully using LLM!
+2025-08-31 19:17:44,371 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 19:17:44,372 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:17:50,689 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:17:50,689 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:17:50,690 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:17:53,145 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:17:53,146 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:17:53,146 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:17:54,636 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:17:54,637 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 3 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:17:54,637 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 19:17:54,638 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:17:57,135 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:17:57,136 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 2 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:17:57,136 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 19:17:57,137 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:17:59,902 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:17:59,903 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the overall equation for photosynthesis?...'
+2025-08-31 19:17:59,904 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:18:03,854 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:18:03,858 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 4 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:18:03,858 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 19:18:03,861 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:18:07,174 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:18:07,174 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:18:07,176 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:18:11,244 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:18:11,245 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 3 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:18:11,247 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 19:18:11,250 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:18:13,115 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:18:13,115 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:18:13,117 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:18:15,917 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:18:15,917 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:18:15,927 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:18:17,173 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:18:17,174 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 5 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:18:17,178 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 1/5 flashcards using LLM
+2025-08-31 19:18:17,181 - __main__ - INFO - SAVE: Saving LLM-generated flashcards to database...
+2025-08-31 19:18:17,182 - __main__ - INFO - SAVE: Saving 1 flashcards to database...
+2025-08-31 19:18:18,012 - __main__ - INFO - SUCCESS: Successfully saved 1 flashcards to database
+2025-08-31 19:18:18,013 - __main__ - INFO - COMPLETE: Successfully generated and saved 1 flashcards using LLM!
+2025-08-31 19:18:18,016 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:18:18] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 19:18:19,726 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:18:19,727 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 4 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:18:19,728 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 19:18:19,731 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:18:34,496 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:18:34,497 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the general equation for photosynthesis?...'
+2025-08-31 19:18:34,498 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:18:41,191 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:18:41,193 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 5 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:18:41,194 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 1/5 flashcards using LLM
+2025-08-31 19:18:41,196 - __main__ - INFO - SAVE: Saving LLM-generated flashcards to database...
+2025-08-31 19:18:41,204 - __main__ - INFO - SAVE: Saving 1 flashcards to database...
+2025-08-31 19:18:41,415 - __main__ - INFO - SUCCESS: Successfully saved 1 flashcards to database
+2025-08-31 19:18:41,420 - __main__ - INFO - COMPLETE: Successfully generated and saved 1 flashcards using LLM!
+2025-08-31 19:18:41,428 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:18:41] "POST /api/generate?Content-Type=application/json HTTP/1.1" 200 -
+2025-08-31 19:19:38,178 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 19:19:38,184 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:19:38] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 19:19:38,438 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 19:19:38,439 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 19:19:38,666 - __main__ - INFO - SUCCESS: Successfully retrieved 12 flashcards
+2025-08-31 19:19:38,668 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:19:38] "GET /api/flashcards HTTP/1.1" 200 -
+2025-08-31 19:20:31,507 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:20:31] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 19:20:31,834 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 19:20:31,835 - __main__ - INFO - DELETE: Deleting 12 flashcards...
+2025-08-31 19:20:32,244 - __main__ - INFO - SUCCESS: Successfully deleted 12 flashcards
+2025-08-31 19:20:32,245 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:20:32] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 19:20:46,263 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:20:46] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 19:20:46,596 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 19:20:46,597 - __main__ - INFO - DATA: Request details - Text length: 1546, Subjects: ['biology']
+2025-08-31 19:20:46,597 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 19:20:46,598 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 19:20:46,599 - __main__ - INFO - INPUT: Input text length: 1546 characters
+2025-08-31 19:20:46,600 - __main__ - INFO - SUBJECTS: ['biology']
+2025-08-31 19:20:46,601 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 19:20:46,602 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 19:20:46,602 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 19:20:46,603 - __main__ - INFO - CHUNKS: Text split into 2 chunks
+2025-08-31 19:20:46,603 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 19:20:46,604 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:20:51,203 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:20:51,204 - __main__ - INFO - QUESTION: Generated by LLM: 'What do Thomsons gazelles prefer?...'
+2025-08-31 19:20:51,209 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:20:56,342 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:20:56,343 - __main__ - INFO - ANSWER: Generated by LLM: 'short grassland with dry, sturdy foundation...'
+2025-08-31 19:20:56,344 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:20:59,919 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 19:20:59,920 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:21:00,839 - __main__ - INFO - SUCCESS: Flashcard 1 created successfully using LLM!
+2025-08-31 19:21:00,840 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 19:21:00,840 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:21:07,225 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:21:07,226 - __main__ - INFO - QUESTION: Generated by LLM: 'Which of the following is not a characteristic of ...'
+2025-08-31 19:21:07,227 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:21:11,469 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:21:11,470 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 2 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:21:11,470 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 19:21:11,471 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:21:15,444 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:21:15,445 - __main__ - INFO - QUESTION: Generated by LLM: 'What kind of food does Thomsons gazelle primarily ...'
+2025-08-31 19:21:15,445 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:21:20,344 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:21:20,345 - __main__ - INFO - ANSWER: Generated by LLM: 'fresh grasses...'
+2025-08-31 19:21:20,345 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:21:22,979 - __main__ - ERROR - LLM_EXPLANATION_ERROR: Model generated empty or too short explanation
+2025-08-31 19:21:22,980 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:21:23,722 - __main__ - INFO - SUCCESS: Flashcard 3 created successfully using LLM!
+2025-08-31 19:21:23,722 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 19:21:23,723 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:21:27,876 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:21:27,876 - __main__ - INFO - QUESTION: Generated by LLM: 'What is a characteristic of the antelope-gazelle?...'
+2025-08-31 19:21:27,877 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:21:29,957 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:21:29,958 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 4 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:21:29,958 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 19:21:29,959 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:21:38,346 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:21:38,347 - __main__ - INFO - QUESTION: Generated by LLM: 'Which of the following is not a habitat preference...'
+2025-08-31 19:21:38,347 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:21:40,546 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:21:40,546 - __main__ - INFO - ANSWER: Generated by LLM: 'tall grassland...'
+2025-08-31 19:21:40,547 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:21:43,140 - __main__ - ERROR - LLM_EXPLANATION_ERROR: Model generated empty or too short explanation
+2025-08-31 19:21:43,141 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:21:44,027 - __main__ - INFO - SUCCESS: Flashcard 5 created successfully using LLM!
+2025-08-31 19:21:44,028 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 3/5 flashcards using LLM
+2025-08-31 19:21:44,028 - __main__ - INFO - SAVE: Saving LLM-generated flashcards to database...
+2025-08-31 19:21:44,029 - __main__ - INFO - SAVE: Saving 3 flashcards to database...
+2025-08-31 19:21:44,253 - __main__ - INFO - SUCCESS: Successfully saved 3 flashcards to database
+2025-08-31 19:21:44,254 - __main__ - INFO - COMPLETE: Successfully generated and saved 3 flashcards using LLM!
+2025-08-31 19:21:44,255 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:21:44] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 19:24:03,174 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:24:03] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 19:24:03,425 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 19:24:03,426 - __main__ - INFO - DATA: Request details - Text length: 1252, Subjects: ['biology']
+2025-08-31 19:24:03,427 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 19:24:03,428 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 19:24:03,429 - __main__ - INFO - INPUT: Input text length: 1252 characters
+2025-08-31 19:24:03,430 - __main__ - INFO - SUBJECTS: ['biology']
+2025-08-31 19:24:03,431 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 19:24:03,431 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 19:24:03,432 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 19:24:03,438 - __main__ - INFO - CHUNKS: Text split into 2 chunks
+2025-08-31 19:24:03,439 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 19:24:03,439 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:24:10,661 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:24:10,662 - __main__ - INFO - QUESTION: Generated by LLM: 'Crocodiles modify their habitats to help support t...'
+2025-08-31 19:24:10,662 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:24:12,178 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:24:12,178 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 1 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:24:12,179 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 19:24:12,179 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:24:17,193 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:24:17,194 - __main__ - INFO - QUESTION: Generated by LLM: 'What do crocodiles do to the ecosystem?...'
+2025-08-31 19:24:17,194 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:24:23,441 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:24:23,441 - __main__ - INFO - ANSWER: Generated by LLM: 'amplify the need to preserve crocodile populations...'
+2025-08-31 19:24:23,442 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:24:28,525 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 19:24:28,525 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:24:29,438 - __main__ - INFO - SUCCESS: Flashcard 2 created successfully using LLM!
+2025-08-31 19:24:29,439 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 19:24:29,439 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:24:34,663 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:24:34,664 - __main__ - INFO - QUESTION: Generated by LLM: 'What do crocodiles modify to help support them whe...'
+2025-08-31 19:24:34,664 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:24:40,581 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:24:40,582 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 3 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:24:40,582 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 19:24:40,583 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:24:44,920 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:24:44,921 - __main__ - INFO - QUESTION: Generated by LLM: 'What is the role of crocodiles in ecosystems?...'
+2025-08-31 19:24:44,922 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:24:50,153 - __main__ - INFO - LLM_SUCCESS: Answer generated successfully
+2025-08-31 19:24:50,154 - __main__ - INFO - ANSWER: Generated by LLM: 'presence or absence from an area serves as an indi...'
+2025-08-31 19:24:50,154 - __main__ - INFO - LLM_REQUEST: Sending explanation generation request to model
+2025-08-31 19:24:54,581 - __main__ - INFO - LLM_SUCCESS: Explanation generated successfully
+2025-08-31 19:24:54,581 - __main__ - INFO - EXPLANATION: Generated by LLM successfully
+2025-08-31 19:24:55,288 - __main__ - INFO - SUCCESS: Flashcard 4 created successfully using LLM!
+2025-08-31 19:24:55,291 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 19:24:55,291 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:25:00,877 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:25:00,878 - __main__ - INFO - QUESTION: Generated by LLM: 'What do crocodiles modify to help support them whe...'
+2025-08-31 19:25:00,878 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:25:07,564 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:25:07,565 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 5 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:25:07,566 - __main__ - INFO - COMPLETE: Flashcard generation completed! Successfully created 2/5 flashcards using LLM
+2025-08-31 19:25:07,566 - __main__ - INFO - SAVE: Saving LLM-generated flashcards to database...
+2025-08-31 19:25:07,567 - __main__ - INFO - SAVE: Saving 2 flashcards to database...
+2025-08-31 19:25:07,782 - __main__ - INFO - SUCCESS: Successfully saved 2 flashcards to database
+2025-08-31 19:25:07,783 - __main__ - INFO - COMPLETE: Successfully generated and saved 2 flashcards using LLM!
+2025-08-31 19:25:07,784 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:25:07] "POST /api/generate HTTP/1.1" 200 -
+2025-08-31 19:25:51,921 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:25:51] "OPTIONS /api/flashcards HTTP/1.1" 200 -
+2025-08-31 19:25:52,174 - __main__ - INFO - DELETE: Delete request received
+2025-08-31 19:25:52,174 - __main__ - INFO - DELETE: Deleting 5 flashcards...
+2025-08-31 19:25:52,306 - __main__ - INFO - SUCCESS: Successfully deleted 5 flashcards
+2025-08-31 19:25:52,307 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:25:52] "DELETE /api/flashcards HTTP/1.1" 200 -
+2025-08-31 19:27:48,663 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:27:48] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 19:27:48,927 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 19:27:48,928 - __main__ - INFO - DATA: Request details - Text length: 795, Subjects: ['biology']
+2025-08-31 19:27:48,929 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 19:27:48,931 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 19:27:48,931 - __main__ - INFO - INPUT: Input text length: 795 characters
+2025-08-31 19:27:48,932 - __main__ - INFO - SUBJECTS: ['biology']
+2025-08-31 19:27:48,933 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 19:27:48,934 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 19:27:48,934 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 19:27:48,935 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 19:27:48,935 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 19:27:48,936 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:27:52,297 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:27:52,298 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:27:52,298 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:27:54,019 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:27:54,020 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 1 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:27:54,021 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 19:27:54,024 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:27:57,327 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:27:57,328 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:27:57,328 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:27:59,201 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:27:59,203 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 2 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:27:59,205 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 19:27:59,206 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:28:02,312 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:28:02,313 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:28:02,313 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:28:04,196 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:28:04,197 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 3 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:28:04,197 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 19:28:04,198 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:28:07,039 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:28:07,039 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:28:07,040 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:28:08,997 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:28:08,997 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 4 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:28:08,998 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 19:28:08,999 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:28:13,465 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:28:13,467 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:28:13,469 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:28:15,496 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:28:15,497 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 5 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:28:15,497 - __main__ - ERROR - COMPLETE_FAILURE: LLM failed to generate any flashcards. All 5 attempts failed. Please check your models and try again.
+2025-08-31 19:28:15,502 - __main__ - ERROR - CRITICAL: Critical error in generate_questions_from_context: LLM failed to generate any flashcards. All 5 attempts failed. Please check your models and try again.
+2025-08-31 19:28:15,503 - __main__ - ERROR - CRITICAL: LLM processing failed: LLM failed to generate any flashcards. All 5 attempts failed. Please check your models and try again.
+2025-08-31 19:28:15,504 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:28:15] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2025-08-31 19:28:39,974 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:28:39] "OPTIONS /api/generate HTTP/1.1" 200 -
+2025-08-31 19:28:40,300 - __main__ - INFO - REQUEST: Flashcard generation request received
+2025-08-31 19:28:40,301 - __main__ - INFO - DATA: Request details - Text length: 795, Subjects: ['biology']
+2025-08-31 19:28:40,301 - __main__ - INFO - MODEL: Starting flashcard generation using LLM models only...
+2025-08-31 19:28:40,302 - __main__ - INFO - START: Starting flashcard generation for 5 questions
+2025-08-31 19:28:40,303 - __main__ - INFO - INPUT: Input text length: 795 characters
+2025-08-31 19:28:40,304 - __main__ - INFO - SUBJECTS: ['biology']
+2025-08-31 19:28:40,305 - __main__ - INFO - CLEAN: Cleaning input text...
+2025-08-31 19:28:40,306 - __main__ - INFO - SUCCESS: Text cleaning completed
+2025-08-31 19:28:40,307 - __main__ - INFO - CLEAN: Text cleaned and prepared for processing
+2025-08-31 19:28:40,308 - __main__ - INFO - CHUNKS: Text split into 1 chunks
+2025-08-31 19:28:40,309 - __main__ - INFO - GENERATE: Generating flashcard 1/5 using LLM...
+2025-08-31 19:28:40,309 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:28:44,037 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:28:44,037 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:28:44,038 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:28:46,418 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:28:46,419 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 1 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:28:46,419 - __main__ - INFO - GENERATE: Generating flashcard 2/5 using LLM...
+2025-08-31 19:28:46,421 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:28:49,490 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:28:49,491 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:28:49,495 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:28:51,970 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:28:51,970 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 2 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:28:51,971 - __main__ - INFO - GENERATE: Generating flashcard 3/5 using LLM...
+2025-08-31 19:28:51,971 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:28:55,018 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:28:55,018 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:28:55,019 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:28:57,071 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:28:57,072 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 3 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:28:57,072 - __main__ - INFO - GENERATE: Generating flashcard 4/5 using LLM...
+2025-08-31 19:28:57,073 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:29:00,105 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:29:00,108 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:29:00,111 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:29:02,535 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:29:02,536 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 4 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:29:02,536 - __main__ - INFO - GENERATE: Generating flashcard 5/5 using LLM...
+2025-08-31 19:29:02,537 - __main__ - INFO - LLM_REQUEST: Sending question generation request to model
+2025-08-31 19:29:06,206 - __main__ - INFO - LLM_SUCCESS: Question generated successfully
+2025-08-31 19:29:06,207 - __main__ - INFO - QUESTION: Generated by LLM: 'Where can you find leopards?...'
+2025-08-31 19:29:06,208 - __main__ - INFO - LLM_REQUEST: Sending answer generation request to model
+2025-08-31 19:29:08,091 - __main__ - ERROR - LLM_ANSWER_ERROR: Model generated empty or too short answer
+2025-08-31 19:29:08,092 - __main__ - ERROR - LLM_ERROR: Error generating flashcard 5 with LLM: Answer generation failed: Model generated empty or too short answer
+2025-08-31 19:29:08,092 - __main__ - ERROR - COMPLETE_FAILURE: LLM failed to generate any flashcards. All 5 attempts failed. Please check your models and try again.
+2025-08-31 19:29:08,094 - __main__ - ERROR - CRITICAL: Critical error in generate_questions_from_context: LLM failed to generate any flashcards. All 5 attempts failed. Please check your models and try again.
+2025-08-31 19:29:08,097 - __main__ - ERROR - CRITICAL: LLM processing failed: LLM failed to generate any flashcards. All 5 attempts failed. Please check your models and try again.
+2025-08-31 19:29:08,099 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:29:08] "[35m[1mPOST /api/generate HTTP/1.1[0m" 500 -
+2025-08-31 19:29:29,739 - __main__ - INFO - HEALTH: Health check requested
+2025-08-31 19:29:29,741 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:29:29] "GET /api/health HTTP/1.1" 200 -
+2025-08-31 19:29:30,247 - __main__ - INFO - FETCH: Fetching all flashcards...
+2025-08-31 19:29:30,253 - __main__ - INFO - FETCH: Retrieving all flashcards from database...
+2025-08-31 19:29:30,260 - __main__ - INFO - SUCCESS: Successfully retrieved 0 flashcards
+2025-08-31 19:29:30,262 - werkzeug - INFO - 127.0.0.1 - - [31/Aug/2025 19:29:30] "GET /api/flashcards HTTP/1.1" 200 -

@@ -1,56 +1,5 @@
-// Mock API implementation
-const mockApi = {
-  generate: async (text, subjects) => {
-    // Simulate API delay
-    await new Promise((resolve) =>
-      setTimeout(resolve, 1500)
-    );
-
-    // Extract key terms from text to generate questions
-    const sentences = text
-      .split(/[.!?]/)
-      .filter((s) => s.length > 10);
-    const questions = [];
-
-    // Generate 6-10 sample cards based on text
-    const count = Math.min(
-      8,
-      Math.max(6, Math.floor(sentences.length / 2))
-    );
-
-    for (let i = 0; i < count; i++) {
-      if (i >= sentences.length) break;
-
-      const sentence = sentences[i].trim();
-      const words = sentence.split(" ");
-
-      if (words.length < 4) continue;
-
-      // Create a question by removing a key term
-      const removeIndex = Math.floor(words.length / 2);
-      const answer = words[removeIndex];
-      words[removeIndex] = "______";
-      const question = words.join(" ");
-
-      questions.push({
-        id: Date.now() + i,
-        question: question,
-        answer: answer,
-        explanation: `This term refers to ${answer} in the context of ${subjects.join(
-          ", "
-        )}.`,
-        tags: subjects,
-        difficulty: "neutral",
-        createdAt: new Date().toISOString(),
-        lastReviewed: null,
-        reviewCount: 0,
-        bookmarked: false,
-      });
-    }
-
-    return questions;
-  },
-};
+// Backend API configuration
+const API_BASE_URL = "http://localhost:5000/api";
 
 // App State
 let state = {
@@ -171,15 +120,40 @@ const elements = {
   helpBtn: document.getElementById("helpBtn"),
 };
 
-// Initialize the application
-function init() {
-  loadState();
+// Initialize the application with backend health check
+async function init() {
+  // Check if backend is available
+  const backendAvailable = await checkBackendHealth();
+
+  if (!backendAvailable) {
+    showToast(
+      "Running in offline mode. Some features may be limited.",
+      "warning"
+    );
+  }
+
+  await loadState();
   setupEventListeners();
   renderFlashcards();
   updateProgressSidebar();
   applyTheme();
   validateInput();
   checkEmptyState();
+}
+
+// Check backend health
+async function checkBackendHealth() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/health`);
+    if (!response.ok) {
+      throw new Error("Backend not responding");
+    }
+    return true;
+  } catch (error) {
+    console.error("Backend health check failed:", error);
+    showToast("Backend server is not available", "warning");
+    return false;
+  }
 }
 
 // Set up event listeners
@@ -207,6 +181,7 @@ function setupEventListeners() {
     (chip) => {
       chip.addEventListener("click", () => {
         chip.classList.toggle("selected");
+        validateInput(); // Revalidate when subjects change
       });
     }
   );
@@ -340,13 +315,43 @@ function setupEventListeners() {
   );
 }
 
-// Load state from localStorage
-function loadState() {
-  const savedState = localStorage.getItem("asb:state");
-  if (savedState) {
-    state = { ...state, ...JSON.parse(savedState) };
+// Load state from backend and localStorage
+async function loadState() {
+  try {
+    // Load flashcards from backend
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards`
+    );
+    if (response.ok) {
+      const flashcards = await response.json();
+      state.flashcards = flashcards;
+    } else {
+      console.error(
+        "Failed to load flashcards from server"
+      );
+      // Fall back to localStorage if available
+      const savedState = localStorage.getItem("asb:state");
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        state.flashcards = parsed.flashcards || [];
+      }
+    }
+  } catch (error) {
+    console.error("Error loading flashcards:", error);
+    showToast(
+      "Failed to load flashcards from server",
+      "warning"
+    );
+
+    // Fall back to localStorage
+    const savedState = localStorage.getItem("asb:state");
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      state.flashcards = parsed.flashcards || [];
+    }
   }
 
+  // Load other state from localStorage (theme, progress, etc.)
   const savedTheme = localStorage.getItem("asb:theme");
   if (savedTheme) {
     state.settings.theme = savedTheme;
@@ -357,17 +362,28 @@ function loadState() {
   if (savedTextSize) {
     state.settings.textSize = savedTextSize;
   }
+
+  // Load progress from localStorage for now
+  const savedProgress =
+    localStorage.getItem("asb:progress");
+  if (savedProgress) {
+    state.studyProgress = {
+      ...state.studyProgress,
+      ...JSON.parse(savedProgress),
+    };
+  }
 }
 
-// Save state to localStorage
+// Save state to localStorage (study progress only, flashcards are server-side)
 function saveState() {
+  // Save study progress to localStorage
   localStorage.setItem(
-    "asb:state",
-    JSON.stringify({
-      flashcards: state.flashcards,
-      studyProgress: state.studyProgress,
-    })
+    "asb:progress",
+    JSON.stringify(state.studyProgress)
   );
+
+  // Note: Flashcards are automatically saved to server when generated/modified
+  // No need to save them to localStorage anymore
 }
 
 // Apply theme preferences
@@ -403,14 +419,32 @@ function toggleTheme() {
 // Validate input and enable/disable generate button
 function validateInput() {
   const text = elements.notesInput.value.trim();
-  const isValid = text.length >= 200;
+  const selectedSubjects =
+    elements.subjectChips.querySelectorAll(
+      ".selected"
+    ).length;
+
+  const isTextValid = text.length >= 200;
+  const hasSubjects = selectedSubjects > 0;
   const hasContent = text.length > 0;
 
-  elements.generateBtn.disabled = !isValid;
-  elements.clearTextareaBtn.disabled = !hasContent; // Enable clear button only if textarea has content
-  elements.validationMessage.style.display = isValid
-    ? "none"
-    : "block";
+  elements.generateBtn.disabled =
+    !isTextValid || !hasSubjects;
+  elements.clearTextareaBtn.disabled = !hasContent;
+
+  // Update validation message
+  if (text.length > 0 && text.length < 200) {
+    elements.validationMessage.textContent = `Please enter at least ${
+      200 - text.length
+    } more characters`;
+    elements.validationMessage.style.display = "block";
+  } else if (isTextValid && !hasSubjects) {
+    elements.validationMessage.textContent =
+      "Please select at least one subject";
+    elements.validationMessage.style.display = "block";
+  } else {
+    elements.validationMessage.style.display = "none";
+  }
 }
 
 // Clear textarea
@@ -423,16 +457,24 @@ function clearTextarea() {
   }
 }
 
-// Generate flashcards from notes
+// Generate flashcards from notes using backend API
 async function generateFlashcards() {
   const notes = elements.notesInput.value.trim();
   const selectedSubjects = Array.from(
     elements.subjectChips.querySelectorAll(".selected")
   ).map((chip) => chip.getAttribute("data-value"));
 
-  if (notes.length < 200 || selectedSubjects.length === 0) {
+  if (notes.length < 200) {
     showToast(
-      "Please enter at least 200 characters and select at least one subject",
+      "Please enter at least 200 characters of study notes",
+      "error"
+    );
+    return;
+  }
+
+  if (selectedSubjects.length === 0) {
+    showToast(
+      "Please select at least one subject",
       "error"
     );
     return;
@@ -443,32 +485,61 @@ async function generateFlashcards() {
   elements.generateBtn.disabled = true;
 
   try {
-    const newFlashcards = await mockApi.generate(
-      notes,
-      selectedSubjects
+    const response = await fetch(
+      `${API_BASE_URL}/generate`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          text: notes,
+          subjects: selectedSubjects,
+        }),
+      }
     );
-    state.flashcards = [
-      ...state.flashcards,
-      ...newFlashcards,
-    ];
 
-    saveState();
-    renderFlashcards();
-    checkEmptyState();
+    const data = await response.json();
 
-    // Show input panel if it was hidden
-    elements.inputPanel.style.display = "block";
+    if (response.ok) {
+      // Add new flashcards to existing state
+      state.flashcards = [
+        ...state.flashcards,
+        ...data.flashcards,
+      ];
 
-    showToast(
-      `Generated ${newFlashcards.length} flashcards successfully!`,
-      "success"
-    );
+      renderFlashcards();
+      checkEmptyState();
+      updateProgressSidebar();
+
+      showToast(
+        `Generated ${data.flashcards.length} flashcards successfully!`,
+        "success"
+      );
+
+      // Clear the textarea after successful generation
+      elements.notesInput.value = "";
+      validateInput();
+
+      // Clear selected subjects
+      elements.subjectChips
+        .querySelectorAll(".selected")
+        .forEach((chip) => {
+          chip.classList.remove("selected");
+        });
+    } else {
+      throw new Error(
+        data.error || "Failed to generate flashcards"
+      );
+    }
   } catch (error) {
+    console.error("Error generating flashcards:", error);
     showToast(
-      "Failed to generate flashcards. Please try again.",
+      error.message ||
+        "Failed to generate flashcards. Please try again.",
       "error"
     );
-    console.error("Flashcard generation error:", error);
   } finally {
     elements.generateSpinner.style.display = "none";
     elements.generateBtn.disabled = false;
@@ -550,6 +621,7 @@ function createFlashcardElement(card) {
   const cardEl = document.createElement("div");
   cardEl.className = "card";
   cardEl.dataset.id = card.id;
+  cardEl.setAttribute("aria-expanded", "false");
   if (state.selectedFlashcards.has(card.id)) {
     cardEl.classList.add("selected");
   }
@@ -559,30 +631,37 @@ function createFlashcardElement(card) {
   cardEl.innerHTML = `
     <div class="card-inner">
       <div class="card-front">
-        <div class="card-content">${escapeHtml(
-          card.question
-        )}</div>
+        <div class="card-content">
+          <span class="question-label">Question:</span>
+          <h3>${escapeHtml(card.question)}</h3>
+        </div>
         <button class="read-more-btn" data-target="question">Read More</button>
         <div class="card-actions">
-          <button class="card-action-btn edit-btn" title="Edit">✏️</button>
-          <button class="card-action-btn bookmark-btn" title="Bookmark">${
-            card.bookmarked ? "🔖" : "📑"
-          }</button>
+          <button class="card-action-btn edit-btn" title="Edit flashcard" aria-label="Edit flashcard">✍️</button>
+          <button class="card-action-btn bookmark-btn" title="${
+            card.bookmarked
+              ? "Remove bookmark"
+              : "Bookmark flashcard"
+          }" aria-label="${
+    card.bookmarked
+      ? "Remove bookmark"
+      : "Bookmark flashcard"
+  }">${card.bookmarked ? "📕" : "📖"}</button>
         </div>
       </div>
       <div class="card-back">
-        <div class="card-content">${escapeHtml(
-          card.answer
-        )}</div>
+        <div class="card-content">
+          <h3>${escapeHtml(card.answer)}</h3>
+        </div>
         <button class="read-more-btn" data-target="answer">Read More</button>
-        <div class="card-content explanation">${escapeHtml(
-          card.explanation || ""
-        )}</div>
+        <div class="card-content explanation">
+          <p>${escapeHtml(card.explanation || "")}</p>
+        </div>
         <button class="read-more-btn" data-target="explanation">Read More</button>
         <div class="difficulty-buttons">
-          <button class="difficulty-btn difficulty-easy" data-difficulty="easy">Easy</button>
-          <button class="difficulty-btn difficulty-medium" data-difficulty="medium">Medium</button>
-          <button class="difficulty-btn difficulty-hard" data-difficulty="hard">Hard</button>
+          <button class="difficulty-btn difficulty-easy" data-difficulty="easy" aria-label="Mark as easy">Easy</button>
+          <button class="difficulty-btn difficulty-medium" data-difficulty="medium" aria-label="Mark as medium">Medium</button>
+          <button class="difficulty-btn difficulty-hard" data-difficulty="hard" aria-label="Mark as hard">Hard</button>
         </div>
         <div class="tags">
           ${card.tags
@@ -600,6 +679,10 @@ function createFlashcardElement(card) {
       !e.target.classList.contains("read-more-btn")
     ) {
       cardEl.classList.toggle("flipped");
+      cardEl.setAttribute(
+        "aria-expanded",
+        cardEl.classList.contains("flipped")
+      );
     }
   });
 
@@ -615,6 +698,20 @@ function createFlashcardElement(card) {
     .addEventListener("click", (e) => {
       e.stopPropagation();
       toggleBookmark(card.id);
+      const bookmarkBtn =
+        cardEl.querySelector(".bookmark-btn");
+      bookmarkBtn.setAttribute(
+        "aria-label",
+        card.bookmarked
+          ? "Bookmark flashcard"
+          : "Remove bookmark"
+      );
+      bookmarkBtn.setAttribute(
+        "title",
+        card.bookmarked
+          ? "Bookmark flashcard"
+          : "Remove bookmark"
+      );
     });
 
   cardEl
@@ -626,13 +723,21 @@ function createFlashcardElement(card) {
       });
     });
 
-  // Add event listeners for "Read More" buttons
+  // Add event listeners for "Read More" buttons and check visibility
   cardEl
     .querySelectorAll(".read-more-btn")
     .forEach((btn) => {
+      const contentEl = btn.previousElementSibling;
+      console.log(
+        `Content: ${btn.dataset.target}, scrollHeight: ${contentEl.scrollHeight}, clientHeight: ${contentEl.clientHeight}`
+      );
+      if (
+        contentEl.scrollHeight <= contentEl.clientHeight
+      ) {
+        btn.style.display = "none";
+      }
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
-        const contentEl = btn.previousElementSibling;
         contentEl.classList.toggle("expanded");
         btn.textContent = contentEl.classList.contains(
           "expanded"
@@ -640,18 +745,6 @@ function createFlashcardElement(card) {
           ? "Read Less"
           : "Read More";
       });
-    });
-
-  // Initially hide "Read More" buttons if content fits
-  cardEl
-    .querySelectorAll(".card-content")
-    .forEach((contentEl) => {
-      const btn = contentEl.nextElementSibling;
-      if (
-        contentEl.scrollHeight <= contentEl.clientHeight
-      ) {
-        btn.style.display = "none";
-      }
     });
 
   return cardEl;
@@ -1112,9 +1205,9 @@ function openEditModal(card) {
   openModal("editCardModal");
 }
 
-// Save edited card
-function saveCardEdit() {
-  const id = elements.saveEditBtn.dataset.id;
+// Save edited card to backend
+async function saveCardEdit() {
+  const id = parseInt(elements.saveEditBtn.dataset.id);
   const question = elements.editQuestion.value.trim();
   const answer = elements.editAnswer.value.trim();
   const tags = elements.editTags.value
@@ -1130,61 +1223,144 @@ function saveCardEdit() {
     return;
   }
 
-  const cardIndex = state.flashcards.findIndex(
-    (c) => c.id == id
-  );
-  if (cardIndex !== -1) {
-    state.flashcards[cardIndex].question = question;
-    state.flashcards[cardIndex].answer = answer;
-    state.flashcards[cardIndex].tags = tags;
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          question,
+          answer,
+          tags,
+        }),
+      }
+    );
 
-    saveState();
-    renderFlashcards();
-    closeModal("editCardModal");
-    showToast("Flashcard updated successfully", "success");
+    if (response.ok) {
+      // Update local state
+      const cardIndex = state.flashcards.findIndex(
+        (c) => c.id === id
+      );
+      if (cardIndex !== -1) {
+        state.flashcards[cardIndex].question = question;
+        state.flashcards[cardIndex].answer = answer;
+        state.flashcards[cardIndex].tags = tags;
+      }
+
+      renderFlashcards();
+      closeModal("editCardModal");
+      showToast(
+        "Flashcard updated successfully",
+        "success"
+      );
+    } else {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.error || "Failed to update flashcard"
+      );
+    }
+  } catch (error) {
+    console.error("Error updating flashcard:", error);
+    showToast(
+      "Failed to update flashcard. Please try again.",
+      "error"
+    );
   }
 }
 
-// Toggle bookmark for a card
-function toggleBookmark(id) {
+// Toggle bookmark for a card with backend sync
+async function toggleBookmark(id) {
   const cardIndex = state.flashcards.findIndex(
     (c) => c.id == id
   );
-  if (cardIndex !== -1) {
-    state.flashcards[cardIndex].bookmarked =
-      !state.flashcards[cardIndex].bookmarked;
-    saveState();
-    renderFlashcards();
+  if (cardIndex === -1) return;
 
-    const action = state.flashcards[cardIndex].bookmarked
-      ? "bookmarked"
-      : "removed from bookmarks";
-    showToast(`Flashcard ${action}`, "success");
+  const newBookmarkState =
+    !state.flashcards[cardIndex].bookmarked;
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookmarked: newBookmarkState,
+        }),
+      }
+    );
+
+    if (response.ok) {
+      // Update local state
+      state.flashcards[cardIndex].bookmarked =
+        newBookmarkState;
+      renderFlashcards();
+
+      const action = newBookmarkState
+        ? "bookmarked"
+        : "removed from bookmarks";
+      showToast(`Flashcard ${action}`, "success");
+    } else {
+      throw new Error("Failed to update bookmark status");
+    }
+  } catch (error) {
+    console.error("Error updating bookmark:", error);
+    showToast(
+      "Failed to update bookmark. Please try again.",
+      "error"
+    );
   }
 }
 
-// Set difficulty for a card
-function setDifficulty(id, difficulty) {
+// Set difficulty for a card with backend sync
+async function setDifficulty(id, difficulty) {
   const cardIndex = state.flashcards.findIndex(
     (c) => c.id == id
   );
-  if (cardIndex !== -1) {
-    state.flashcards[cardIndex].difficulty = difficulty;
-    state.flashcards[cardIndex].lastReviewed =
-      new Date().toISOString();
-    state.flashcards[cardIndex].reviewCount =
-      (state.flashcards[cardIndex].reviewCount || 0) + 1;
+  if (cardIndex === -1) return;
 
-    saveState();
-    renderFlashcards();
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          difficulty,
+          lastReviewed: new Date().toISOString(),
+          reviewCount:
+            (state.flashcards[cardIndex].reviewCount || 0) +
+            1,
+        }),
+      }
+    );
 
-    // If in quiz mode, mark the difficulty button as selected
-    document
-      .querySelectorAll(".difficulty-btn")
-      .forEach((btn) => {
-        btn.classList.remove("selected");
-      });
-    event.target.classList.add("selected");
+    if (response.ok) {
+      // Update local state
+      state.flashcards[cardIndex].difficulty = difficulty;
+      state.flashcards[cardIndex].lastReviewed =
+        new Date().toISOString();
+      state.flashcards[cardIndex].reviewCount =
+        (state.flashcards[cardIndex].reviewCount || 0) + 1;
+
+      renderFlashcards();
+
+      // If in quiz mode, mark the difficulty button as selected
+      if (event && event.target) {
+        document
+          .querySelectorAll(".difficulty-btn")
+          .forEach((btn) => {
+            btn.classList.remove("selected");
+          });
+        event.target.classList.add("selected");
+      }
+    } else {
+      throw new Error("Failed to update difficulty");
+    }
+  } catch (error) {
+    console.error("Error updating difficulty:", error);
+    showToast("Failed to update difficulty", "error");
   }
 }
 
@@ -1332,20 +1508,57 @@ function exportPrint() {
   showToast("Print view opened in new window", "success");
 }
 
-// Delete selected flashcards
-function deleteSelectedFlashcards() {
-  state.flashcards = state.flashcards.filter(
-    (card) => !state.selectedFlashcards.has(card.id)
-  );
+// Delete selected flashcards from backend and local state
+async function deleteSelectedFlashcards() {
+  const selectedIds = Array.from(state.selectedFlashcards);
 
-  state.selectedFlashcards.clear();
+  if (selectedIds.length === 0) {
+    showToast(
+      "No flashcards selected for deletion",
+      "error"
+    );
+    return;
+  }
 
-  saveState();
-  renderFlashcards();
-  checkEmptyState();
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards`,
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: selectedIds }),
+      }
+    );
 
-  closeModal("deleteConfirmModal");
-  showToast("Flashcards deleted successfully", "success");
+    if (response.ok) {
+      // Update local state
+      state.flashcards = state.flashcards.filter(
+        (card) => !selectedIds.includes(card.id)
+      );
+      state.selectedFlashcards.clear();
+
+      renderFlashcards();
+      checkEmptyState();
+      updateProgressSidebar();
+
+      closeModal("deleteConfirmModal");
+      showToast(
+        `Deleted ${selectedIds.length} flashcards successfully`,
+        "success"
+      );
+    } else {
+      const errorData = await response.json();
+      throw new Error(
+        errorData.error || "Failed to delete flashcards"
+      );
+    }
+  } catch (error) {
+    console.error("Error deleting flashcards:", error);
+    showToast(
+      "Failed to delete flashcards. Please try again.",
+      "error"
+    );
+  }
 }
 
 // Show a toast notification
@@ -1467,6 +1680,20 @@ function shuffleArray(array) {
     [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
   }
   return newArray;
+}
+
+// Add error handling for network requests
+function handleNetworkError(error, fallbackMessage) {
+  if (
+    error.name === "TypeError" &&
+    error.message.includes("fetch")
+  ) {
+    return "Network error. Please check your connection and try again.";
+  }
+  return (
+    fallbackMessage ||
+    "An unexpected error occurred. Please try again."
+  );
 }
 
 // Initialize the app when DOM is loaded
