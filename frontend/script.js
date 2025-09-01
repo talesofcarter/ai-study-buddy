@@ -317,37 +317,39 @@ function setupEventListeners() {
 
 // Load state from backend and localStorage
 async function loadState() {
-  try {
-    // Load flashcards from backend
-    const response = await fetch(
-      `${API_BASE_URL}/flashcards`
-    );
-    if (response.ok) {
-      const flashcards = await response.json();
-      state.flashcards = flashcards;
-    } else {
-      console.error(
-        "Failed to load flashcards from server"
-      );
-      // Fall back to localStorage if available
-      const savedState = localStorage.getItem("asb:state");
-      if (savedState) {
-        const parsed = JSON.parse(savedState);
-        state.flashcards = parsed.flashcards || [];
-      }
-    }
-  } catch (error) {
-    console.error("Error loading flashcards:", error);
-    showToast(
-      "Failed to load flashcards from server",
-      "warning"
-    );
+  const backendAvailable = await checkBackendHealth();
 
-    // Fall back to localStorage
+  if (backendAvailable) {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/flashcards`
+      );
+      if (response.ok) {
+        const flashcards = await response.json();
+        state.flashcards = flashcards;
+        showToast(
+          "Flashcards loaded from server.",
+          "success"
+        );
+      } else {
+        throw new Error(
+          "Failed to load flashcards from server"
+        );
+      }
+    } catch (error) {
+      console.error("Error loading flashcards:", error);
+      showToast(
+        "Failed to load flashcards from server. Please check the backend.",
+        "warning"
+      );
+    }
+  } else {
+    // Keep localStorage fallback for other state like theme and progress
     const savedState = localStorage.getItem("asb:state");
     if (savedState) {
       const parsed = JSON.parse(savedState);
       state.flashcards = parsed.flashcards || [];
+      showToast("Running in offline mode.", "warning");
     }
   }
 
@@ -356,14 +358,11 @@ async function loadState() {
   if (savedTheme) {
     state.settings.theme = savedTheme;
   }
-
   const savedTextSize =
     localStorage.getItem("asb:textSize");
   if (savedTextSize) {
     state.settings.textSize = savedTextSize;
   }
-
-  // Load progress from localStorage for now
   const savedProgress =
     localStorage.getItem("asb:progress");
   if (savedProgress) {
@@ -381,9 +380,6 @@ function saveState() {
     "asb:progress",
     JSON.stringify(state.studyProgress)
   );
-
-  // Note: Flashcards are automatically saved to server when generated/modified
-  // No need to save them to localStorage anymore
 }
 
 // Apply theme preferences
@@ -633,113 +629,86 @@ function createFlashcardElement(card) {
       <div class="card-front">
         <div class="card-content">
           <span class="question-label">Question:</span>
-          <h3>${escapeHtml(card.question)}</h3>
+          <p>${escapeHtml(card.question)}</p>
         </div>
         <button class="read-more-btn" data-target="question">Read More</button>
         <div class="card-actions">
           <button class="card-action-btn edit-btn" title="Edit flashcard" aria-label="Edit flashcard">✍️</button>
           <button class="card-action-btn bookmark-btn" title="${
-            card.bookmarked
-              ? "Remove bookmark"
-              : "Bookmark flashcard"
+            card.bookmarked ? "Remove bookmark" : "Bookmark"
           }" aria-label="${
-    card.bookmarked
-      ? "Remove bookmark"
-      : "Bookmark flashcard"
-  }">${card.bookmarked ? "📕" : "📖"}</button>
+    card.bookmarked ? "Remove bookmark" : "Bookmark"
+  }">${card.bookmarked ? "★" : "☆"}</button>
         </div>
       </div>
       <div class="card-back">
         <div class="card-content">
-          <h3>${escapeHtml(card.answer)}</h3>
+          <span class="answer-label">Answer:</span>
+          <p>${escapeHtml(card.answer)}</p>
+          <span class="explanation-label">Explanation:</span>
+          <p>${escapeHtml(
+            card.explanation || "No explanation provided"
+          )}</p>
         </div>
         <button class="read-more-btn" data-target="answer">Read More</button>
-        <div class="card-content explanation">
-          <p>${escapeHtml(card.explanation || "")}</p>
+        <div class="card-actions">
+          <button class="card-action-btn edit-btn" title="Edit flashcard" aria-label="Edit flashcard">✍️</button>
+          <button class="card-action-btn bookmark-btn" title="${
+            card.bookmarked ? "Remove bookmark" : "Bookmark"
+          }" aria-label="${
+    card.bookmarked ? "Remove bookmark" : "Bookmark"
+  }">${card.bookmarked ? "★" : "☆"}</button>
         </div>
-        <button class="read-more-btn" data-target="explanation">Read More</button>
         <div class="difficulty-buttons">
-          <button class="difficulty-btn difficulty-easy" data-difficulty="easy" aria-label="Mark as easy">Easy</button>
-          <button class="difficulty-btn difficulty-medium" data-difficulty="medium" aria-label="Mark as medium">Medium</button>
-          <button class="difficulty-btn difficulty-hard" data-difficulty="hard" aria-label="Mark as hard">Hard</button>
-        </div>
-        <div class="tags">
-          ${card.tags
-            .map((tag) => `<span class="tag">${tag}</span>`)
-            .join("")}
+          <button class="difficulty-btn difficulty-easy" data-difficulty="easy">Easy</button>
+          <button class="difficulty-btn difficulty-medium" data-difficulty="medium">Medium</button>
+          <button class="difficulty-btn difficulty-hard" data-difficulty="hard">Hard</button>
         </div>
       </div>
     </div>
   `;
 
-  // Add event listeners
   cardEl.addEventListener("click", (e) => {
     if (
-      !e.target.closest(".card-action-btn") &&
-      !e.target.classList.contains("read-more-btn")
+      !e.target.classList.contains("card-action-btn") &&
+      !e.target.classList.contains("read-more-btn") &&
+      !e.target.classList.contains("difficulty-btn")
     ) {
       cardEl.classList.toggle("flipped");
       cardEl.setAttribute(
         "aria-expanded",
-        cardEl.classList.contains("flipped")
+        cardEl.classList.contains("flipped").toString()
       );
     }
   });
 
   cardEl
     .querySelector(".edit-btn")
-    .addEventListener("click", (e) => {
-      e.stopPropagation();
-      openEditModal(card);
-    });
-
+    .addEventListener("click", () => openEditModal(card));
   cardEl
     .querySelector(".bookmark-btn")
-    .addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleBookmark(card.id);
-      const bookmarkBtn =
-        cardEl.querySelector(".bookmark-btn");
-      bookmarkBtn.setAttribute(
-        "aria-label",
-        card.bookmarked
-          ? "Bookmark flashcard"
-          : "Remove bookmark"
-      );
-      bookmarkBtn.setAttribute(
-        "title",
-        card.bookmarked
-          ? "Bookmark flashcard"
-          : "Remove bookmark"
-      );
-    });
-
+    .addEventListener("click", () =>
+      toggleBookmark(card.id)
+    );
   cardEl
     .querySelectorAll(".difficulty-btn")
     .forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        e.stopPropagation();
         setDifficulty(card.id, btn.dataset.difficulty);
       });
     });
 
-  // Add event listeners for "Read More" buttons and check visibility
   cardEl
     .querySelectorAll(".read-more-btn")
     .forEach((btn) => {
-      const contentEl = btn.previousElementSibling;
-      console.log(
-        `Content: ${btn.dataset.target}, scrollHeight: ${contentEl.scrollHeight}, clientHeight: ${contentEl.clientHeight}`
-      );
-      if (
-        contentEl.scrollHeight <= contentEl.clientHeight
-      ) {
-        btn.style.display = "none";
-      }
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
-        contentEl.classList.toggle("expanded");
-        btn.textContent = contentEl.classList.contains(
+        const cardContent =
+          e.target.parentElement.querySelector(
+            ".card-content"
+          );
+        cardContent.classList.toggle("expanded");
+        btn.textContent = cardContent.classList.contains(
           "expanded"
         )
           ? "Read Less"
@@ -1015,10 +984,11 @@ function exitFocusMode() {
 // Show current card in focus mode
 function showFocusCard() {
   const card = state.focusModeCards[state.focusModeIndex];
-  elements.focusQuestion.textContent = card.question;
-  elements.focusAnswer.textContent = card.answer;
-  elements.focusExplanation.textContent =
-    card.explanation || "";
+  elements.focusQuestion.textContent = `Question: ${card.question}`;
+  elements.focusAnswer.textContent = `Answer: ${card.answer}`;
+  elements.focusExplanation.textContent = `Explanation: ${
+    card.explanation || "No explanation provided"
+  }`;
 
   elements.focusMode
     .querySelector(".card")
@@ -1238,16 +1208,8 @@ async function saveCardEdit() {
     );
 
     if (response.ok) {
-      // Update local state
-      const cardIndex = state.flashcards.findIndex(
-        (c) => c.id === id
-      );
-      if (cardIndex !== -1) {
-        state.flashcards[cardIndex].question = question;
-        state.flashcards[cardIndex].answer = answer;
-        state.flashcards[cardIndex].tags = tags;
-      }
-
+      // Update local state by reloading from server
+      await loadState();
       renderFlashcards();
       closeModal("editCardModal");
       showToast(
@@ -1271,13 +1233,10 @@ async function saveCardEdit() {
 
 // Toggle bookmark for a card with backend sync
 async function toggleBookmark(id) {
-  const cardIndex = state.flashcards.findIndex(
-    (c) => c.id == id
-  );
-  if (cardIndex === -1) return;
+  const card = state.flashcards.find((c) => c.id == id);
+  if (!card) return;
 
-  const newBookmarkState =
-    !state.flashcards[cardIndex].bookmarked;
+  const newBookmarkState = !card.bookmarked;
 
   try {
     const response = await fetch(
@@ -1292,9 +1251,8 @@ async function toggleBookmark(id) {
     );
 
     if (response.ok) {
-      // Update local state
-      state.flashcards[cardIndex].bookmarked =
-        newBookmarkState;
+      // Update local state by reloading from server
+      await loadState();
       renderFlashcards();
 
       const action = newBookmarkState
@@ -1315,10 +1273,8 @@ async function toggleBookmark(id) {
 
 // Set difficulty for a card with backend sync
 async function setDifficulty(id, difficulty) {
-  const cardIndex = state.flashcards.findIndex(
-    (c) => c.id == id
-  );
-  if (cardIndex === -1) return;
+  const card = state.flashcards.find((c) => c.id == id);
+  if (!card) return;
 
   try {
     const response = await fetch(
@@ -1329,21 +1285,14 @@ async function setDifficulty(id, difficulty) {
         body: JSON.stringify({
           difficulty,
           lastReviewed: new Date().toISOString(),
-          reviewCount:
-            (state.flashcards[cardIndex].reviewCount || 0) +
-            1,
+          reviewCount: (card.reviewCount || 0) + 1,
         }),
       }
     );
 
     if (response.ok) {
-      // Update local state
-      state.flashcards[cardIndex].difficulty = difficulty;
-      state.flashcards[cardIndex].lastReviewed =
-        new Date().toISOString();
-      state.flashcards[cardIndex].reviewCount =
-        (state.flashcards[cardIndex].reviewCount || 0) + 1;
-
+      // Update local state by reloading from server
+      await loadState();
       renderFlashcards();
 
       // If in quiz mode, mark the difficulty button as selected
@@ -1531,12 +1480,8 @@ async function deleteSelectedFlashcards() {
     );
 
     if (response.ok) {
-      // Update local state
-      state.flashcards = state.flashcards.filter(
-        (card) => !selectedIds.includes(card.id)
-      );
-      state.selectedFlashcards.clear();
-
+      // Update local state by reloading from server
+      await loadState();
       renderFlashcards();
       checkEmptyState();
       updateProgressSidebar();
