@@ -18,13 +18,3 @@ CREATE TABLE
     ) DEFAULT CHARACTER
 SET
     utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-SELECT
-    id,
-    question,
-    answer,
-    explanation,
-    bookMarked,
-    difficulty
-FROM
-    flashcards;
