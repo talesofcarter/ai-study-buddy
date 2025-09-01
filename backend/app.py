@@ -294,12 +294,14 @@ def generate_flashcards():
 
         formatted_flashcards.append(
             {
+                # Generate a simple, unique ID for each card
+                "id": str(uuid.uuid4()),
                 "question": str(card["question"]),
                 "answer": str(card["answer"]),
                 "explanation": str(card.get("explanation", "")),
                 "tags": subjects,
                 "difficulty": "neutral",
-                "created_at": datetime.datetime.now(datetime.timezone.utc),
+                "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
                 "bookmarked": False,
                 "review_count": 0,
                 "last_reviewed": None,
@@ -316,19 +318,59 @@ def generate_flashcards():
             500,
         )
 
-    if add_flashcards_to_db(formatted_flashcards):
-        return jsonify({"message": "Flashcards generated and saved successfully!"}), 201
-    else:
+    # Save formatted cards to the database
+    db_cards = []
+    for card in formatted_flashcards:
+        db_cards.append(
+            {
+                "question": card["question"],
+                "answer": card["answer"],
+                "explanation": card["explanation"],
+                "tags": card["tags"],
+                "difficulty": card["difficulty"],
+                "created_at": datetime.datetime.fromisoformat(card["created_at"]),
+                "bookmarked": card["bookmarked"],
+                "review_count": card["review_count"],
+                "last_reviewed": None,
+            }
+        )
+
+    if not add_flashcards_to_db(db_cards):
         return (
             jsonify({"error": "Failed to save flashcards to the database."}),
             500,
         )
 
+    # Return the generated cards to the frontend
+    return jsonify({"flashcards": formatted_flashcards}), 201
+
 
 @app.route("/api/flashcards", methods=["GET"])
 def get_flashcards():
     flashcards = get_all_flashcards_from_db()
-    return jsonify(flashcards), 200
+
+    # Format flashcards for frontend
+    formatted_flashcards = []
+    for card in flashcards:
+        formatted_flashcards.append(
+            {
+                "id": card["id"],
+                "question": card["question"],
+                "answer": card["answer"],
+                "explanation": card["explanation"],
+                "tags": card["tags"],
+                "difficulty": card["difficulty"],
+                "createdAt": (
+                    card["created_at"].isoformat() if card["created_at"] else None
+                ),
+                "bookmarked": card["bookmarked"],
+                "reviewCount": card["review_count"],
+                "lastReviewed": (
+                    card["last_reviewed"].isoformat() if card["last_reviewed"] else None
+                ),
+            }
+        )
+    return jsonify(formatted_flashcards), 200
 
 
 @app.route("/api/flashcards/<int:card_id>", methods=["PUT"])

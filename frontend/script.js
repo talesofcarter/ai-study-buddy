@@ -761,7 +761,6 @@ function updateSelectionUI() {
   const hasSelection = state.selectedFlashcards.size > 0;
   elements.deleteSelectedBtn.disabled = !hasSelection;
   elements.exportBtn.disabled = !hasSelection;
-
   elements.selectAllBtn.textContent =
     state.selectedFlashcards.size ===
     state.flashcards.length
@@ -782,7 +781,6 @@ function closeModal(modalId) {
 // Start quiz with selected or all flashcards
 function startQuiz() {
   let quizFlashcards = [];
-
   if (state.selectedFlashcards.size > 0) {
     quizFlashcards = state.flashcards.filter((card) =>
       state.selectedFlashcards.has(card.id)
@@ -790,7 +788,6 @@ function startQuiz() {
   } else {
     quizFlashcards = [...state.flashcards];
   }
-
   if (quizFlashcards.length === 0) {
     showToast(
       "Please select flashcards to quiz or generate some first",
@@ -798,7 +795,6 @@ function startQuiz() {
     );
     return;
   }
-
   // Initialize quiz state
   state.currentQuiz = {
     cards: shuffleArray(quizFlashcards),
@@ -827,7 +823,6 @@ function exitQuiz() {
 function showQuizQuestion() {
   const { cards, currentIndex } = state.currentQuiz;
   const card = cards[currentIndex];
-
   elements.quizProgress.textContent = `Question ${
     currentIndex + 1
   } of ${cards.length}`;
@@ -838,7 +833,6 @@ function showQuizQuestion() {
   elements.quizAnswer.textContent = card.answer;
   elements.quizExplanation.textContent =
     card.explanation || "";
-
   elements.quizCard.classList.remove("flipped");
   elements.revealAnswerBtn.style.display = "block";
   elements.nextQuestionBtn.style.display = "none";
@@ -874,7 +868,6 @@ function nextQuestion() {
 
   // Move to next question or finish quiz
   state.currentQuiz.currentIndex++;
-
   if (
     state.currentQuiz.currentIndex <
     state.currentQuiz.cards.length
@@ -888,7 +881,6 @@ function nextQuestion() {
 // Finish quiz and show results
 function finishQuiz() {
   state.currentQuiz.endTime = new Date();
-
   // Calculate stats
   const timeSpent = Math.round(
     (state.currentQuiz.endTime -
@@ -952,7 +944,6 @@ function finishQuiz() {
 // Enter focus mode
 function enterFocusMode() {
   let focusFlashcards = [];
-
   if (state.selectedFlashcards.size > 0) {
     focusFlashcards = state.flashcards.filter((card) =>
       state.selectedFlashcards.has(card.id)
@@ -960,7 +951,6 @@ function enterFocusMode() {
   } else {
     focusFlashcards = [...state.flashcards];
   }
-
   if (focusFlashcards.length === 0) {
     showToast(
       "Please select flashcards for focus mode or generate some first",
@@ -968,11 +958,9 @@ function enterFocusMode() {
     );
     return;
   }
-
-  // Set up focus mode
+  // Set up focus mode state
   state.focusModeCards = shuffleArray(focusFlashcards);
   state.focusModeIndex = 0;
-
   showFocusCard();
   elements.focusMode.style.display = "flex";
 }
@@ -990,7 +978,6 @@ function showFocusCard() {
   elements.focusExplanation.textContent = `Explanation: ${
     card.explanation || "No explanation provided"
   }`;
-
   elements.focusMode
     .querySelector(".card")
     .classList.remove("flipped");
@@ -1005,10 +992,127 @@ function flipFocusCard() {
 
 // Move to next card in focus mode
 function nextFocusCard() {
-  state.focusModeIndex =
-    (state.focusModeIndex + 1) %
-    state.focusModeCards.length;
+  state.focusModeIndex++;
+  if (state.focusModeIndex >= state.focusModeCards.length) {
+    state.focusModeIndex = 0; // Loop back to the start
+  }
   showFocusCard();
+}
+
+// Handle card bookmarking
+async function toggleBookmark(cardId) {
+  const card = state.flashcards.find(
+    (c) => c.id === cardId
+  );
+  if (!card) return;
+
+  const newBookmarkState = !card.bookmarked;
+  const update = { bookmarked: newBookmarkState };
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards/${cardId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(update),
+      }
+    );
+
+    if (response.ok) {
+      card.bookmarked = newBookmarkState;
+      renderFlashcards();
+      showToast(
+        `Card ${
+          newBookmarkState ? "bookmarked" : "unbookmarked"
+        } successfully`,
+        "success"
+      );
+    } else {
+      throw new Error(
+        "Failed to update bookmark status on server"
+      );
+    }
+  } catch (error) {
+    console.error("Error toggling bookmark:", error);
+    showToast("Failed to update bookmark.", "error");
+  }
+}
+
+// Handle difficulty setting
+async function setDifficulty(cardId, difficulty) {
+  const card = state.flashcards.find(
+    (c) => c.id === cardId
+  );
+  if (!card) return;
+
+  const update = { difficulty: difficulty };
+
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/flashcards/${cardId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(update),
+      }
+    );
+
+    if (response.ok) {
+      card.difficulty = difficulty;
+      renderFlashcards();
+      showToast(
+        "Difficulty updated successfully",
+        "success"
+      );
+    } else {
+      throw new Error(
+        "Failed to update difficulty on server"
+      );
+    }
+  } catch (error) {
+    console.error("Error setting difficulty:", error);
+    showToast("Failed to update difficulty.", "error");
+  }
+}
+
+// Update study progress
+function updateStudyProgress(cardsReviewed) {
+  state.studyProgress.totalReviewed += cardsReviewed;
+  const today = new Date().toDateString();
+  if (state.studyProgress.lastStudyDate !== today) {
+    // New day
+    state.studyProgress.studiedToday = cardsReviewed;
+    state.studyProgress.currentStreak++;
+    state.studyProgress.lastStudyDate = today;
+  } else {
+    // Same day
+    state.studyProgress.studiedToday += cardsReviewed;
+  }
+  // Simplified mastery level calculation
+  const newMastery = Math.min(
+    100,
+    state.studyProgress.masteryLevel +
+      Math.round(cardsReviewed * 1.5)
+  );
+  state.studyProgress.masteryLevel = newMastery;
+
+  // Save updated progress
+  saveState();
+  updateProgressSidebar();
+}
+
+// Reset today's progress
+function resetTodayProgress() {
+  state.studyProgress.studiedToday = 0;
+  state.studyProgress.lastStudyDate = null;
+  saveState();
+  updateProgressSidebar();
+  showToast("Today's progress has been reset.", "info");
 }
 
 // Toggle sidebar visibility
@@ -1016,457 +1120,94 @@ function toggleSidebar() {
   elements.progressSidebar.classList.toggle("open");
 }
 
-// Update study progress stats
-function updateStudyProgress(cardsStudied = 0) {
-  // Update today's study count
-  const today = new Date().toDateString();
-  if (state.studyProgress.lastStudyDate !== today) {
-    // Check if we're maintaining a streak (studied yesterday)
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const yesterdayStr = yesterday.toDateString();
-
-    if (
-      state.studyProgress.lastStudyDate === yesterdayStr
-    ) {
-      state.studyProgress.currentStreak++;
-    } else if (
-      state.studyProgress.lastStudyDate !== today
-    ) {
-      state.studyProgress.currentStreak = 1;
-    }
-
-    state.studyProgress.lastStudyDate = today;
-    state.studyProgress.studiedToday = 0;
-  }
-
-  state.studyProgress.studiedToday += cardsStudied;
-  state.studyProgress.totalReviewed += cardsStudied;
-
-  // Calculate mastery level (simplified)
-  const difficultyScores = {
-    easy: 1,
-    medium: 0.7,
-    hard: 0.3,
-    neutral: 0.5,
-  };
-
-  const totalScore = state.flashcards.reduce(
-    (sum, card) => {
-      return (
-        sum + (difficultyScores[card.difficulty] || 0.5)
-      );
-    },
-    0
-  );
-
-  const maxScore = state.flashcards.length;
-  state.studyProgress.masteryLevel = Math.round(
-    (totalScore / maxScore) * 100
-  );
-
-  // Calculate subject mastery
-  state.studyProgress.subjectMastery = {};
-  state.flashcards.forEach((card) => {
-    card.tags.forEach((tag) => {
-      if (!state.studyProgress.subjectMastery[tag]) {
-        state.studyProgress.subjectMastery[tag] = {
-          total: 0,
-          score: 0,
-        };
-      }
-
-      state.studyProgress.subjectMastery[tag].total++;
-      state.studyProgress.subjectMastery[tag].score +=
-        difficultyScores[card.difficulty] || 0.5;
-    });
-  });
-
-  // Convert to percentages
-  Object.keys(state.studyProgress.subjectMastery).forEach(
-    (tag) => {
-      const subject =
-        state.studyProgress.subjectMastery[tag];
-      subject.percentage = Math.round(
-        (subject.score / subject.total) * 100
-      );
-    }
-  );
-
-  saveState();
-  updateProgressSidebar();
-}
-
-// Update progress sidebar with current stats
+// Update progress sidebar display
 function updateProgressSidebar() {
   elements.totalCards.textContent = state.flashcards.length;
   elements.studiedToday.textContent =
     state.studyProgress.studiedToday;
-  elements.masteryLevel.textContent = `${state.studyProgress.masteryLevel}%`;
+  elements.masteryLevel.textContent =
+    state.studyProgress.masteryLevel;
   elements.currentStreak.textContent =
     state.studyProgress.currentStreak;
 
-  // Update subject mastery
-  elements.subjectMastery.innerHTML = "";
-  Object.entries(
-    state.studyProgress.subjectMastery
-  ).forEach(([tag, data]) => {
-    const masteryEl = document.createElement("div");
-    masteryEl.className = "subject-mastery";
-    masteryEl.innerHTML = `
-                    <div style="display: flex; justify-content: space-between;">
-                        <span>${tag}</span>
-                        <span>${data.percentage}%</span>
-                    </div>
-                    <div class="mastery-bar">
-                        <div class="mastery-fill" style="width: ${data.percentage}%"></div>
-                    </div>
-                `;
-    elements.subjectMastery.appendChild(masteryEl);
-  });
-
-  // Update recent sets (simplified)
-  elements.recentSets.innerHTML = "";
-  const recentSubjects = {};
-
+  const allTags = new Set();
   state.flashcards.forEach((card) => {
-    card.tags.forEach((tag) => {
-      if (!recentSubjects[tag]) {
-        recentSubjects[tag] = {
-          count: 0,
-          lastDate: card.createdAt,
-        };
-      }
-      recentSubjects[tag].count++;
-      if (card.createdAt > recentSubjects[tag].lastDate) {
-        recentSubjects[tag].lastDate = card.createdAt;
-      }
-    });
+    card.tags.forEach((tag) => allTags.add(tag));
   });
 
-  Object.entries(recentSubjects).forEach(([tag, data]) => {
-    const setEl = document.createElement("div");
-    setEl.className = "recent-set";
-    setEl.innerHTML = `
-                    <div><strong>${tag}</strong></div>
-                    <div>${data.count} cards</div>
-                    <div>${new Date(
-                      data.lastDate
-                    ).toLocaleDateString()}</div>
-                `;
-    elements.recentSets.appendChild(setEl);
+  elements.subjectMastery.innerHTML = "";
+  allTags.forEach((tag) => {
+    const li = document.createElement("li");
+    const mastery =
+      state.studyProgress.subjectMastery[tag] || 0;
+    li.textContent = `${tag}: ${mastery}%`;
+    elements.subjectMastery.appendChild(li);
   });
 }
 
-// Reset today's progress
-function resetTodayProgress() {
-  state.studyProgress.studiedToday = 0;
-  saveState();
-  updateProgressSidebar();
-  showToast("Today's progress has been reset", "success");
-}
-
-// Open edit modal for a card
+// Open and populate the edit modal
 function openEditModal(card) {
+  state.editingCardId = card.id;
   elements.editQuestion.value = card.question;
   elements.editAnswer.value = card.answer;
   elements.editTags.value = card.tags.join(", ");
-  elements.saveEditBtn.dataset.id = card.id;
-
   openModal("editCardModal");
 }
 
-// Save edited card to backend
+// Save edited card
 async function saveCardEdit() {
-  const id = parseInt(elements.saveEditBtn.dataset.id);
-  const question = elements.editQuestion.value.trim();
-  const answer = elements.editAnswer.value.trim();
-  const tags = elements.editTags.value
-    .split(",")
-    .map((t) => t.trim())
-    .filter((t) => t);
+  const cardId = state.editingCardId;
+  const card = state.flashcards.find(
+    (c) => c.id === cardId
+  );
+  if (!card) return;
 
-  if (!question || !answer) {
-    showToast(
-      "Question and answer cannot be empty",
-      "error"
-    );
-    return;
-  }
+  const updatedCard = {
+    question: elements.editQuestion.value,
+    answer: elements.editAnswer.value,
+    tags: elements.editTags.value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag),
+  };
 
   try {
     const response = await fetch(
-      `${API_BASE_URL}/flashcards/${id}`,
+      `${API_BASE_URL}/flashcards/${cardId}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          question,
-          answer,
-          tags,
-        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCard),
       }
     );
 
     if (response.ok) {
-      // Update local state by reloading from server
-      await loadState();
+      // Update local state
+      card.question = updatedCard.question;
+      card.answer = updatedCard.answer;
+      card.tags = updatedCard.tags;
       renderFlashcards();
-      closeModal("editCardModal");
       showToast(
         "Flashcard updated successfully",
         "success"
       );
+      closeModal("editCardModal");
     } else {
-      const errorData = await response.json();
-      throw new Error(
-        errorData.error || "Failed to update flashcard"
-      );
+      throw new Error("Failed to save changes on server");
     }
   } catch (error) {
-    console.error("Error updating flashcard:", error);
-    showToast(
-      "Failed to update flashcard. Please try again.",
-      "error"
-    );
+    console.error("Error saving card edit:", error);
+    showToast("Failed to save changes.", "error");
   }
 }
 
-// Toggle bookmark for a card with backend sync
-async function toggleBookmark(id) {
-  const card = state.flashcards.find((c) => c.id == id);
-  if (!card) return;
-
-  const newBookmarkState = !card.bookmarked;
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/flashcards/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          bookmarked: newBookmarkState,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      // Update local state by reloading from server
-      await loadState();
-      renderFlashcards();
-
-      const action = newBookmarkState
-        ? "bookmarked"
-        : "removed from bookmarks";
-      showToast(`Flashcard ${action}`, "success");
-    } else {
-      throw new Error("Failed to update bookmark status");
-    }
-  } catch (error) {
-    console.error("Error updating bookmark:", error);
-    showToast(
-      "Failed to update bookmark. Please try again.",
-      "error"
-    );
-  }
-}
-
-// Set difficulty for a card with backend sync
-async function setDifficulty(id, difficulty) {
-  const card = state.flashcards.find((c) => c.id == id);
-  if (!card) return;
-
-  try {
-    const response = await fetch(
-      `${API_BASE_URL}/flashcards/${id}`,
-      {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          difficulty,
-          lastReviewed: new Date().toISOString(),
-          reviewCount: (card.reviewCount || 0) + 1,
-        }),
-      }
-    );
-
-    if (response.ok) {
-      // Update local state by reloading from server
-      await loadState();
-      renderFlashcards();
-
-      // If in quiz mode, mark the difficulty button as selected
-      if (event && event.target) {
-        document
-          .querySelectorAll(".difficulty-btn")
-          .forEach((btn) => {
-            btn.classList.remove("selected");
-          });
-        event.target.classList.add("selected");
-      }
-    } else {
-      throw new Error("Failed to update difficulty");
-    }
-  } catch (error) {
-    console.error("Error updating difficulty:", error);
-    showToast("Failed to update difficulty", "error");
-  }
-}
-
-// Export flashcards as JSON
-function exportJson() {
-  const selectedCards = state.flashcards.filter((card) =>
-    state.selectedFlashcards.has(card.id)
-  );
-
-  if (selectedCards.length === 0) {
-    showToast("No flashcards selected for export", "error");
-    return;
-  }
-
-  const dataStr = JSON.stringify(selectedCards, null, 2);
-  const dataUri =
-    "data:application/json;charset=utf-8," +
-    encodeURIComponent(dataStr);
-
-  const exportFileDefaultName = "flashcards.json";
-
-  const linkElement = document.createElement("a");
-  linkElement.setAttribute("href", dataUri);
-  linkElement.setAttribute(
-    "download",
-    exportFileDefaultName
-  );
-  linkElement.click();
-
-  closeModal("exportModal");
-  showToast("Exported as JSON successfully", "success");
-}
-
-// Export flashcards as CSV
-function exportCsv() {
-  const selectedCards = state.flashcards.filter((card) =>
-    state.selectedFlashcards.has(card.id)
-  );
-
-  if (selectedCards.length === 0) {
-    showToast("No flashcards selected for export", "error");
-    return;
-  }
-
-  const headers = [
-    "Question",
-    "Answer",
-    "Tags",
-    "Difficulty",
-    "CreatedAt",
-  ];
-  const csvData = selectedCards.map((card) => [
-    card.question,
-    card.answer,
-    card.tags.join(";"),
-    card.difficulty,
-    card.createdAt,
-  ]);
-
-  const csvContent = [headers, ...csvData]
-    .map((row) =>
-      row
-        .map((field) => `"${field.replace(/"/g, '""')}"`)
-        .join(",")
-    )
-    .join("\n");
-
-  const dataUri =
-    "data:text/csv;charset=utf-8," +
-    encodeURIComponent(csvContent);
-
-  const exportFileDefaultName = "flashcards.csv";
-
-  const linkElement = document.createElement("a");
-  linkElement.setAttribute("href", dataUri);
-  linkElement.setAttribute(
-    "download",
-    exportFileDefaultName
-  );
-  linkElement.click();
-
-  closeModal("exportModal");
-  showToast("Exported as CSV successfully", "success");
-}
-
-// Export flashcards for printing
-function exportPrint() {
-  const selectedCards = state.flashcards.filter((card) =>
-    state.selectedFlashcards.has(card.id)
-  );
-
-  if (selectedCards.length === 0) {
-    showToast("No flashcards selected for export", "error");
-    return;
-  }
-
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write(`
-                <html>
-                    <head>
-                        <title>AI Study Buddy - Flashcards</title>
-                        <style>
-                            body { font-family: Arial, sans-serif; padding: 20px; }
-                            .flashcard { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; break-inside: avoid; }
-                            .question { font-weight: bold; margin-bottom: 10px; }
-                            .answer { margin-bottom: 10px; }
-                            .tags { font-style: italic; color: #666; }
-                            @media print {
-                                body { padding: 0; }
-                                .flashcard { page-break-inside: avoid; }
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>AI Study Buddy Flashcards</h1>
-                        <p>Generated on ${new Date().toLocaleDateString()}</p>
-                        <hr>
-                        ${selectedCards
-                          .map(
-                            (card) => `
-                            <div class="flashcard">
-                                <div class="question">${escapeHtml(
-                                  card.question
-                                )}</div>
-                                <div class="answer">${escapeHtml(
-                                  card.answer
-                                )}</div>
-                                <div class="tags">Tags: ${card.tags.join(
-                                  ", "
-                                )} | Difficulty: ${
-                              card.difficulty
-                            }</div>
-                            </div>
-                        `
-                          )
-                          .join("")}
-                    </body>
-                </html>
-            `);
-
-  printWindow.document.close();
-  printWindow.focus();
-
-  closeModal("exportModal");
-  showToast("Print view opened in new window", "success");
-}
-
-// Delete selected flashcards from backend and local state
+// Delete selected flashcards
 async function deleteSelectedFlashcards() {
-  const selectedIds = Array.from(state.selectedFlashcards);
-
-  if (selectedIds.length === 0) {
-    showToast(
-      "No flashcards selected for deletion",
-      "error"
-    );
+  const idsToDelete = Array.from(state.selectedFlashcards);
+  if (idsToDelete.length === 0) {
+    closeModal("deleteConfirmModal");
     return;
   }
 
@@ -1475,116 +1216,234 @@ async function deleteSelectedFlashcards() {
       `${API_BASE_URL}/flashcards`,
       {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ids: selectedIds }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ids: idsToDelete }),
       }
     );
 
     if (response.ok) {
-      // Update local state by reloading from server
-      await loadState();
+      state.flashcards = state.flashcards.filter(
+        (card) => !idsToDelete.includes(card.id)
+      );
+      state.selectedFlashcards.clear();
       renderFlashcards();
       checkEmptyState();
-      updateProgressSidebar();
-
-      closeModal("deleteConfirmModal");
       showToast(
-        `Deleted ${selectedIds.length} flashcards successfully`,
+        `Deleted ${idsToDelete.length} flashcard(s)`,
         "success"
       );
+      closeModal("deleteConfirmModal");
     } else {
-      const errorData = await response.json();
       throw new Error(
-        errorData.error || "Failed to delete flashcards"
+        "Failed to delete flashcards from server"
       );
     }
   } catch (error) {
     console.error("Error deleting flashcards:", error);
-    showToast(
-      "Failed to delete flashcards. Please try again.",
-      "error"
-    );
+    showToast("Failed to delete flashcards.", "error");
+    closeModal("deleteConfirmModal");
   }
 }
 
-// Show a toast notification
-function showToast(message, type = "success") {
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `
-                <span>${message}</span>
-            `;
+// Export functions
+function exportJson() {
+  const selectedCards = state.flashcards.filter((card) =>
+    state.selectedFlashcards.has(card.id)
+  );
+  if (selectedCards.length === 0) {
+    showToast(
+      "Please select flashcards to export",
+      "error"
+    );
+    return;
+  }
+  const json = JSON.stringify(selectedCards, null, 2);
+  const blob = new Blob([json], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "flashcards.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("Flashcards exported as JSON", "success");
+  closeModal("exportModal");
+}
 
+function exportCsv() {
+  const selectedCards = state.flashcards.filter((card) =>
+    state.selectedFlashcards.has(card.id)
+  );
+  if (selectedCards.length === 0) {
+    showToast(
+      "Please select flashcards to export",
+      "error"
+    );
+    return;
+  }
+  let csv = "id,question,answer,explanation,tags\n";
+  selectedCards.forEach((card) => {
+    const row = [
+      `"${card.id}"`,
+      `"${card.question.replace(/"/g, '""')}"`,
+      `"${card.answer.replace(/"/g, '""')}"`,
+      `"${card.explanation.replace(/"/g, '""')}"`,
+      `"${card.tags.join(", ").replace(/"/g, '""')}"`,
+    ].join(",");
+    csv += `${row}\n`;
+  });
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "flashcards.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("Flashcards exported as CSV", "success");
+  closeModal("exportModal");
+}
+
+function exportPrint() {
+  const selectedCards = state.flashcards.filter((card) =>
+    state.selectedFlashcards.has(card.id)
+  );
+  if (selectedCards.length === 0) {
+    showToast("Please select flashcards to print", "error");
+    return;
+  }
+  const printContent = selectedCards
+    .map(
+      (card) => `
+    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; page-break-inside: avoid;">
+      <h3>Question:</h3>
+      <p>${escapeHtml(card.question)}</p>
+      <h3>Answer:</h3>
+      <p>${escapeHtml(card.answer)}</p>
+      <p style="font-size: 0.8em; color: #666;">Explanation: ${escapeHtml(
+        card.explanation
+      )}</p>
+    </div>
+  `
+    )
+    .join("");
+
+  const printWindow = window.open("", "_blank");
+  printWindow.document.write(`
+    <html>
+    <head>
+      <title>Print Flashcards</title>
+      <style>
+        body { font-family: sans-serif; }
+        @media print {
+          @page { size: A4; margin: 1cm; }
+          body { font-size: 10pt; }
+        }
+      </style>
+    </head>
+    <body>
+      <h1>My Flashcards</h1>
+      ${printContent}
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
+  printWindow.print();
+  closeModal("exportModal");
+}
+
+// Show a toast notification
+function showToast(message, type = "info") {
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+  toast.textContent = message;
   elements.toastContainer.appendChild(toast);
 
-  // Remove toast after animation
   setTimeout(() => {
-    toast.remove();
+    toast.classList.add("show");
+  }, 10);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    toast.classList.add("hide");
+    setTimeout(() => toast.remove(), 500); // Wait for transition
   }, 3000);
 }
 
 // Handle keyboard shortcuts
 function handleKeyboardShortcuts(e) {
-  // Don't trigger if typing in an input
-  if (
-    e.target.tagName === "TEXTAREA" ||
-    e.target.tagName === "INPUT"
-  ) {
+  // Check if we are in quiz mode
+  if (elements.quizContainer.style.display === "block") {
+    switch (e.key) {
+      case " ":
+        // Spacebar to reveal answer
+        if (
+          elements.revealAnswerBtn.style.display === "block"
+        ) {
+          elements.revealAnswerBtn.click();
+          e.preventDefault();
+        }
+        break;
+
+      case "ArrowRight":
+      case "Enter":
+        // Right Arrow or Enter to go to next question
+        if (
+          elements.nextQuestionBtn.style.display === "block"
+        ) {
+          elements.nextQuestionBtn.click();
+          e.preventDefault();
+        }
+        break;
+
+      case "1":
+      case "2":
+      case "3":
+        // 1, 2, 3 for difficulty
+        const difficultyMap = {
+          1: "easy",
+          2: "medium",
+          3: "hard",
+        };
+        const difficulty = difficultyMap[e.key];
+        if (difficulty) {
+          document
+            .querySelector(
+              `.difficulty-btn[data-difficulty="${difficulty}"]`
+            )
+            .click();
+        }
+        break;
+    }
     return;
   }
 
+  // Handle shortcuts in workspace mode
   switch (e.key) {
+    case "d":
+      // Toggle dark mode
+      toggleTheme();
+      break;
+
     case "Escape":
-      // Close any open modals
+      // Close all modals
       document
-        .querySelectorAll(".modal-overlay.open")
-        .forEach((modal) => {
-          closeModal(modal.id);
-        });
-      // Exit focus mode if active
-      if (elements.focusMode.style.display === "flex") {
-        exitFocusMode();
-      }
+        .querySelectorAll(".modal.open")
+        .forEach((modal) => modal.classList.remove("open"));
       break;
 
-    case " ":
-    case "Enter":
-      // Flip card if in quiz mode
-      if (
-        elements.quizContainer.style.display === "block" &&
-        !elements.quizCard.classList.contains("flipped")
-      ) {
-        revealAnswer();
-        e.preventDefault();
-      }
-      // Flip card if in focus mode
-      else if (
-        elements.focusMode.style.display === "flex"
-      ) {
-        flipFocusCard();
-        e.preventDefault();
-      }
+    case "a":
+      // Select all cards
+      toggleSelectAll();
+      e.preventDefault();
       break;
 
-    case "1":
-    case "2":
-    case "3":
-      // Set difficulty in quiz mode
-      if (
-        elements.quizContainer.style.display === "block" &&
-        elements.quizCard.classList.contains("flipped")
-      ) {
-        const difficulty =
-          e.key === "1"
-            ? "easy"
-            : e.key === "2"
-            ? "medium"
-            : "hard";
-        document
-          .querySelector(
-            `.difficulty-btn[data-difficulty="${difficulty}"]`
-          )
-          .click();
+    case "Delete":
+      // Delete selected
+      if (!elements.deleteSelectedBtn.disabled) {
+        openModal("deleteConfirmModal");
       }
       break;
 
@@ -1631,16 +1490,17 @@ function shuffleArray(array) {
 // Add error handling for network requests
 function handleNetworkError(error, fallbackMessage) {
   if (
-    error.name === "TypeError" &&
-    error.message.includes("fetch")
+    error.name === "TypeError" ||
+    error.message === "Failed to fetch"
   ) {
-    return "Network error. Please check your connection and try again.";
+    showToast(
+      "Network error or backend is down. Please check your connection.",
+      "error"
+    );
+  } else {
+    showToast(fallbackMessage || error.message, "error");
   }
-  return (
-    fallbackMessage ||
-    "An unexpected error occurred. Please try again."
-  );
 }
 
-// Initialize the app when DOM is loaded
+// Initializing the app
 document.addEventListener("DOMContentLoaded", init);
