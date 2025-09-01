@@ -5,7 +5,6 @@ import datetime
 import uuid
 import re
 
-# NEW: Import psycopg2 for PostgreSQL connection
 import psycopg2
 import psycopg2.pool
 import psycopg2.extras
@@ -47,7 +46,6 @@ def setup_database():
     try:
         connection = db_pool.getconn()
         cursor = connection.cursor()
-        # Adjusted for PostgreSQL syntax with SERIAL for auto-incrementing ID
         cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS flashcards (
@@ -76,12 +74,7 @@ def setup_database():
 
 
 # --- Helper Functions ---
-
-
 def query_huggingface(text_notes: str) -> dict | None:
-    """
-    Sends the user's notes to the Hugging Face Chat Completions API.
-    """
     if not HUGGING_FACE_API_TOKEN:
         raise ValueError("Hugging Face API token is not set in the .env file.")
 
@@ -127,9 +120,6 @@ def query_huggingface(text_notes: str) -> dict | None:
 
 
 def clean_and_parse_json(llm_output_text: str) -> list | None:
-    """
-    Cleans the raw text from the LLM to extract and parse the JSON array.
-    """
     match = re.search(r"\[.*\]", llm_output_text, re.DOTALL)
     if match:
         json_str = match.group(0)
@@ -150,7 +140,6 @@ def add_flashcards_to_db(cards: list) -> bool:
     try:
         connection = db_pool.getconn()
         cursor = connection.cursor()
-        # Adjusted query for psycopg2 to handle auto-incrementing ID correctly
         query = """
             INSERT INTO flashcards (question, answer, explanation, tags, difficulty, created_at, bookmarked, review_count, last_reviewed)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -190,11 +179,9 @@ def get_all_flashcards_from_db() -> list:
     flashcards = []
     try:
         connection = db_pool.getconn()
-        # Use DictCursor to get results as a dictionary
         cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("SELECT * FROM flashcards ORDER BY id DESC")
         for row in cursor.fetchall():
-            # Convert DictRow to a standard dictionary
             row_dict = dict(row)
             row_dict["bookmarked"] = bool(row_dict["bookmarked"])
             row_dict["tags"] = json.loads(row_dict["tags"]) if row_dict["tags"] else []
@@ -240,7 +227,6 @@ def delete_flashcards_from_db(ids: list) -> bool:
     try:
         connection = db_pool.getconn()
         cursor = connection.cursor()
-        # Use a single query with tuple for psycopg2
         query = "DELETE FROM flashcards WHERE id IN %s"
         cursor.execute(query, (tuple(ids),))
         connection.commit()
@@ -308,7 +294,6 @@ def generate_flashcards():
 
         formatted_flashcards.append(
             {
-                # Let PostgreSQL handle the ID generation
                 "question": str(card["question"]),
                 "answer": str(card["answer"]),
                 "explanation": str(card.get("explanation", "")),
@@ -408,8 +393,8 @@ def delete_flashcards():
         )
 
 
-# NEW: Call setup_database() directly when the app starts
 setup_database()
+
 
 if __name__ == "__main__":
     app.run(debug=True)
