@@ -408,6 +408,8 @@ def delete_flashcards():
         )
 
 
+# NEW: Call setup_database() directly when the app starts
+setup_database()
+
 if __name__ == "__main__":
-    setup_database()
     app.run(debug=True)

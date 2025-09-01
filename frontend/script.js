@@ -1,5 +1,6 @@
 // Backend API configuration
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL =
+  "https://ai-study-buddy-6.onrender.com/api";
 
 // App State
 let state = {
