@@ -21,10 +21,11 @@ MODEL_ID = "openai/gpt-oss-120b:together"
 
 # --- Database Configuration and Connection Pool ---
 DB_CONFIG = {
-    "user": os.getenv("MYSQL_USER"),
-    "password": os.getenv("MYSQL_PASSWORD"),
-    "host": os.getenv("MYSQL_HOST"),
-    "database": os.getenv("MYSQL_DB"),
+    "user": os.getenv("DB_USER"),
+    "password": os.getenv("DB_PASSWORD"),
+    "host": os.getenv("DB_HOST"),
+    "port": os.getenv("DB_PORT"),
+    "database": os.getenv("DB_NAME"),
     "raise_on_warnings": True,
 }
 
@@ -42,19 +43,26 @@ def setup_database():
         cursor = connection.cursor()
         cursor.execute(
             """
-            CREATE TABLE IF NOT EXISTS flashcards (
-                id BIGINT NOT NULL,
-                question TEXT NOT NULL,
-                answer TEXT NOT NULL,
-                explanation TEXT,
-                tags JSON,
-                difficulty VARCHAR(20) DEFAULT 'neutral',
-                createdAt VARCHAR(50),
-                bookmarked BOOLEAN DEFAULT FALSE,
-                reviewCount INT DEFAULT 0,
-                lastReviewed VARCHAR(50),
-                PRIMARY KEY (id)
-            ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+            CREATE DATABASE flashcards_db;
+
+            CREATE TABLE
+                flashcards (
+                    id BIGSERIAL NOT NULL,
+                    question TEXT NOT NULL,
+                    answer TEXT NOT NULL,
+                    explanation TEXT,
+                    tags JSONB,
+                    difficulty VARCHAR(20) DEFAULT 'neutral',
+                    createdAt TIMESTAMP
+                    WITH
+                        TIME ZONE DEFAULT NOW (),
+                        bookmarked BOOLEAN DEFAULT FALSE,
+                        reviewCount INT DEFAULT 0,
+                        lastReviewed TIMESTAMP
+                    WITH
+                        TIME ZONE,
+                        PRIMARY KEY (id)
+        );
         """
         )
         connection.commit()
