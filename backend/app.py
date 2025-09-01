@@ -4,7 +4,11 @@ import json
 import datetime
 import uuid
 import re
-import mysql.connector.pooling
+
+# NEW: Import psycopg2 for PostgreSQL connection
+import psycopg2
+import psycopg2.pool
+import psycopg2.extras
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -19,19 +23,21 @@ HUGGING_FACE_API_TOKEN = os.getenv("HUGGING_FACE_API_TOKEN")
 API_URL = "https://router.huggingface.co/v1/chat/completions"
 MODEL_ID = "openai/gpt-oss-120b:together"
 
-# --- Database Configuration and Connection Pool ---
-DB_CONFIG = {
-    "user": os.getenv("DB_USER"),
-    "password": os.getenv("DB_PASSWORD"),
-    "host": os.getenv("DB_HOST"),
-    "port": os.getenv("DB_PORT"),
-    "database": os.getenv("DB_NAME"),
-    "raise_on_warnings": True,
-}
 
-db_pool = mysql.connector.pooling.MySQLConnectionPool(
-    pool_name="db_pool", pool_size=5, **DB_CONFIG
-)
+# --- Database Configuration and Connection Pool ---
+try:
+    db_pool = psycopg2.pool.SimpleConnectionPool(
+        1,
+        20,
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
+        database=os.getenv("DB_NAME"),
+    )
+except Exception as e:
+    print(f"Error connecting to the database: {e}")
+    db_pool = None
 
 
 def setup_database():
@@ -39,41 +45,34 @@ def setup_database():
     connection = None
     cursor = None
     try:
-        connection = db_pool.get_connection()
+        connection = db_pool.getconn()
         cursor = connection.cursor()
+        # Adjusted for PostgreSQL syntax with SERIAL for auto-incrementing ID
         cursor.execute(
             """
-            CREATE DATABASE flashcards_db;
-
-            CREATE TABLE
-                flashcards (
-                    id BIGSERIAL NOT NULL,
-                    question TEXT NOT NULL,
-                    answer TEXT NOT NULL,
-                    explanation TEXT,
-                    tags JSONB,
-                    difficulty VARCHAR(20) DEFAULT 'neutral',
-                    createdAt TIMESTAMP
-                    WITH
-                        TIME ZONE DEFAULT NOW (),
-                        bookmarked BOOLEAN DEFAULT FALSE,
-                        reviewCount INT DEFAULT 0,
-                        lastReviewed TIMESTAMP
-                    WITH
-                        TIME ZONE,
-                        PRIMARY KEY (id)
-        );
+            CREATE TABLE IF NOT EXISTS flashcards (
+                id SERIAL PRIMARY KEY,
+                question TEXT NOT NULL,
+                answer TEXT NOT NULL,
+                explanation TEXT,
+                tags JSONB,
+                difficulty VARCHAR(20) DEFAULT 'neutral',
+                created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+                bookmarked BOOLEAN DEFAULT FALSE,
+                review_count INT DEFAULT 0,
+                last_reviewed TIMESTAMP WITH TIME ZONE
+            );
         """
         )
         connection.commit()
         print("Flashcards table is ready.")
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error setting up database: {err}")
     finally:
         if cursor:
             cursor.close()
         if connection:
-            connection.close()
+            db_pool.putconn(connection)
 
 
 # --- Helper Functions ---
@@ -149,28 +148,31 @@ def add_flashcards_to_db(cards: list) -> bool:
     connection = None
     cursor = None
     try:
-        connection = db_pool.get_connection()
+        connection = db_pool.getconn()
         cursor = connection.cursor()
-        query = "INSERT INTO flashcards (id, question, answer, explanation, tags, difficulty, createdAt, bookmarked, reviewCount, lastReviewed) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        # Adjusted query for psycopg2 to handle auto-incrementing ID correctly
+        query = """
+            INSERT INTO flashcards (question, answer, explanation, tags, difficulty, created_at, bookmarked, review_count, last_reviewed)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
         values = [
             (
-                card["id"],
                 card["question"],
                 card["answer"],
                 card["explanation"],
                 json.dumps(card["tags"]),
                 card["difficulty"],
-                card["createdAt"],
+                card["created_at"],
                 card["bookmarked"],
-                card["reviewCount"],
-                card["lastReviewed"],
+                card["review_count"],
+                card["last_reviewed"],
             )
             for card in cards
         ]
         cursor.executemany(query, values)
         connection.commit()
         return True
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error adding flashcards to DB: {err}")
         if connection:
             connection.rollback()
@@ -179,7 +181,7 @@ def add_flashcards_to_db(cards: list) -> bool:
         if cursor:
             cursor.close()
         if connection:
-            connection.close()
+            db_pool.putconn(connection)
 
 
 def get_all_flashcards_from_db() -> list:
@@ -187,31 +189,23 @@ def get_all_flashcards_from_db() -> list:
     cursor = None
     flashcards = []
     try:
-        connection = db_pool.get_connection()
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM flashcards")
+        connection = db_pool.getconn()
+        # Use DictCursor to get results as a dictionary
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("SELECT * FROM flashcards ORDER BY id DESC")
         for row in cursor.fetchall():
-            flashcards.append(
-                {
-                    "id": row["id"],
-                    "question": row["question"],
-                    "answer": row["answer"],
-                    "explanation": row["explanation"],
-                    "tags": json.loads(row["tags"]),
-                    "difficulty": row["difficulty"],
-                    "createdAt": row["createdAt"],
-                    "bookmarked": bool(row["bookmarked"]),
-                    "reviewCount": row["reviewCount"],
-                    "lastReviewed": row["lastReviewed"],
-                }
-            )
-    except mysql.connector.Error as err:
+            # Convert DictRow to a standard dictionary
+            row_dict = dict(row)
+            row_dict["bookmarked"] = bool(row_dict["bookmarked"])
+            row_dict["tags"] = json.loads(row_dict["tags"]) if row_dict["tags"] else []
+            flashcards.append(row_dict)
+    except psycopg2.Error as err:
         print(f"Error getting flashcards from DB: {err}")
     finally:
         if cursor:
             cursor.close()
         if connection:
-            connection.close()
+            db_pool.putconn(connection)
     return flashcards
 
 
@@ -219,18 +213,16 @@ def update_flashcard_in_db(card_id: int, updates: dict) -> bool:
     connection = None
     cursor = None
     try:
-        connection = db_pool.get_connection()
+        connection = db_pool.getconn()
         cursor = connection.cursor()
-
         set_clause = ", ".join([f"{key} = %s" for key in updates.keys()])
         query = f"UPDATE flashcards SET {set_clause} WHERE id = %s"
         values = list(updates.values())
         values.append(card_id)
-
         cursor.execute(query, tuple(values))
         connection.commit()
         return cursor.rowcount > 0
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error updating flashcard in DB: {err}")
         if connection:
             connection.rollback()
@@ -239,23 +231,21 @@ def update_flashcard_in_db(card_id: int, updates: dict) -> bool:
         if cursor:
             cursor.close()
         if connection:
-            connection.close()
+            db_pool.putconn(connection)
 
 
 def delete_flashcards_from_db(ids: list) -> bool:
     connection = None
     cursor = None
     try:
-        connection = db_pool.get_connection()
+        connection = db_pool.getconn()
         cursor = connection.cursor()
-
-        placeholders = ", ".join(["%s"] * len(ids))
-        query = f"DELETE FROM flashcards WHERE id IN ({placeholders})"
-
-        cursor.execute(query, tuple(ids))
+        # Use a single query with tuple for psycopg2
+        query = "DELETE FROM flashcards WHERE id IN %s"
+        cursor.execute(query, (tuple(ids),))
         connection.commit()
         return cursor.rowcount > 0
-    except mysql.connector.Error as err:
+    except psycopg2.Error as err:
         print(f"Error deleting flashcards from DB: {err}")
         if connection:
             connection.rollback()
@@ -264,12 +254,10 @@ def delete_flashcards_from_db(ids: list) -> bool:
         if cursor:
             cursor.close()
         if connection:
-            connection.close()
+            db_pool.putconn(connection)
 
 
 # --- API Routes ---
-
-
 @app.route("/api/health", methods=["GET"])
 def health_check():
     return jsonify({"status": "ok", "message": "Backend is healthy"}), 200
@@ -279,17 +267,13 @@ def health_check():
 def generate_flashcards():
     if not request.is_json:
         return jsonify({"error": "Request must be JSON"}), 400
-
     data = request.get_json()
     notes = data.get("text")
     subjects = data.get("subjects", [])
-
     if not notes or len(notes.strip()) < 100:
         return jsonify({"error": "Text content is missing or too short"}), 400
-
     if not subjects:
         return jsonify({"error": "At least one subject must be selected"}), 400
-
     api_response = query_huggingface(notes)
     if not api_response:
         return (
@@ -298,22 +282,14 @@ def generate_flashcards():
                     "error": "Failed to get response from generation service. The model may be loading or unavailable."
                 }
             ),
-            503,
-        )
-
-    try:
-        generated_text = api_response["choices"][0]["message"]["content"]
-    except (KeyError, IndexError):
-        print(f"Failed to extract content from API response: {api_response}")
-        return (
-            jsonify(
-                {"error": "Generation service returned an unexpected response format"}
-            ),
             500,
         )
 
+    generated_text = (
+        api_response.get("choices", [{}])[0].get("message", {}).get("content")
+    )
     if not generated_text:
-        return jsonify({"error": "Generation service returned an empty response"}), 500
+        return jsonify({"error": "Failed to generate flashcards."}), 500
 
     parsed_cards = clean_and_parse_json(generated_text)
     if not parsed_cards or not isinstance(parsed_cards, list):
@@ -332,16 +308,16 @@ def generate_flashcards():
 
         formatted_flashcards.append(
             {
-                "id": uuid.uuid4().int & (1 << 32) - 1,
+                # Let PostgreSQL handle the ID generation
                 "question": str(card["question"]),
                 "answer": str(card["answer"]),
                 "explanation": str(card.get("explanation", "")),
                 "tags": subjects,
                 "difficulty": "neutral",
-                "createdAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                "created_at": datetime.datetime.now(datetime.timezone.utc),
                 "bookmarked": False,
-                "reviewCount": 0,
-                "lastReviewed": None,
+                "review_count": 0,
+                "last_reviewed": None,
             }
         )
 
@@ -355,16 +331,19 @@ def generate_flashcards():
             500,
         )
 
-    if not add_flashcards_to_db(formatted_flashcards):
-        return jsonify({"error": "Failed to save flashcards to the database."}), 500
-
-    return jsonify({"flashcards": formatted_flashcards})
+    if add_flashcards_to_db(formatted_flashcards):
+        return jsonify({"message": "Flashcards generated and saved successfully!"}), 201
+    else:
+        return (
+            jsonify({"error": "Failed to save flashcards to the database."}),
+            500,
+        )
 
 
 @app.route("/api/flashcards", methods=["GET"])
 def get_flashcards():
     flashcards = get_all_flashcards_from_db()
-    return jsonify(flashcards)
+    return jsonify(flashcards), 200
 
 
 @app.route("/api/flashcards/<int:card_id>", methods=["PUT"])
@@ -378,6 +357,8 @@ def update_flashcard(card_id):
         updates["question"] = data["question"]
     if "answer" in data:
         updates["answer"] = data["answer"]
+    if "explanation" in data:
+        updates["explanation"] = data["explanation"]
     if "tags" in data:
         updates["tags"] = json.dumps(data["tags"])
     if "difficulty" in data:
@@ -385,9 +366,9 @@ def update_flashcard(card_id):
     if "bookmarked" in data:
         updates["bookmarked"] = data["bookmarked"]
     if "lastReviewed" in data:
-        updates["lastReviewed"] = data["lastReviewed"]
+        updates["last_reviewed"] = data["lastReviewed"]
     if "reviewCount" in data:
-        updates["reviewCount"] = data["reviewCount"]
+        updates["review_count"] = data["reviewCount"]
 
     if not updates:
         return jsonify({"error": "No valid fields to update"}), 400
@@ -412,15 +393,21 @@ def delete_flashcards():
     if delete_flashcards_from_db(ids_to_delete):
         return (
             jsonify(
-                {"message": f"Deleted {len(ids_to_delete)} flashcards successfully"}
+                {"message": f"Deleted {len(ids_to_delete)} flashcard(s) successfully"}
             ),
             200,
         )
     else:
-        return jsonify({"error": "Failed to delete flashcards"}), 500
+        return (
+            jsonify(
+                {
+                    "error": "Failed to delete flashcard(s). Some may not have been found."
+                }
+            ),
+            404,
+        )
 
 
-# --- Main Execution ---
 if __name__ == "__main__":
     setup_database()
-    app.run(debug=True, port=5000)
+    app.run(debug=True)

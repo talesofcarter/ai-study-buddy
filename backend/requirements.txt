@@ -2,5 +2,5 @@ Flask
 Flask-Cors
 python-dotenv
 requests
-mysql-connector-python
 gunicorn
+psycopg2-binary
