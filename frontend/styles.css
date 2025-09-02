@@ -66,13 +66,6 @@ header {
 .logo-icon {
   width: 36px;
   height: 36px;
-  background-color: var(--primary);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: bold;
 }
 
 .logo-text {
