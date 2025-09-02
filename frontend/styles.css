@@ -929,6 +929,11 @@ kbd {
   right: calc(var(--spacing) * 3);
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .cards-grid {
