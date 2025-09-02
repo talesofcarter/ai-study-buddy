@@ -4,6 +4,12 @@ An **AI-powered study assistant** that helps students learn smarter by generatin
 
 🌐 **Live Demo**: [study-assistant-ai.vercel.app](https://study-assistant-ai.vercel.app)
 
+## 👥 Contributors
+
+* **Frontend**: [Itsshisia](https://github.com/Itsshisia)
+* **Backend**: [talesofcarter](https://github.com/talesofcarter)
+
+
 ## 🚀 Features
 
 * 🤖 **AI-Powered Q\&A** – Get instant answers and explanations.
