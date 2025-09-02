@@ -6,7 +6,7 @@ An **AI-powered study assistant** that helps students learn smarter by generatin
 
 ## 👥 Contributors
 
-* **Frontend**: [Itsshia](https://github.com/Itsshisia)
+* **Frontend**: [Itsshisia](https://github.com/Itsshisia)
 * **Backend**: [talesofcarter](https://github.com/talesofcarter)
 
 
