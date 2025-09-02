@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title>AI Study Buddy Favicon</title>
+  <desc>Rounded green square with a white open book and AI spark.</desc>
+  <rect x="0" y="0" width="256" height="256" rx="56" ry="56" fill="#4caf50"/>
+  <g fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M128 48 v14 M128 80 v14 M114 62 h14 M128 62 h14" stroke-width="12"/>
+    <path d="M118 52 l-8 -8 M146 80 l8 8 M146 52 l8 -8 M118 80 l-8 8" stroke-width="10"/>
+    <circle cx="96" cy="56" r="8" fill="#ffffff" stroke="none"/>
+    <circle cx="160" cy="56" r="8" fill="#ffffff" stroke="none"/>
+    <circle cx="128" cy="36" r="8" fill="#ffffff" stroke="none"/>
+    <path d="M128 56 L96 56 M128 56 L160 56 M128 56 L128 36" stroke-width="10"/>
+  </g>
+  <g fill="#ffffff" stroke="#ffffff" stroke-width="12" stroke-linejoin="round">
+    <path d="M64 88
+             C92 72,120 72,128 88
+             L128 188
+             C116 180,92 180,64 188
+             Z"/>
+    <path d="M128 88
+             C136 72,164 72,192 88
+             L192 188
+             C164 180,140 180,128 188
+             Z"/>
+    <path d="M128 94 L128 196" fill="none"/>
+    <path d="M146 112 L146 154 L154 146 L162 154 L162 112 Z"/>
+  </g>
+</svg>
