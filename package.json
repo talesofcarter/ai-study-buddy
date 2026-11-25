@@ -1,0 +1,15 @@
+{
+  "name": "ai-study-buddy",
+  "private": true,
+  "packageManager": "pnpm@10.26.1",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "check-types": "turbo check-types"
+  },
+  "devDependencies": {
+    "turbo": "^2.11.13"
+  }
+}
