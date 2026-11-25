@@ -10,6 +10,10 @@ const invalid = (message: string): ValidationResult => ({
 const NAME_MIN = 2;
 const NAME_MAX = 60;
 
+export const NOTES_MIN = 200;
+/** Client-side guard. Tune this to whatever the backend actually accepts. */
+export const NOTES_MAX = 8000;
+
 export function validateName(input: string): ValidationResult {
   const value = input.trim().replace(/\s+/g, " ");
   if (value.length === 0) return invalid("Enter your name.");
@@ -45,4 +49,18 @@ export function validateEmail(input: string): ValidationResult {
   return localIsValid && tldIsValid
     ? { valid: true, value }
     : invalid(EMAIL_ERROR);
+}
+
+export function validateNotes(input: string): ValidationResult {
+  const value = input.trim();
+  if (value.length === 0) return invalid("Paste the notes you want to study.");
+  if (value.length < NOTES_MIN)
+    return invalid(
+      `Add a little more detail: ${NOTES_MIN - value.length} more characters needed.`,
+    );
+  if (value.length > NOTES_MAX)
+    return invalid(
+      `Notes are limited to ${NOTES_MAX.toLocaleString("en-US")} characters. Split them into smaller sets.`,
+    );
+  return { valid: true, value };
 }

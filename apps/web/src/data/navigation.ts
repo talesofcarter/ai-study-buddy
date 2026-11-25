@@ -10,7 +10,6 @@ export const NAV_ITEMS: readonly NavItem[] = [
     to: "/generate",
     label: "Generate",
     description: "Turn your notes into cards.",
-    status: "soon",
   },
   {
     to: "/archive",
