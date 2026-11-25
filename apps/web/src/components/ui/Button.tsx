@@ -18,6 +18,14 @@ const VARIANTS: Record<Variant, string> = {
   ghost: "text-ink hover:bg-sunken",
 };
 
+/** Class string for anything that should look like a Button (e.g. a router Link). */
+export function buttonStyles(
+  variant: Variant = "primary",
+  className?: string,
+): string {
+  return cn(BASE, VARIANTS[variant], className);
+}
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
     { variant = "primary", type = "button", className, ...props },
@@ -27,7 +35,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(BASE, VARIANTS[variant], className)}
+        className={buttonStyles(variant, className)}
         {...props}
       />
     );

@@ -12,6 +12,10 @@
   --color-medium: var(--medium);
   --color-hard: var(--hard);
 
+  --color-line: var(--ink);
+  --color-edge: var(--ink);
+  --color-on-accent: var(--on-accent);
+
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-card: "Plus Jakarta Sans", Georgia, serif;
   --font-title: "Pacifico", sans-serif;
@@ -33,6 +37,7 @@
   --ink: #2a3346;
   --muted: #565f73;
   --accent: #1fe6a0;
+  --on-accent: #2a3346;
 
   --easy: #1d6b52;
   --medium: #8a5c0c;

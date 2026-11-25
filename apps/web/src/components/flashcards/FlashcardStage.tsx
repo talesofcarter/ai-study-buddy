@@ -9,6 +9,7 @@ import { ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
 import { isInteractiveTarget } from "../../lib/dom";
 import type { Flashcard } from "../../types";
 import { Button } from "../ui/Button";
+import { ProgressTrack } from "../ui/ProgressTrack";
 import { FlashcardView } from "./FlashcardView";
 
 interface FlashcardStageProps {
@@ -31,15 +32,19 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
 
   const total = cards.length;
 
-  const go = useCallback(
-    (delta: Direction) => {
-      const next = index + delta;
-      if (next < 0 || next >= total) return;
-      setDirection(delta);
-      setIndex(next);
+  const goTo = useCallback(
+    (target: number) => {
+      if (target === index || target < 0 || target >= total) return;
+      setDirection(target > index ? 1 : -1);
+      setIndex(target);
       setFlipped(false); // the next card mounts on its question side
     },
     [index, total],
+  );
+
+  const go = useCallback(
+    (delta: Direction) => goTo(index + delta),
+    [goTo, index],
   );
 
   const flip = useCallback(() => setFlipped((value) => !value), []);
@@ -72,10 +77,9 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
   if (!card) return null;
 
   const stackDepth = Math.min(2, total - index - 1) as 0 | 1 | 2;
-  const progress = ((index + 1) / total) * 100;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={card.id}
@@ -122,17 +126,7 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
         </Button>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="h-2 flex-1 overflow-hidden rounded-full border border-line/40 bg-sunken">
-          <div
-            className="h-full border-r-2 border-edge bg-accent transition-[width] duration-300 motion-reduce:transition-none"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <p aria-live="polite" className="text-sm text-muted">
-          Card {index + 1} of {total}
-        </p>
-      </div>
+      <ProgressTrack current={index} total={total} onSelect={goTo} />
     </div>
   );
 }

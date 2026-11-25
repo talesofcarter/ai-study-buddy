@@ -19,3 +19,11 @@ export interface Flashcard {
   readonly bookmarked: boolean;
   readonly createdAt: string; // ISO 8601
 }
+
+export interface NavItem {
+  readonly to: string;
+  readonly label: string;
+  readonly description: string;
+  /** Remove once the page ships. */
+  readonly status?: "soon";
+}

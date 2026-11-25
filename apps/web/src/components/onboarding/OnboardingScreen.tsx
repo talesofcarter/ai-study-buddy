@@ -71,7 +71,9 @@ export function OnboardingScreen({ onComplete }: OnboardingScreenProps) {
               onFlip={() => setPreviewFlipped((value) => !value)}
               stackDepth={2}
             />
-            <p className="text-sm text-muted">Click the card to flip it.</p>
+            <p className="mt-1 text-sm text-muted">
+              Click the card to flip it.
+            </p>
           </div>
         ) : null}
       </section>
