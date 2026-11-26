@@ -1,9 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Sparkles } from "lucide-react";
+import { Focus, Sparkles } from "lucide-react";
 import { subjectLabel } from "../../data/subjects";
+import { useArchive } from "../../hooks/useArchive";
 import type { NewStudySet } from "../../types";
 import { FlashcardStage } from "../flashcards/FlashcardStage";
+import { FocusMode } from "../focus/FocusMode";
 import { Button, buttonStyles } from "../ui/Button";
 
 interface GenerationResultProps {
@@ -13,6 +16,8 @@ interface GenerationResultProps {
 
 export function GenerationResult({ saved, onAnother }: GenerationResultProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const { rateCard } = useArchive();
+  const [focusing, setFocusing] = useState(false);
   const { set, cards } = saved;
 
   // Move focus to the result so keyboard and screen-reader users land on it.
@@ -48,10 +53,25 @@ export function GenerationResult({ saved, onAnother }: GenerationResultProps) {
           <Sparkles className="h-5 w-5" aria-hidden="true" />
           Generate another set
         </Button>
+        <Button variant="secondary" onClick={() => setFocusing(true)}>
+          <Focus className="h-5 w-5" aria-hidden="true" />
+          Focus mode
+        </Button>
         <Link to="/archive" className={buttonStyles("secondary")}>
           Open archive
         </Link>
       </div>
+
+      <AnimatePresence>
+        {focusing ? (
+          <FocusMode
+            cards={cards}
+            title={set.title}
+            onRate={rateCard}
+            onExit={() => setFocusing(false)}
+          />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

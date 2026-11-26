@@ -70,3 +70,30 @@ export interface NewStudySet {
   readonly set: StudySet;
   readonly cards: readonly Flashcard[];
 }
+
+export type Rating = Exclude<Difficulty, "unrated">;
+
+export type SetSort = "newest" | "oldest" | "title" | "largest";
+export type CardSort = "original" | "hardest" | "easiest";
+
+export interface CardFilter {
+  readonly query: string;
+  readonly difficulty: Difficulty | "all";
+  readonly bookmarkedOnly: boolean;
+}
+
+export interface SetFilter {
+  readonly query: string;
+  readonly subject: SubjectId | "all";
+  readonly sort: SetSort;
+}
+
+export type DifficultyCounts = Readonly<Record<Difficulty, number>>;
+
+export interface SetSummary {
+  readonly set: StudySet;
+  readonly total: number;
+  /** Cards matching the search text (0 when there is no search). */
+  readonly matches: number;
+  readonly counts: DifficultyCounts;
+}

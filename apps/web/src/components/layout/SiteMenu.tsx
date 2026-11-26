@@ -4,7 +4,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import { NAV_ITEMS } from "../../data/navigation";
 import { cn } from "../../lib/cn";
 
-/** Three bars that fold into a cross. */
 function MenuIcon({ open }: { open: boolean }) {
   const reduceMotion = useReducedMotion();
   const transition = reduceMotion
@@ -35,15 +34,12 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function SiteMenu() {
   const { pathname } = useLocation();
-  // Remember where the menu was opened: navigating elsewhere closes it.
   const [openPath, setOpenPath] = useState<string | null>(null);
   const open = openPath === pathname;
-
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelId = useId();
   const reduceMotion = useReducedMotion();
-
   const close = useCallback(() => setOpenPath(null), []);
 
   useEffect(() => {

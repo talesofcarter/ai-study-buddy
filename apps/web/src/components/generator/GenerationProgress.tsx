@@ -10,7 +10,6 @@ export function GenerationProgress({
   phase,
   onCancel,
 }: GenerationProgressProps) {
-  // Total time across both phases: the component stays mounted between them.
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {

@@ -1,12 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
 import { isInteractiveTarget } from "../../lib/dom";
+import { slideVariants, type Direction } from "../../lib/motion";
 import type { Flashcard } from "../../types";
 import { Button } from "../ui/Button";
 import { ProgressTrack } from "../ui/ProgressTrack";
@@ -15,14 +11,6 @@ import { FlashcardView } from "./FlashcardView";
 interface FlashcardStageProps {
   cards: readonly Flashcard[];
 }
-
-type Direction = 1 | -1;
-
-const slideVariants = (shift: number): Variants => ({
-  enter: (direction: Direction) => ({ opacity: 0, x: direction * shift }),
-  center: { opacity: 1, x: 0 },
-  exit: (direction: Direction) => ({ opacity: 0, x: direction * -shift }),
-});
 
 export function FlashcardStage({ cards }: FlashcardStageProps) {
   const [index, setIndex] = useState(0);
@@ -37,7 +25,7 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
       if (target === index || target < 0 || target >= total) return;
       setDirection(target > index ? 1 : -1);
       setIndex(target);
-      setFlipped(false); // the next card mounts on its question side
+      setFlipped(false);
     },
     [index, total],
   );

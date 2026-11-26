@@ -10,7 +10,6 @@ interface FlashcardViewProps {
   card: Flashcard;
   flipped: boolean;
   onFlip: () => void;
-  /** Cards visibly stacked underneath this one (0–2). */
   stackDepth?: 0 | 1 | 2;
   className?: string;
 }
@@ -29,7 +28,6 @@ export function FlashcardView({
   const hasMounted = useRef(false);
   const reduceMotion = useReducedMotion();
 
-  // GSAP owns the rotation of the inner body; nothing else touches that element.
   useLayoutEffect(() => {
     const body = bodyRef.current;
     if (!body) return undefined;
@@ -53,14 +51,11 @@ export function FlashcardView({
   }, [flipped, reduceMotion]);
 
   const handleClick = (): void => {
-    // Let people select text without flipping the card.
     if (window.getSelection()?.toString()) return;
     onFlip();
   };
 
   return (
-    // pb-7 (28px) is always reserved for the stack (deepest layer sticks out
-    // 20px), so the layout never jumps when the last cards have no stack.
     <div className={cn("pb-7", className)}>
       <div className="relative">
         {stackDepth >= 2 ? (
@@ -83,7 +78,7 @@ export function FlashcardView({
         >
           <div
             ref={bodyRef}
-            className="flip-body relative h-[26rem] sm:aspect-[5/3] sm:h-auto"
+            className="flip-body relative h-104 sm:aspect-5/3 sm:h-auto"
           >
             <section
               aria-label="Question"

@@ -2,7 +2,6 @@ interface BrandMarkProps {
   className?: string;
 }
 
-/** Two stacked index cards with a highlighter swipe. Decorative. */
 export function BrandMark({ className }: BrandMarkProps) {
   return (
     <svg

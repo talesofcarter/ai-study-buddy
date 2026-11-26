@@ -1,11 +1,9 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "../../lib/cn";
 
-/** Up to this many cards, show one segment per card. */
 const SEGMENT_LIMIT = 12;
 
 interface ProgressTrackProps {
-  /** Zero-based index of the current card. */
   current: number;
   total: number;
   onSelect: (index: number) => void;
@@ -37,7 +35,6 @@ function Segments({ current, total, onSelect }: TrackProps) {
             onClick={() => onSelect(position)}
             aria-label={`Go to card ${position + 1}`}
             aria-current={isCurrent ? "step" : undefined}
-            // The button is a 44px-tall hit area; the visible bar is thin.
             className={cn(
               "group flex min-h-11 items-center transition-[flex-grow] duration-300 motion-reduce:transition-none",
               isCurrent ? "flex-3" : "flex-1",
