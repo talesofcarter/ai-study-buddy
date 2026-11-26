@@ -23,8 +23,6 @@ export function GeneratorScreen() {
   const { addSet } = useArchive();
   const generator = useGenerator();
   const reduceMotion = useReducedMotion();
-
-  // The form values live here so they survive the drawer closing and reopening.
   const [values, setValues] = useState<GeneratorValues>(EMPTY_VALUES);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [saved, setSaved] = useState<NewStudySet | null>(null);
@@ -85,6 +83,7 @@ export function GeneratorScreen() {
           <Sparkles className="h-5 w-5" aria-hidden="true" />
           New set
         </Button>
+
         <div className="w-full lg:w-auto">
           <BackendStatusBadge
             status={generator.backend}

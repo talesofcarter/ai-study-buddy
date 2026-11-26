@@ -5,13 +5,14 @@ import {
   type SyntheticEvent,
 } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowLeft, ArrowRight, RotateCw, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { RATINGS } from "../../data/difficulty";
 import { useFocusSession } from "../../hooks/useFocusSession";
 import { cn } from "../../lib/cn";
 import { slideVariants } from "../../lib/motion";
 import type { Flashcard, Rating } from "../../types";
 import { FlashcardView } from "../flashcards/FlashcardView";
+import { FlipButton } from "../flashcards/FlipButton";
 import { Button } from "../ui/Button";
 import { FocusSummary } from "./FocusSummary";
 
@@ -184,10 +185,12 @@ export function FocusMode({ cards, title, onRate, onExit }: FocusModeProps) {
                   <ArrowLeft className="h-5 w-5" aria-hidden="true" />
                   <span className="hidden sm:inline">Previous</span>
                 </Button>
-                <Button ref={flipRef} onClick={session.flip} className="flex-1">
-                  <RotateCw className="h-5 w-5" aria-hidden="true" />
-                  {flipped ? "Show question" : "Show answer"}
-                </Button>
+                <FlipButton
+                  ref={flipRef}
+                  flipped={flipped}
+                  onClick={session.flip}
+                  className="flex-1"
+                />
                 <Button
                   variant="secondary"
                   onClick={() => session.move(1)}

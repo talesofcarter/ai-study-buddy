@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { isInteractiveTarget } from "../../lib/dom";
 import { slideVariants, type Direction } from "../../lib/motion";
 import type { Flashcard } from "../../types";
 import { Button } from "../ui/Button";
 import { ProgressTrack } from "../ui/ProgressTrack";
 import { FlashcardView } from "./FlashcardView";
+import { FlipButton } from "./FlipButton";
 import { cn } from "../../lib/cn";
 
 interface FlashcardStageProps {
@@ -107,10 +108,7 @@ export function FlashcardStage({ cards, fill = false }: FlashcardStageProps) {
           <ArrowLeft className="h-5 w-5" aria-hidden="true" />
           <span className="hidden sm:inline">Previous</span>
         </Button>
-        <Button onClick={flip} className="flex-1">
-          <RotateCw className="h-5 w-5" aria-hidden="true" />
-          {flipped ? "Show question" : "Show answer"}
-        </Button>
+        <FlipButton flipped={flipped} onClick={flip} className="flex-1" />
         <Button
           variant="secondary"
           onClick={() => go(1)}
