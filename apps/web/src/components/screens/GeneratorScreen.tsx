@@ -1,137 +1,112 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { CircleAlert, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { BackendStatusBadge } from "../generator/BackendStatusBadge";
 import { GenerationProgress } from "../generator/GenerationProgress";
 import { GenerationResult } from "../generator/GenerationResult";
-import { SubjectPicker } from "../generator/SubjectPicker";
+import {
+  GeneratorDrawer,
+  type GeneratorValues,
+} from "../generator/GeneratorDrawer";
+import { GeneratorIdle } from "../generator/GeneratorIdle";
 import { Button } from "../ui/Button";
-import { TextArea } from "../ui/TextArea";
-import { TextField } from "../ui/TextField";
 import { useArchive } from "../../hooks/useArchive";
 import { useGenerator } from "../../hooks/useGenerator";
 import { buildStudySet } from "../../lib/archive";
-import { NOTES_MAX, NOTES_MIN, validateNotes } from "../../lib/validation";
-import type { NewStudySet, SubjectId } from "../../types";
+import type { NewStudySet } from "../../types";
 
-type View = "form" | "progress" | "result";
+type View = "idle" | "progress" | "result";
 
-function ErrorNotice({ message }: { message: string }) {
-  return (
-    <div
-      role="alert"
-      className="flex items-start gap-3 rounded-ctl border border-hard/60 bg-bg p-4"
-    >
-      <CircleAlert
-        className="mt-0.5 h-5 w-5 shrink-0 text-hard"
-        aria-hidden="true"
-      />
-      <div className="flex flex-col gap-0.5">
-        <p className="font-bold text-hard">Couldn't generate your cards</p>
-        <p>{message}</p>
-      </div>
-    </div>
-  );
-}
+const EMPTY_VALUES: GeneratorValues = { title: "", notes: "", subjects: [] };
 
 export function GeneratorScreen() {
   const { addSet } = useArchive();
   const generator = useGenerator();
   const reduceMotion = useReducedMotion();
 
-  const [title, setTitle] = useState("");
-  const [notes, setNotes] = useState("");
-  const [subjects, setSubjects] = useState<readonly SubjectId[]>([]);
-  const [notesTouched, setNotesTouched] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  // The form values live here so they survive the drawer closing and reopening.
+  const [values, setValues] = useState<GeneratorValues>(EMPTY_VALUES);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [saved, setSaved] = useState<NewStudySet | null>(null);
-  const notesRef = useRef<HTMLTextAreaElement>(null);
 
-  const notesResult = validateNotes(notes);
-  const notesError =
-    (notesTouched || submitted) && !notesResult.valid
-      ? notesResult.message
-      : null;
-  const subjectsError =
-    submitted && subjects.length === 0 ? "Choose at least one subject." : null;
-  const length = notes.trim().length;
+  let view: View = "idle";
+  if (generator.phase !== "idle") view = "progress";
+  else if (saved) view = "result";
 
-  let view: View = "form";
-  if (saved) view = "result";
-  else if (generator.phase !== "idle") view = "progress";
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setSubmitted(true);
-
-    if (!notesResult.valid) {
-      notesRef.current?.focus();
-      return;
-    }
-    if (subjects.length === 0) return;
+  const handleSubmit = async (input: GeneratorValues): Promise<void> => {
+    setValues(input);
+    setDrawerOpen(false);
+    setSaved(null);
 
     const drafts = await generator.generate({
-      notes: notesResult.value,
-      subjects,
+      notes: input.notes,
+      subjects: input.subjects,
     });
-    if (!drafts) return;
 
-    const built = buildStudySet(
-      { title, notes: notesResult.value, subjects },
-      drafts,
-    );
+    if (!drafts) {
+      // Failed or cancelled: bring the form back with the notes intact
+      // (and the error message, if there is one).
+      setDrawerOpen(true);
+      return;
+    }
+
+    const built = buildStudySet(input, drafts);
     addSet(built.set, built.cards);
     setSaved(built);
-  };
-
-  const handleAnother = (): void => {
-    setSaved(null);
-    setTitle("");
-    setNotes("");
-    setSubjects([]);
-    setNotesTouched(false);
-    setSubmitted(false);
-    generator.clearError();
+    setValues(EMPTY_VALUES);
   };
 
   return (
-    <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-14 lg:py-14">
+    // 4.0625rem = the header: min-h-16 (4rem) plus its 1px border.
+    <div className="mx-auto grid h-[calc(100dvh-4.0625rem)] w-full max-w-6xl grid-rows-[auto_minmax(0,1fr)] gap-4 overflow-hidden px-4 py-4 sm:px-6 sm:py-6 lg:grid-cols-[17rem_minmax(0,1fr)] lg:grid-rows-1 lg:gap-14 lg:py-8">
       <section
         aria-labelledby="generate-title"
-        className="flex flex-col items-start gap-4"
+        className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 lg:flex-col lg:items-start lg:justify-start lg:gap-4"
       >
-        <span className="highlight text-sm font-bold leading-8">Generator</span>
+        <span className="highlight hidden text-sm font-bold leading-8 lg:inline-block">
+          Generator
+        </span>
         <h1
           id="generate-title"
-          className="font-card text-3xl font-semibold leading-tight"
+          className="font-card text-2xl font-semibold leading-tight lg:text-3xl"
         >
           Notes in, cards out
         </h1>
-        <p>
+        <p className="hidden lg:block">
           Paste what you're studying. It becomes question-and-answer cards,
           saved to this profile's archive.
         </p>
-        <BackendStatusBadge
-          status={generator.backend}
-          onRetry={generator.retryWake}
-        />
+        <Button
+          onClick={() => setDrawerOpen(true)}
+          disabled={view === "progress"}
+          aria-haspopup="dialog"
+          aria-expanded={drawerOpen}
+        >
+          <Sparkles className="h-5 w-5" aria-hidden="true" />
+          New set
+        </Button>
+        <div className="w-full lg:w-auto">
+          <BackendStatusBadge
+            status={generator.backend}
+            onRetry={generator.retryWake}
+          />
+        </div>
       </section>
 
       <section
         aria-label="Generator workspace"
-        className="mx-auto w-full max-w-2xl lg:mx-0"
+        className="mx-auto flex min-h-0 w-full max-w-2xl flex-col lg:mx-0"
       >
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={view}
+            className="flex min-h-0 flex-1 flex-col justify-center"
             initial={{ opacity: 0, y: reduceMotion ? 0 : 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
           >
-            {view === "result" && saved ? (
-              <GenerationResult saved={saved} onAnother={handleAnother} />
-            ) : null}
+            {view === "idle" ? <GeneratorIdle /> : null}
 
             {view === "progress" &&
             (generator.phase === "waking" ||
@@ -142,56 +117,25 @@ export function GeneratorScreen() {
               />
             ) : null}
 
-            {view === "form" ? (
-              <form
-                noValidate
-                onSubmit={(event) => void handleSubmit(event)}
-                className="flex flex-col gap-6 rounded-card border border-line/25 bg-surface p-6 shadow-card sm:p-8"
-              >
-                {generator.error ? (
-                  <ErrorNotice message={generator.error.message} />
-                ) : null}
-
-                <TextField
-                  label="Title (optional)"
-                  name="title"
-                  maxLength={80}
-                  autoComplete="off"
-                  hint="Left blank, the first line of your notes is used."
-                  value={title}
-                  onChange={(event) => setTitle(event.target.value)}
-                />
-
-                <TextArea
-                  ref={notesRef}
-                  label="Notes"
-                  name="notes"
-                  placeholder="Paste your study notes here…"
-                  hint={`${length.toLocaleString("en-US")} / ${NOTES_MAX.toLocaleString("en-US")} characters. At least ${NOTES_MIN} needed.`}
-                  value={notes}
-                  error={notesError}
-                  onChange={(event) => setNotes(event.target.value)}
-                  onBlur={() => setNotesTouched(true)}
-                />
-
-                <SubjectPicker
-                  value={subjects}
-                  onChange={setSubjects}
-                  error={subjectsError}
-                />
-
-                <Button
-                  type="submit"
-                  className="w-full sm:w-auto sm:self-start"
-                >
-                  <Sparkles className="h-5 w-5" aria-hidden="true" />
-                  Generate cards
-                </Button>
-              </form>
+            {view === "result" && saved ? (
+              <GenerationResult saved={saved} />
             ) : null}
           </motion.div>
         </AnimatePresence>
       </section>
+
+      <AnimatePresence>
+        {drawerOpen ? (
+          <GeneratorDrawer
+            key="drawer"
+            values={values}
+            error={generator.error?.message ?? null}
+            onChange={setValues}
+            onSubmit={(input) => void handleSubmit(input)}
+            onClose={() => setDrawerOpen(false)}
+          />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

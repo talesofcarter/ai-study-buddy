@@ -9,10 +9,15 @@ interface TextAreaProps extends Omit<
   label: string;
   hint?: string;
   error?: string | null;
+  /** Classes for the wrapper, e.g. "flex-1" to fill a flex column. */
+  containerClassName?: string;
 }
 
 export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
-  function TextArea({ label, hint, error, className, ...props }, ref) {
+  function TextArea(
+    { label, hint, error, className, containerClassName, ...props },
+    ref,
+  ) {
     const id = useId();
     const hintId = `${id}-hint`;
     const errorId = `${id}-error`;
@@ -22,7 +27,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
         .join(" ") || undefined;
 
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className={cn("flex flex-col gap-1.5", containerClassName)}>
         <label htmlFor={id} className="font-bold">
           {label}
         </label>
@@ -32,7 +37,7 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(
           aria-invalid={error ? true : undefined}
           aria-describedby={describedBy}
           className={cn(
-            "min-h-56 resize-y rounded-ctl border bg-bg px-4 py-3 text-base leading-7 text-ink placeholder:text-muted/70",
+            "min-h-28 flex-1 resize-none rounded-ctl border bg-bg px-4 py-3 text-base leading-7 text-ink placeholder:text-muted/70",
             error ? "border-hard" : "border-line/40",
             className,
           )}

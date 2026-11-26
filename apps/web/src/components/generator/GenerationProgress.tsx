@@ -24,11 +24,11 @@ export function GenerationProgress({
   const waking = phase === "waking";
 
   return (
-    <div className="flex flex-col gap-6 rounded-card border border-line/25 bg-surface p-6 shadow-card sm:p-8">
+    <div className="flex flex-col gap-5 rounded-card border border-line/25 bg-surface p-5 shadow-card sm:gap-6 sm:p-8">
       {/* A card-shaped placeholder: the cards are on their way. */}
       <div
         aria-hidden="true"
-        className="ruled flex h-44 flex-col gap-4 rounded-card border border-line/25 bg-bg px-6 pt-8"
+        className="ruled flex h-28 flex-col gap-4 rounded-card border border-line/25 bg-bg px-6 pt-6 sm:h-44 sm:pt-8"
       >
         <span className="h-3 w-20 rounded-full bg-accent/60 motion-safe:animate-pulse" />
         <span className="h-3 w-3/4 rounded-full bg-sunken motion-safe:animate-pulse" />

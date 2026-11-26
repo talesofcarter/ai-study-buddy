@@ -10,7 +10,10 @@ interface FlashcardViewProps {
   card: Flashcard;
   flipped: boolean;
   onFlip: () => void;
+  /** Cards visibly stacked underneath this one (0–2). */
   stackDepth?: 0 | 1 | 2;
+  /** Stretch to the parent's height instead of using the default card size. */
+  fill?: boolean;
   className?: string;
 }
 
@@ -22,12 +25,14 @@ export function FlashcardView({
   flipped,
   onFlip,
   stackDepth = 0,
+  fill = false,
   className,
 }: FlashcardViewProps) {
   const bodyRef = useRef<HTMLDivElement>(null);
   const hasMounted = useRef(false);
   const reduceMotion = useReducedMotion();
 
+  // GSAP owns the rotation of the inner body; nothing else touches that element.
   useLayoutEffect(() => {
     const body = bodyRef.current;
     if (!body) return undefined;
@@ -51,13 +56,21 @@ export function FlashcardView({
   }, [flipped, reduceMotion]);
 
   const handleClick = (): void => {
+    // Let people select text without flipping the card.
     if (window.getSelection()?.toString()) return;
     onFlip();
   };
 
   return (
-    <div className={cn("pb-7", className)}>
-      <div className="relative">
+    // pb-7 (28px) is always reserved for the stack (deepest layer sticks out
+    // 20px), so the layout never jumps when the last cards have no stack.
+    <div
+      className={cn(
+        fill ? "flex min-h-0 flex-1 flex-col pb-7" : "pb-7",
+        className,
+      )}
+    >
+      <div className={cn("relative", fill && "min-h-48 flex-1")}>
         {stackDepth >= 2 ? (
           <span
             aria-hidden="true"
@@ -73,12 +86,18 @@ export function FlashcardView({
 
         {/* The Flip button in FlashcardStage is the keyboard/AT equivalent of this click. */}
         <div
-          className="flip-scene relative z-10 cursor-pointer"
+          className={cn(
+            "flip-scene z-10 cursor-pointer",
+            fill ? "absolute inset-0" : "relative",
+          )}
           onClick={handleClick}
         >
           <div
             ref={bodyRef}
-            className="flip-body relative h-104 sm:aspect-5/3 sm:h-auto"
+            className={cn(
+              "flip-body relative",
+              fill ? "h-full" : "h-104 sm:aspect-5/3 sm:h-auto",
+            )}
           >
             <section
               aria-label="Question"

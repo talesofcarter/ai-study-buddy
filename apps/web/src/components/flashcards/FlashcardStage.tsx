@@ -7,12 +7,14 @@ import type { Flashcard } from "../../types";
 import { Button } from "../ui/Button";
 import { ProgressTrack } from "../ui/ProgressTrack";
 import { FlashcardView } from "./FlashcardView";
+import { cn } from "../../lib/cn";
 
 interface FlashcardStageProps {
   cards: readonly Flashcard[];
+  fill?: boolean;
 }
 
-export function FlashcardStage({ cards }: FlashcardStageProps) {
+export function FlashcardStage({ cards, fill = false }: FlashcardStageProps) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [direction, setDirection] = useState<Direction>(1);
@@ -67,7 +69,12 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
   const stackDepth = Math.min(2, total - index - 1) as 0 | 1 | 2;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div
+      className={cn(
+        "flex flex-col",
+        fill ? "min-h-0 flex-1 gap-3 sm:gap-4" : "gap-6",
+      )}
+    >
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={card.id}
@@ -77,12 +84,14 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
           animate="center"
           exit="exit"
           transition={{ duration: 0.2, ease: "easeOut" }}
+          className={fill ? "flex min-h-0 flex-1 flex-col" : undefined}
         >
           <FlashcardView
             card={card}
             flipped={flipped}
             onFlip={flip}
             stackDepth={stackDepth}
+            fill={fill}
           />
         </motion.div>
       </AnimatePresence>
