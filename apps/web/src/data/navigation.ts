@@ -15,6 +15,5 @@ export const NAV_ITEMS: readonly NavItem[] = [
     to: "/archive",
     label: "Archive",
     description: "Search and manage saved sets.",
-    status: "soon",
   },
 ];

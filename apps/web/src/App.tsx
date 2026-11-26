@@ -11,7 +11,8 @@ import { SiteHeader } from "./components/layout/SiteHeader";
 import { OnboardingScreen } from "./components/onboarding/OnboardingScreen";
 import { GeneratorScreen } from "./components/screens/GeneratorScreen";
 import { HomeScreen } from "./components/screens/HomeScreen";
-import { PlaceholderScreen } from "./components/screens/PlaceholderScreen";
+import { ArchiveScreen } from "./components/screens/ArchiveScreen";
+import { SetScreen } from "./components/screens/SetScreen";
 import { ArchiveProvider } from "./context/ArchiveProvider";
 import { useTheme } from "./hooks/useTheme";
 import { useUser } from "./hooks/useUser";
@@ -54,16 +55,8 @@ function AppShell() {
                   }
                 />
                 <Route path="/generate" element={<GeneratorScreen />} />
-                <Route
-                  path="/archive"
-                  element={
-                    <PlaceholderScreen
-                      eyebrow="Phase 3"
-                      title="Archive"
-                      description="Every set you generate is already saved per profile. Search, filters and ratings arrive with this page."
-                    />
-                  }
-                />
+                <Route path="/archive" element={<ArchiveScreen />} />
+                <Route path="/archive/:setId" element={<SetScreen />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </ArchiveProvider>

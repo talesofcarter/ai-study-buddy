@@ -1,30 +1,21 @@
 import { useCallback, useEffect, useState } from "react";
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  type Variants,
-} from "framer-motion";
-import { ArrowLeft, ArrowRight, RotateCw } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { isInteractiveTarget } from "../../lib/dom";
+import { slideVariants, type Direction } from "../../lib/motion";
 import type { Flashcard } from "../../types";
 import { Button } from "../ui/Button";
 import { ProgressTrack } from "../ui/ProgressTrack";
 import { FlashcardView } from "./FlashcardView";
+import { FlipButton } from "./FlipButton";
+import { cn } from "../../lib/cn";
 
 interface FlashcardStageProps {
   cards: readonly Flashcard[];
+  fill?: boolean;
 }
 
-type Direction = 1 | -1;
-
-const slideVariants = (shift: number): Variants => ({
-  enter: (direction: Direction) => ({ opacity: 0, x: direction * shift }),
-  center: { opacity: 1, x: 0 },
-  exit: (direction: Direction) => ({ opacity: 0, x: direction * -shift }),
-});
-
-export function FlashcardStage({ cards }: FlashcardStageProps) {
+export function FlashcardStage({ cards, fill = false }: FlashcardStageProps) {
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [direction, setDirection] = useState<Direction>(1);
@@ -37,7 +28,7 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
       if (target === index || target < 0 || target >= total) return;
       setDirection(target > index ? 1 : -1);
       setIndex(target);
-      setFlipped(false); // the next card mounts on its question side
+      setFlipped(false);
     },
     [index, total],
   );
@@ -79,7 +70,12 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
   const stackDepth = Math.min(2, total - index - 1) as 0 | 1 | 2;
 
   return (
-    <div className="flex flex-col gap-6">
+    <div
+      className={cn(
+        "flex flex-col",
+        fill ? "min-h-0 flex-1 gap-3 sm:gap-4" : "gap-6",
+      )}
+    >
       <AnimatePresence mode="wait" initial={false} custom={direction}>
         <motion.div
           key={card.id}
@@ -89,12 +85,14 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
           animate="center"
           exit="exit"
           transition={{ duration: 0.2, ease: "easeOut" }}
+          className={fill ? "flex min-h-0 flex-1 flex-col" : undefined}
         >
           <FlashcardView
             card={card}
             flipped={flipped}
             onFlip={flip}
             stackDepth={stackDepth}
+            fill={fill}
           />
         </motion.div>
       </AnimatePresence>
@@ -110,10 +108,7 @@ export function FlashcardStage({ cards }: FlashcardStageProps) {
           <ArrowLeft className="h-5 w-5" aria-hidden="true" />
           <span className="hidden sm:inline">Previous</span>
         </Button>
-        <Button onClick={flip} className="flex-1">
-          <RotateCw className="h-5 w-5" aria-hidden="true" />
-          {flipped ? "Show question" : "Show answer"}
-        </Button>
+        <FlipButton flipped={flipped} onClick={flip} className="flex-1" />
         <Button
           variant="secondary"
           onClick={() => go(1)}

@@ -13,13 +13,15 @@ import {
 } from "../lib/storage";
 
 /**
- * useState backed by localStorage. Schemas must be module-level constants.
- * Stays in sync across tabs via the `storage` event.
+ * useState backed by localStorage. Schemas must be module-level constants
+ * (or memoized). Stays in sync across tabs via the `storage` event.
+ * The third value is true while the latest write is failing.
  */
 export function useStoredState<T>(
   schema: StorageSchema<T>,
-): [T, Dispatch<SetStateAction<T>>] {
+): [T, Dispatch<SetStateAction<T>>, boolean] {
   const [value, setValue] = useState<T>(() => readStore(schema));
+  const [saveFailed, setSaveFailed] = useState(false);
   const isFirstRun = useRef(true);
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export function useStoredState<T>(
       isFirstRun.current = false;
       return;
     }
-    writeStore(schema, value);
+    setSaveFailed(!writeStore(schema, value));
   }, [schema, value]);
 
   useEffect(() => {
@@ -41,5 +43,5 @@ export function useStoredState<T>(
     return () => window.removeEventListener("storage", handleStorage);
   }, [schema]);
 
-  return [value, setValue];
+  return [value, setValue, saveFailed];
 }

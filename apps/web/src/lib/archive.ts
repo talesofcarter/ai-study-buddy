@@ -158,3 +158,72 @@ export function removeSetFromArchive(archive: Archive, setId: string): Archive {
     cards: archive.cards.filter((card) => card.studySetId !== setId),
   };
 }
+
+function mapCard(
+  archive: Archive,
+  cardId: string,
+  update: (card: Flashcard) => Flashcard,
+): Archive {
+  let changed = false;
+  const cards = archive.cards.map((card) => {
+    if (card.id !== cardId) return card;
+    const next = update(card);
+    if (next !== card) changed = true;
+    return next;
+  });
+  return changed ? { ...archive, cards } : archive;
+}
+
+export function rateCardInArchive(
+  archive: Archive,
+  cardId: string,
+  difficulty: Difficulty,
+): Archive {
+  return mapCard(archive, cardId, (card) =>
+    card.difficulty === difficulty ? card : { ...card, difficulty },
+  );
+}
+
+export function toggleBookmarkInArchive(
+  archive: Archive,
+  cardId: string,
+): Archive {
+  return mapCard(archive, cardId, (card) => ({
+    ...card,
+    bookmarked: !card.bookmarked,
+  }));
+}
+
+/** Removing a set's last card removes the (now empty) set too. */
+export function removeCardFromArchive(
+  archive: Archive,
+  cardId: string,
+): Archive {
+  const target = archive.cards.find((card) => card.id === cardId);
+  if (!target) return archive;
+  const cards = archive.cards.filter((card) => card.id !== cardId);
+  const setHasCards = cards.some(
+    (card) => card.studySetId === target.studySetId,
+  );
+  return {
+    sets: setHasCards
+      ? archive.sets
+      : archive.sets.filter((set) => set.id !== target.studySetId),
+    cards,
+  };
+}
+
+export function renameSetInArchive(
+  archive: Archive,
+  setId: string,
+  title: string,
+): Archive {
+  const next = title.trim();
+  if (next.length === 0) return archive;
+  return {
+    ...archive,
+    sets: archive.sets.map((set) =>
+      set.id === setId ? { ...set, title: next } : set,
+    ),
+  };
+}
